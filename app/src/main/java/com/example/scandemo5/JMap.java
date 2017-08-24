@@ -53,7 +53,7 @@ public class JMap<K,V> {
             return null;
         }
 
-        private void set(K key,V value){
+        public void set(K key,V value){
             for (int i = 0 ;i<items.size();i++){
                 Item<K,V> item = items.get(i);
                 if(item.getKey().equals(key)){

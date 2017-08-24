@@ -10,7 +10,7 @@
         android:id="@+id/auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="自动扫描" />
+        android:text="自动连续扫描" />
 
     <Button
         android:layout_marginTop="40sp"
@@ -19,5 +19,7 @@
         android:id="@+id/handle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="人工扫描" />
+        android:text="人工修正扫描" />
+
+
 </LinearLayout>

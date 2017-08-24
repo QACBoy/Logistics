@@ -1,6 +1,5 @@
 package com.example.scandemo5;
 
-import java.util.ArrayList;
 
 /**
  * Created by Sam on 2017/8/22.
@@ -23,6 +22,8 @@ public class RMap {
         }
         return rMap;
     }
+
+//主要用于存储数据项，若需要对于数据项的增删改，同时需要在 TReceiver.java 中对 split_key 数组中的数据项进行修改
     private RMap(){
         map = new JMap<>();
         map.add("goods_name","商品名称");

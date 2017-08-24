@@ -28,21 +28,23 @@ public class Http {   //单例化模式
 
     private RequestQueue mqueue;
     private Callback _callback;
-//    public final String login_url = "http://ww.jcera.cn/vote/API/login.php";
-    public final String getJSON_url = "http://119.29.223.148:2000/token";
-    public final String upload_url = "http://192.168.1.166/WebService1.asmx/show";
-//    public final String Vote_url = "http://119.29.223.148/vote/API/vote.php";
-//    public final String register_url = "http://119.29.223.148/vote/API/register.php";
-//    public final String Updatapw_url = "http://119.29.223.148/vote/API/updatapw.php";
-//    public final String delete_url = "http://119.29.223.148/vote/API/delete.php";
-//    public final String addVote_url = "http://119.29.223.148/vote/API/addVote.php";
-//    public final String addVoteItem_url = "http://119.29.223.148/vote/API/addVoteItem.php";
-
+    private String upload_url = "";// 用于测试的url "http://192.168.1.166/WebService1.asmx/show"
 
     private static Http http;
+
+    public void setUpload_url(String upload_url) {
+        this.upload_url = upload_url;
+    }
+
+    public String getUpload_url() {
+        return upload_url;
+    }
+
     private Http(){
         mqueue = Volley.newRequestQueue(MyApp.getContext());
+        upload_url = MainActivity.mainActivity.setting.getString("url",null);
     }
+
     public static Http getInstance() {
         if(http == null){
             synchronized (MyApp.getContext()) {

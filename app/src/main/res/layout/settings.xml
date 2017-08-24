@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仅专业人员修改！！！"
+        android:textSize="28dp"/>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_dark">
+
+        <TextView
+            android:gravity="center"
+            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"
+            android:text="URL:"
+            android:layout_margin="0.5dp"
+            android:background="@android:color/background_light"/>
+        <EditText
+            android:id="@+id/Url"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0.5dp"
+            android:background="@android:color/background_light"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/Save"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="保存"/>
+
+</LinearLayout>
