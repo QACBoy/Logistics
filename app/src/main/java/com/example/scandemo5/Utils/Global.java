@@ -3,6 +3,7 @@ package com.example.scandemo5.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 
@@ -41,5 +42,8 @@ public class Global {
 
     public static UpLoad upLoad = new UpLoad();
 
+    public static ScanRActivity scanRActivity;
+
+    public static JMap<String,String> ShowUI_map;
 
 }

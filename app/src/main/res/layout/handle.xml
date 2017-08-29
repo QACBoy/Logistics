@@ -3,13 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:lineSpacingExtra="10dp"
-        android:id="@+id/detail"
-        android:text="请按『扫描键』进行识别！"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp" />
+    <!--<TextView-->
+        <!--android:lineSpacingExtra="10dp"-->
+        <!--android:id="@+id/detail"-->
+        <!--android:text="请按『扫描键』进行识别！"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="25sp" />-->
 
     <ScrollView
         android:layout_weight="1"
@@ -47,28 +47,28 @@
 
     </ScrollView>-->
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:enabled="false"
-            android:layout_weight="1"
-            android:padding="20sp"
-            android:textSize="28sp"
-            android:id="@+id/sure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="确定添加" />
-        <Button
-            android:enabled="false"
-            android:layout_weight="1"
-            android:padding="20sp"
-            android:textSize="28sp"
-            android:id="@+id/history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="扫描记录" />
-    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<Button-->
+            <!--android:enabled="false"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="20sp"-->
+            <!--android:textSize="28sp"-->
+            <!--android:id="@+id/sure"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="确定添加" />-->
+        <!--<Button-->
+            <!--android:enabled="false"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="20sp"-->
+            <!--android:textSize="28sp"-->
+            <!--android:id="@+id/history"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="扫描记录" />-->
+    <!--</LinearLayout>-->
 
 </LinearLayout>

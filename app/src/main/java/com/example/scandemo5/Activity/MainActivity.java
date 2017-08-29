@@ -2,6 +2,7 @@ package com.example.scandemo5.Activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -25,9 +26,20 @@ import com.example.scandemo5.R;
 import com.example.scandemo5.Recevier.TReceiver;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrListener;
+import com.r0adkll.slidr.model.SlidrPosition;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.r0adkll.slidr.model.SlidrPosition.BOTTOM;
+import static com.r0adkll.slidr.model.SlidrPosition.HORIZONTAL;
+import static com.r0adkll.slidr.model.SlidrPosition.RIGHT;
+import static com.r0adkll.slidr.model.SlidrPosition.TOP;
+import static com.r0adkll.slidr.model.SlidrPosition.VERTICAL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,34 +62,34 @@ public class MainActivity extends AppCompatActivity {
         Global.setTYPE_SCA(Global.GoodsNo);
         setContentView(R.layout.handle);
         tabltLayout = (TableLayout) findViewById(R.id.table);
-        sure = (Button) findViewById(R.id.sure);
-        history = (Button) findViewById(R.id.history);
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(validate()){
-                    String barcode = ((EditText)tabltLayout.getChildAt(3).findViewById(R.id.handle_item_value)).getText().toString();
-                    String goods_no = ((EditText)tabltLayout.getChildAt(1).findViewById(R.id.handle_item_value)).getText().toString();
-                    String goods_name = ((EditText)tabltLayout.getChildAt(2).findViewById(R.id.handle_item_value)).getText().toString();
-                    String MFG = ((EditText)tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).getText().toString();
-                    String EXP = ((EditText)tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).getText().toString();
-                    String LOT = ((EditText)tabltLayout.getChildAt(14).findViewById(R.id.handle_item_value)).getText().toString();
-                    String quantity = ((EditText)tabltLayout.getChildAt(13).findViewById(R.id.handle_item_value)).getText().toString();
-                    Global.upLoad.add(new UpLoad.ScanData(barcode,goods_no,goods_name,MFG,EXP,LOT,quantity));
-                    tabltLayout.removeAllViewsInLayout();
-                    tabltLayout.setBackgroundColor(Color.WHITE);
-                    tabltLayout.invalidate();
-                    sure.setEnabled(false);
-                    history.setEnabled(true);
-                }
-            }
-        });
-        history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("123456",Global.upLoad.toJson());
-            }
-        });
+//        sure = (Button) findViewById(R.id.sure);
+//        history = (Button) findViewById(R.id.history);
+//        sure.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(validate()){
+//                    String barcode = ((EditText)tabltLayout.getChildAt(3).findViewById(R.id.handle_item_value)).getText().toString();
+//                    String goods_no = ((EditText)tabltLayout.getChildAt(1).findViewById(R.id.handle_item_value)).getText().toString();
+//                    String goods_name = ((EditText)tabltLayout.getChildAt(2).findViewById(R.id.handle_item_value)).getText().toString();
+//                    String MFG = ((EditText)tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).getText().toString();
+//                    String EXP = ((EditText)tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).getText().toString();
+//                    String LOT = ((EditText)tabltLayout.getChildAt(14).findViewById(R.id.handle_item_value)).getText().toString();
+//                    String quantity = ((EditText)tabltLayout.getChildAt(13).findViewById(R.id.handle_item_value)).getText().toString();
+//                    Global.upLoad.add(new UpLoad.ScanData(barcode,goods_no,goods_name,MFG,EXP,LOT,quantity));
+//                    tabltLayout.removeAllViewsInLayout();
+//                    tabltLayout.setBackgroundColor(Color.WHITE);
+//                    tabltLayout.invalidate();
+//                    sure.setEnabled(false);
+//                    history.setEnabled(true);
+//                }
+//            }
+//        });
+//        history.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("123456",Global.upLoad.toJson());
+//            }
+//        });
     }
 
     private void ToMain() {
@@ -96,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void StartActivity(){
+        startActivity(new Intent(MainActivity.mainActivity, ScanRActivity.class));
     }
 
     private boolean validate(){
