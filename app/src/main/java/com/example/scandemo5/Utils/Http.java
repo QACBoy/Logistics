@@ -1,4 +1,4 @@
-package com.example.scandemo5;
+package com.example.scandemo5.Utils;
 
 import android.util.Log;
 
@@ -13,6 +13,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.scandemo5.Activity.MainActivity;
+import com.example.scandemo5.MyApp;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -28,21 +30,24 @@ public class Http {   //单例化模式
 
     private RequestQueue mqueue;
     private Callback _callback;
-    private String upload_url = "";// 用于测试的url "http://192.168.1.166/WebService1.asmx/show"
+    public String get_goods_info = "";// 用于测试的url "http://192.168.1.166/WebService1.asmx/show"
+    public String access = "";
+    public String get_procure_list = "";
+    public String get_rk_detail = "";
+    public String get_stock = "";
+    public String test_json = "";
 
     private static Http http;
 
-    public void setUpload_url(String upload_url) {
-        this.upload_url = upload_url;
-    }
-
-    public String getUpload_url() {
-        return upload_url;
-    }
 
     private Http(){
         mqueue = Volley.newRequestQueue(MyApp.getContext());
-        upload_url = MainActivity.mainActivity.setting.getString("url",null);
+        get_goods_info = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_goods_info";
+        access = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/access";
+        get_procure_list = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_procure_list";
+        get_rk_detail = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_rk_detail";
+        get_stock = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_stock";
+        test_json = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/test_json";
     }
 
     public static Http getInstance() {
@@ -96,7 +101,7 @@ public class Http {   //单例化模式
                 }
             }
         };    //StringRequest stringRequest = new.....结束
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(200,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));  //超时设置
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(200,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));  //超时设置
         mqueue.add(stringRequest);    //把请求放到队列中
     }
 
@@ -132,7 +137,7 @@ public class Http {   //单例化模式
                 }
             }
         };    //StringRequest stringRequest = new.....结束
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(200,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));  //超时设置
+//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(200,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));  //超时设置
         mqueue.add(stringRequest);    //把请求放到队列中
     }
 

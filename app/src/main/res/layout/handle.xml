@@ -17,7 +17,7 @@
         android:layout_height="match_parent">
 
         <TableLayout
-            android:id="@+id/handle"
+            android:id="@+id/table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -47,12 +47,28 @@
 
     </ScrollView>-->
 
-    <Button
-        android:enabled="false"
-        android:padding="20sp"
-        android:textSize="28sp"
-        android:id="@+id/submit"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="确认提交" />
+        android:layout_height="wrap_content">
+        <Button
+            android:enabled="false"
+            android:layout_weight="1"
+            android:padding="20sp"
+            android:textSize="28sp"
+            android:id="@+id/sure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="确定添加" />
+        <Button
+            android:enabled="false"
+            android:layout_weight="1"
+            android:padding="20sp"
+            android:textSize="28sp"
+            android:id="@+id/history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="扫描记录" />
+    </LinearLayout>
+
 </LinearLayout>

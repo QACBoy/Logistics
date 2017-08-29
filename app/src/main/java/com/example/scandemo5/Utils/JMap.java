@@ -1,4 +1,4 @@
-package com.example.scandemo5;
+package com.example.scandemo5.Utils;
 
 import java.util.ArrayList;
 
@@ -53,6 +53,13 @@ public class JMap<K,V> {
             return null;
         }
 
+    public V get(int index){
+        if(index >= items.size()){
+            return null;
+        }
+        return (V) items.get(index).getKey();
+    }
+
         public void set(K key,V value){
             for (int i = 0 ;i<items.size();i++){
                 Item<K,V> item = items.get(i);
@@ -70,6 +77,13 @@ public class JMap<K,V> {
                 }
             }
             return false;
+        }
+
+        public String indexKey(int index){
+            if(index >= items.size()){
+                return null;
+            }
+            return (String) items.get(index).getKey();
         }
 
         public int size(){
