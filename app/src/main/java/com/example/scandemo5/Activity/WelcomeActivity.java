@@ -16,12 +16,14 @@ import com.example.scandemo5.Utils.Encryption;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
 import com.example.scandemo5.Utils.SQLite;
+import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class WelcomeActivity extends AppCompatActivity {
 
+    private AnimatedCircleLoadingView loadingview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void toLoad(){
         setContentView(R.layout.activity_welcome);
+        loadingview = (AnimatedCircleLoadingView) findViewById(R.id.circle_loading_view);
+        loadingview.startDeterminate();
         GetHttpData();
     }
 
@@ -83,29 +87,59 @@ public class WelcomeActivity extends AppCompatActivity {
             public void done(String data) {
                 if(data != null && !"NetError".equals(data)) {
                     data = Global.DealXmlStr(data);
+                    loadingview.setPercent(0);
                     Log.d("1235", "done: 开始插入" + data);
-                    SQLite.getInstance().InsertGoodsAll(data);
-                    Log.d("1235", "done: 商品更新完成");
-//                    Log.d("1235", "done: " + SQLite.getInstance().getGoods("0601402011").goods_name);
-                    //加载供货商信息
-                    Http.getInstance().Post(Http.getInstance().get_procure_list, null, new Http.Callback() {
+                    final String finalData = data;
+                    loadingview.setPercent(10);
+                    new Thread(new Runnable() {
                         @Override
-                        public void done(String data) {
-                            if(data != null && !"NetError".equals(data)) {
-                                data = Global.DealXmlStr(data);
-                                Log.d("1235", "done: 开始插入" + data);
-                                SQLite.getInstance().InsertProcureAll(data);
-                                Log.d("1235", "done: 供货商更新完成");
-                                Toast.makeText(MyApp.getContext(),"数据更新完成",Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-                                finish();
-                            }else {
-                                Log.d("1235", "done: 获取供货商网络数据失败");
-                                Toast.makeText(MyApp.getContext(),"供货商数据更新失败",Toast.LENGTH_SHORT).show();
-                            }
+                        public void run() {
+                            SQLite.getInstance().InsertGoodsAll(finalData);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadingview.setPercent(50);
+                                    Log.d("1235", "done: 商品更新完成");
+//                                  Log.d("1235", "done: " + SQLite.getInstance().getGoods("0601402011").goods_name);
+                                    //加载供货商信息
+                                    Http.getInstance().Post(Http.getInstance().get_procure_list, null, new Http.Callback() {
+                                        @Override
+                                        public void done(String data) {
+                                            if(data != null && !"NetError".equals(data)) {
+                                                loadingview.setPercent(70);
+                                                data = Global.DealXmlStr(data);
+                                                loadingview.setPercent(80);
+                                                Log.d("1235", "done: 开始插入" + data);
+                                                SQLite.getInstance().InsertProcureAll(data);
+                                                loadingview.setPercent(100);
+                                                Log.d("1235", "done: 供货商更新完成");
+                                                loadingview.stopOk();
+                                                Toast.makeText(MyApp.getContext(),"数据更新完成",Toast.LENGTH_SHORT).show();
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            Thread.sleep(3000);
+                                                            startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+                                                            finish();
+                                                        } catch (InterruptedException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }).start();
+                                            }else {
+                                                loadingview.stopFailure();
+                                                Log.d("1235", "done: 获取供货商网络数据失败");
+                                                Toast.makeText(MyApp.getContext(),"供货商数据更新失败",Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
                         }
-                    });
+                    }).start();
                 }else {
+                    loadingview.stopFailure();
                     Toast.makeText(MyApp.getContext(),"商品数据更新失败",Toast.LENGTH_SHORT).show();
                     Log.d("1235", "done: 获取商品网络数据失败");
                 }
