@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.example.scandemo5.Activity.MainActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
+import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.DJson;
@@ -65,21 +66,8 @@ public class TReceiver extends BroadcastReceiver {
             SQLite.Goods goods = SQLite.getInstance().getGoods(str);
 
             if (goods != null) {
-                JMap<String, String> map = new JMap<>();
-                map.add("goods_no", goods.goods_no);
-                map.add("goods_name", goods.goods_name);
-                map.add("barcode", goods.barcode);
-                map.add("box_barcode", goods.box_barcode);
-                map.add("goods_spce", goods.goods_spce);
-                map.add("unit", goods.unit);
-                map.add("pack_quantity", goods.pack_quantity);
-                map.add("ex_day", goods.ex_day);
-                map.add("single_weight", goods.single_weight);
-                map.add("pack_weight", goods.pack_weight);
-                map.add("single_vol", goods.single_vol);
-                map.add("pack_vol", goods.pack_vol);
-                Log.d(TAG, "1245onReceive: " + DJson.ObjectToJson(map));
-                Global.ShowUI_map = map;
+                Global.ShowUI_map = Global.GoodsToJMap(goods);
+                Global.ShowUI_Scanmap = Global.ScanDataToJMap(new UpLoad.ScanData());
                 Intent intent1 = new Intent(MainActivity.mainActivity, ScanRActivity.class);
                 MainActivity.mainActivity.startActivity(intent1);
 

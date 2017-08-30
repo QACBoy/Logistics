@@ -33,5 +33,6 @@ dependencies {
     compile 'com.r0adkll:slidableactivity:2.0.5'
     compile 'com.borax12.materialdaterangepicker:library:1.9'
     compile 'co.dift.ui.swipetoaction:library:1.1'
+    compile 'com.android.support:design:22.2.0'
     testCompile 'junit:junit:4.12'
 }

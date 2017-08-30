@@ -28,6 +28,7 @@ public class ScanRActivity extends AppCompatActivity {
 
     public static TableLayout tabltLayout;
     private JMap<String, String> map;
+    private JMap<String, String> Scanmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class ScanRActivity extends AppCompatActivity {
         tabltLayout.addView(row);
     }
 
-    private void addChildTimeView(String key){
+    private void addChildTimeView(String key,String value){
         TableRow row = (TableRow) LayoutInflater.from(ScanRActivity.this).inflate(R.layout.handle_item, null);
 
         TextView tKey = (TextView) row.findViewById(R.id.handle_item_key);
@@ -79,7 +80,7 @@ public class ScanRActivity extends AppCompatActivity {
         tValue.setFocusableInTouchMode(false);
 
         tKey.setText(key);
-        tValue.setText("");
+        tValue.setText(value);
 
         tValue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +115,13 @@ public class ScanRActivity extends AppCompatActivity {
             String EXP = ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).getText().toString();
             String LOT = ((EditText) tabltLayout.getChildAt(14).findViewById(R.id.handle_item_value)).getText().toString();
             String quantity = ((EditText) tabltLayout.getChildAt(13).findViewById(R.id.handle_item_value)).getText().toString();
-            Global.upLoad.add(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
+//            Global.upLoad.add(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
+            int pos = getIntent().getIntExtra("postion",-1);
+            if( -1 == pos) {
+                MainActivity.mainActivity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
+            }else {
+                MainActivity.mainActivity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
+            }
         }
     }
 
@@ -123,6 +130,7 @@ public class ScanRActivity extends AppCompatActivity {
         addDataToUpLoadList();
 
         map = Global.ShowUI_map;
+        Scanmap = Global.ShowUI_Scanmap;
         tabltLayout.removeAllViewsInLayout();
         tabltLayout.setBackgroundColor(Color.BLACK);
         addChildView(RMap.getrMap().get("procure_no"),Global.PROCURENO,false);
@@ -132,41 +140,13 @@ public class ScanRActivity extends AppCompatActivity {
 
             addChildView(key,value,false);
         }
-        addChildView(RMap.getrMap().get("quantity"),"",true);
-        addChildView(RMap.getrMap().get("LOT"),"",true);
+        addChildView(RMap.getrMap().get("quantity"),Scanmap.get("quantity"),true);
+        addChildView(RMap.getrMap().get("LOT"),Scanmap.get("LOT"),true);
         //生产日期
-        addChildTimeView(RMap.getrMap().get("MFG"));
+        addChildTimeView(RMap.getrMap().get("MFG"),Scanmap.get("MFG"));
         //到期日期
 
-        addChildTimeView(RMap.getrMap().get("EXP"));
+        addChildTimeView(RMap.getrMap().get("EXP"),Scanmap.get("EXP"));
     }
 
-    private boolean validate(){
-        String str = ((EditText)tabltLayout.getChildAt(13).findViewById(R.id.handle_item_value)).getText().toString();
-        if(!"".equals(str) && str != null){
-            if(new Integer(str) > 0) {
-                str = ((EditText) tabltLayout.getChildAt(14).findViewById(R.id.handle_item_value)).getText().toString();
-                if(!"".equals(str) && str != null){
-                    str = ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).getText().toString();
-                    if(!"".equals(str) && str != null){
-                        str = ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).getText().toString();
-                        if(!"".equals(str) && str != null){
-                            return true;
-                        }else {
-                            Toast.makeText(ScanRActivity.this,"请选择到期日期",Toast.LENGTH_SHORT).show();
-                        }
-                    }else {
-                        Toast.makeText(ScanRActivity.this,"请选择生产日期",Toast.LENGTH_SHORT).show();
-                    }
-                }else {
-                    Toast.makeText(ScanRActivity.this,"请输入批次号",Toast.LENGTH_SHORT).show();
-                }
-            }else {
-                Toast.makeText(ScanRActivity.this,"数量必需大于0",Toast.LENGTH_SHORT).show();
-            }
-        }else {
-            Toast.makeText(ScanRActivity.this,"请输入数量",Toast.LENGTH_SHORT).show();
-        }
-        return false;
-    }
 }
