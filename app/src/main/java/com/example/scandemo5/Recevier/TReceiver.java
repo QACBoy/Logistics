@@ -64,6 +64,7 @@ public class TReceiver extends BroadcastReceiver {
         if (Global.ComeGoodsNo.equals(Global.getTYPE_SAC())) {//扫描入库单
             ((EditText) MainActivity.mainActivity.findViewById(R.id.come_goods_no)).setText(str);
             Global.setTYPE_SCA(Global.Procure);
+            ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).requestFocus();
         }
         if (Global.GoodsNo.equals(Global.getTYPE_SAC())) {//扫描条码
             SQLite.Goods goods = SQLite.getInstance().getGoods(str);
