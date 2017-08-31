@@ -1,20 +1,16 @@
 package com.example.scandemo5.Activity;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.example.scandemo5.Data.UpLoad;
-import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.JMap;
@@ -22,7 +18,7 @@ import com.example.scandemo5.Utils.RMap;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrInterface;
 
-import java.util.Calendar;
+import org.feezu.liuli.timeselector.TimeSelector;
 
 public class ScanRActivity extends AppCompatActivity {
 
@@ -50,6 +46,7 @@ public class ScanRActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         showUI();
+        Global.ifCloseInput(ScanRActivity.this);
     }
 
     @Override
@@ -85,21 +82,30 @@ public class ScanRActivity extends AppCompatActivity {
         tValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Calendar now = Calendar.getInstance();
-                DatePickerDialog dpd = DatePickerDialog.newInstance(
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-                                Log.d("12111", "onDateSet() called with: view = [" + view + "], year = [" + year + "], monthOfYear = [" + monthOfYear + "], dayOfMonth = [" + dayOfMonth + "], yearEnd = [" + yearEnd + "], monthOfYearEnd = [" + monthOfYearEnd + "], dayOfMonthEnd = [" + dayOfMonthEnd + "]");
-                                ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).setText(year+"-"+(monthOfYear + 1)+"-"+dayOfMonth);
-                                ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).setText(yearEnd+"-"+(monthOfYearEnd + 1)+"-"+dayOfMonthEnd);
-                            }
-                        },
-                        now.get(Calendar.YEAR),
-                        now.get(Calendar.MONTH),
-                        now.get(Calendar.DAY_OF_MONTH)
-                );
-                dpd.show(getFragmentManager(), "Datepickerdialog");
+//                Calendar now = Calendar.getInstance();
+//                DatePickerDialog dpd = DatePickerDialog.newInstance(
+//                        new DatePickerDialog.OnDateSetListener() {
+//                            @Override
+//                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+//                                Log.d("12111", "onDateSet() called with: view = [" + view + "], year = [" + year + "], monthOfYear = [" + monthOfYear + "], dayOfMonth = [" + dayOfMonth + "], yearEnd = [" + yearEnd + "], monthOfYearEnd = [" + monthOfYearEnd + "], dayOfMonthEnd = [" + dayOfMonthEnd + "]");
+//                                ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).setText(year+"-"+(monthOfYear + 1)+"-"+dayOfMonth);
+//                                ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).setText(yearEnd+"-"+(monthOfYearEnd + 1)+"-"+dayOfMonthEnd);
+//                            }
+//                        },
+//                        now.get(Calendar.YEAR),
+//                        now.get(Calendar.MONTH),
+//                        now.get(Calendar.DAY_OF_MONTH)
+//                );
+//                dpd.show(getFragmentManager(), "Datepickerdialog");
+                TimeSelector timeSelector = new TimeSelector(ScanRActivity.this, new TimeSelector.ResultHandler() {
+                    @Override
+                    public void handle(String time) {
+                        ((EditText)v).setText(time.substring(0,10));
+                    }
+                }, "2015-01-01 00:00", "2030-12-31 24:00");
+                timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
+                timeSelector.setIsLoop(true);
+                timeSelector.show();
             }
         });
 
@@ -135,8 +141,8 @@ public class ScanRActivity extends AppCompatActivity {
         tabltLayout.setBackgroundColor(Color.BLACK);
         addChildView(RMap.getrMap().get("procure_no"),Global.PROCURENO,false);
         for (int i = 0; i < map.size(); i++) {
-            String key = RMap.getrMap().get(map.indexKey(i));
-            String value = map.get(map.indexKey(i));
+            String key = RMap.getrMap().get(map.get(i));
+            String value = map.get(map.get(i));
 
             addChildView(key,value,false);
         }

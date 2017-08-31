@@ -1,9 +1,15 @@
 package com.example.scandemo5.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.InputType;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.example.scandemo5.Activity.MainActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
@@ -52,15 +58,41 @@ public class Global {
         map.add("goods_no", data.goods_no);
         map.add("goods_name", data.goods_name);
         map.add("barcode", data.barcode);
-        map.add("MFG", data.MFG);
         map.add("quantity", data.quantity);
-        map.add("EXP", data.EXP);
         map.add("LOT", data.LOT);
+        map.add("MFG", data.MFG);
+        map.add("EXP", data.EXP);
         return map;
+    }
+
+    public static boolean isNullorEmpty(String str){
+        if(str == null){
+            return true;
+        }
+        if(str.isEmpty()){
+            return true;
+        }
+        if(str.length() <= 0){
+            return true;
+        }
+        if("".equals(str.trim())){
+            return true;
+        }
+        return false;
+    }
+
+    public static void ifCloseInput(Activity activity){
+        int flags = WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
+        if(!getSharedPreferences().getBoolean("ifOpenKeyboard",false)) {
+            activity.getWindow().addFlags(flags);
+        }else {
+            activity.getWindow().clearFlags(flags);
+        }
     }
 
     private static String TYPE_SCA = "132564";
     public static String Procure = "100100";
+    public static String ComeGoodsNo = "100111";
     public static String GoodsNo = "100110";
 
     public static void setTYPE_SCA(String TYPE_SAC) {

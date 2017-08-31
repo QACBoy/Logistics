@@ -14,7 +14,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.example.scandemo5.Activity.MainActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Data.UpLoad;
@@ -58,9 +57,13 @@ public class TReceiver extends BroadcastReceiver {
 
         str = scanResult;
 
-        Log.d(TAG, "onReceive: 扫描结果：" + str);
+        Log.d("12344", "onReceive: 扫描结果：" + str);
         if (Global.Procure.equals(Global.getTYPE_SAC())) {//扫描入库单
             ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).setText(str);
+        }
+        if (Global.ComeGoodsNo.equals(Global.getTYPE_SAC())) {//扫描入库单
+            ((EditText) MainActivity.mainActivity.findViewById(R.id.come_goods_no)).setText(str);
+            Global.setTYPE_SCA(Global.Procure);
         }
         if (Global.GoodsNo.equals(Global.getTYPE_SAC())) {//扫描条码
             SQLite.Goods goods = SQLite.getInstance().getGoods(str);

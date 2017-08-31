@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="ids_quantity" />
+    <item type="id" name="ids_LOT" />
+    <item type="id" name="ids_MFG" />
+    <item type="id" name="ids_EXP" />
+</resources>

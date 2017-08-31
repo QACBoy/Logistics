@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 public class UpLoad {
+    public String come_goods_no;
     public String procure_no;
     public List<ScanData> list;
 

@@ -1,12 +1,10 @@
 package com.example.scandemo5.Activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(isFirstin()){
-            toSet();
+            startActivity(new Intent(WelcomeActivity.this,SetActivity.class));
         }else {
             if (isLogin()) {
                 toLoad();
@@ -147,25 +145,25 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    private void toSet(){
-        setContentView(R.layout.settings);
-        EditText url = (EditText) findViewById(R.id.Url);
-        url.setText(Global.getSharedPreferences().getString("url",""));
-        findViewById(R.id.Save).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText url = (EditText) findViewById(R.id.Url);
-                String str = url.getText().toString();
-                if(!str.isEmpty()){
-                    Global.getSharedPreferences().edit().putString("url",str).commit();
-                    Global.getSharedPreferences().edit().putBoolean("isFirst", false).commit();
-                    toLogin();
-                }else {
-                    Toast.makeText(WelcomeActivity.this,"输入不能为空",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+//    private void toSet(){
+//        setContentView(R.layout.settings);
+//        EditText url = (EditText) findViewById(R.id.Url);
+//        url.setText(Global.getSharedPreferences().getString("url",""));
+//        findViewById(R.id.Save).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                EditText url = (EditText) findViewById(R.id.Url);
+//                String str = url.getText().toString();
+//                if(!str.isEmpty()){
+//                    Global.getSharedPreferences().edit().putString("url",str).commit();
+//                    Global.getSharedPreferences().edit().putBoolean("isFirst", false).commit();
+//                    toLogin();
+//                }else {
+//                    Toast.makeText(WelcomeActivity.this,"输入不能为空",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
 
     private boolean isFirstin(){
         return Global.getSharedPreferences().getBoolean("isFirst",true);
