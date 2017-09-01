@@ -1,6 +1,5 @@
 package com.example.scandemo5.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -9,7 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,8 +16,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
         Global.setTYPE_SCA(Global.GoodsNo);
         setContentView(R.layout.handle);
         tabltLayout = (TableLayout) findViewById(R.id.table);
-
-
         BindRectclerView();
     }
 
@@ -84,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 //do something
                 final int pos = removeScanData(itemData);
                 if(-1 != pos) {
-                    displaySnackbar("移除编码为" + itemData.barcode + "的商品", "撤销", new View.OnClickListener() {
+                    displaySnackbar(pos + "-移除" + itemData.barcode + "的商品", "撤销", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             addScanData(pos, itemData);
@@ -101,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Global.ShowUI_Scanmap = Global.ScanDataToJMap(Global.upLoad.list.get(Postion));
 
-                showMsg();
+                alertUpdateScannData();
                 return true;
             }
 
@@ -128,7 +124,56 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showMsg(){
+    private interface MsgCallBack{  //弹窗回调
+        void confirm(DialogPlus dialog);
+    }
+    private void showMsg(final String title, final String msg, final MsgCallBack callBack){
+        DialogPlus dialog = DialogPlus.newDialog(this)
+                .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                .setGravity(Gravity.CENTER)
+                .setAdapter(new BaseAdapter() {
+                    @Override
+                    public int getCount() {
+                        return 1;
+                    }
+
+                    @Override
+                    public Object getItem(int position) {
+                        return null;
+                    }
+
+                    @Override
+                    public long getItemId(int position) {
+                        return position;
+                    }
+
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        convertView = getLayoutInflater().inflate(R.layout.show_msg,null);
+                        ((TextView)convertView.findViewById(R.id.title_msg)).setText(title);
+                        ((TextView)convertView.findViewById(R.id.content_msg)).setText(msg);
+                        return convertView;
+                    }
+                })
+                .setFooter(R.layout.msg_foot)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(DialogPlus dialog, View view) {
+                        switch (view.getId()){
+                            case R.id.msg_footer_close_button://点击关闭按钮
+                                dialog.dismiss();
+                                break;
+                            case R.id.msg_footer_confirm_button://点击保存按钮
+                                callBack.confirm(dialog);
+                                break;
+                        }
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+    
+    private void alertUpdateScannData(){
         DialogPlus dialog = DialogPlus.newDialog(this)
                 .setAdapter(new BaseAdapter() {
                     @Override
@@ -240,14 +285,18 @@ public class MainActivity extends AppCompatActivity {
     private void ToMain() {
         Global.setTYPE_SCA(Global.ComeGoodsNo);
         setContentView(R.layout.procure);
-        findViewById(R.id.procure_no).setOnTouchListener(new View.OnTouchListener() {
+        EditText procure_no = (EditText) findViewById(R.id.procure_no);
+        EditText come_goods_no = (EditText) findViewById(R.id.come_goods_no);
+        procure_no.setText(Global.upLoad.procure_no);
+        come_goods_no.setText(Global.upLoad.come_goods_no);
+        procure_no.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Global.setTYPE_SCA(Global.Procure);
                 return false;
             }
         });
-        findViewById(R.id.come_goods_no).setOnTouchListener(new View.OnTouchListener() {
+        come_goods_no.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Global.setTYPE_SCA(Global.ComeGoodsNo);
@@ -262,6 +311,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!Global.isNullorEmpty(no) && !Global.isNullorEmpty(com_no)) {
                     Global.PROCURENO = no;
                     Global.upLoad.procure_no = no;
+                    Global.upLoad.come_goods_no = com_no;
                     ToScanner();
                 }else {
                     Toast.makeText(MyApp.getContext(),"请扫描或者输入入库单号",Toast.LENGTH_SHORT).show();
@@ -383,11 +433,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private MenuItem count;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.actionbar, menu);
+        count = menu.findItem(R.id.action_count);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!isFinishing()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            count.setTitle(String.valueOf(Global.upLoad.list.size()));
+                        }
+                    });
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -395,7 +465,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        startActivity(new Intent(MainActivity.this,SetActivity.class));
+        switch (item.getItemId()){
+            case R.id.action_upload:
+                showMsg("确定", "确定上传吗？", new MsgCallBack() {
+                    @Override
+                    public void confirm(DialogPlus dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                break;
+            case R.id.action_update_no:
+                ToMain();
+                break;
+            case R.id.action_reset:
+                showMsg("警告", "此举将清空所有已扫描数据 您确定吗？", new MsgCallBack() {
+                    @Override
+                    public void confirm(DialogPlus dialog) {
+                        Global.upLoad = new UpLoad();
+                        ToMain();
+                    }
+                });
+                break;
+            case R.id.action_set:
+                startActivity(new Intent(MainActivity.this,SetActivity.class));
+                break;
+
+        }
         return super.onOptionsItemSelected(item);
     }
 

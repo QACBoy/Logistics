@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:gravity="right"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <Button
+        android:id="@+id/msg_footer_close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_bg_button"
+        android:text="关闭"
+        android:textColor="@color/disenable"
+        android:textSize="@dimen/button_text_size" />
+
+    <Button
+        android:id="@+id/msg_footer_confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_bg_button"
+        android:text="确定"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/button_text_size" />
+
+</LinearLayout>

@@ -28,6 +28,7 @@ public class UpLoad {
         return DJson.ObjectToJson(this);
     }
 
+
     public static class ScanData{
         public String barcode;
         public String goods_no;
