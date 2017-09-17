@@ -15,6 +15,7 @@ import com.example.scandemo5.Activity.MainActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
+import com.orhanobut.dialogplus.DialogPlus;
 
 import java.util.List;
 
@@ -60,6 +61,7 @@ public class Global {
         map.add("barcode", data.barcode);
         map.add("quantity", data.quantity);
         map.add("LOT", data.LOT);
+        map.add("location_no", data.location_no);
         map.add("MFG", data.MFG);
         map.add("EXP", data.EXP);
         return map;
@@ -90,6 +92,8 @@ public class Global {
         }
     }
 
+    public static boolean isSuccessUpdataHttpdata = false;
+
     private static String TYPE_SCA = "132564";
     public static String Procure = "100100";
     public static String ComeGoodsNo = "100111";
@@ -112,4 +116,6 @@ public class Global {
     public static JMap<String,String> ShowUI_map;
     public static JMap<String,String> ShowUI_Scanmap;
 
+
+    public static DialogPlus dialog;
 }

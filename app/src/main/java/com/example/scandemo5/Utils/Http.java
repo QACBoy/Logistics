@@ -29,7 +29,6 @@ import static android.content.ContentValues.TAG;
 public class Http {   //单例化模式
 
     private RequestQueue mqueue;
-    private Callback _callback;
     public String get_goods_info = "";// 用于测试的url "http://192.168.1.166/WebService1.asmx/show"
     public String access = "";
     public String get_procure_list = "";
@@ -60,25 +59,24 @@ public class Http {   //单例化模式
     }
 
     public interface Callback{   //定义回调接口
-        public abstract void done(String data);
+         void done(String data);
     }
 
 
-    public void Post(String url, final Map map,Callback callback){
-        _callback = callback;
+    public void Post(String url, final Map map, final Callback callback){
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 url,      //  (1)服务器IP
                 new Response.Listener<String>() {   // (2) Volley的监听器
                     @Override
                     public void onResponse(String s) {  //回调函数，返回服务器回应的信息
-                        _callback.done(s); //调用回调函数，实现异步
+                        callback.done(s); //调用回调函数，实现异步
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         Log.d(TAG, "onErrorResponse: "+volleyError.getMessage());
-                      _callback.done("NetError");
+                        callback.done("NetError");
                     }
                 }
         ){
@@ -105,21 +103,20 @@ public class Http {   //单例化模式
         mqueue.add(stringRequest);    //把请求放到队列中
     }
 
-    public void Get(String url,Callback callback){
-        _callback = callback;
+    public void Get(String url, final Callback callback){
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 url,      //  (1)服务器IP
                 new Response.Listener<String>() {   // (2) Volley的监听器
                     @Override
                     public void onResponse(String s) {  //回调函数，返回服务器回应的信息
-                        _callback.done(s);
+                        callback.done(s);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         Log.d(TAG, "onErrorResponse: "+volleyError.getMessage());
-                        _callback.done("NetError");
+                        callback.done("NetError");
                     }
                 }
         ){

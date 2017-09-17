@@ -88,6 +88,7 @@ public class RMap {
         map.add("procure_no","入库单号");
         map.add("quantity","数量");
         map.add("LOT","批次号");
+        map.add("location_no","库位编号");
         map.add("MFG","生产日期");
         map.add("EXP","到期日期");
     }

@@ -26,28 +26,43 @@ public class SQLite {
         public static final String GOODS_TABLE_NAME = "Goods";
         public static final String Procure_TABLE_NAME = "procure";
 
+        private int  Goods = 0;
+        private int  Procure = 1;
+
+        private String DropGoodsTable = "DROP TABLE IF EXISTS " + GOODS_TABLE_NAME +";";
+        private String DropProcureTable = "DROP TABLE IF EXISTS " + Procure_TABLE_NAME +";";
+        private String CreateGoodsTable = "create table " + GOODS_TABLE_NAME + " (goods_no TEXT primary key," +
+                                                                        " goods_name TEXT," +
+                                                                        " barcode TEXT," +
+                                                                        " box_barcode TEXT," +
+                                                                        " goods_spce TEXT," +
+                                                                        " unit TEXT," +
+                                                                        " pack_quantity TEXT," +
+                                                                        " ex_day TEXT," +
+                                                                        " single_weight TEXT," +
+                                                                        " pack_weight TEXT," +
+                                                                        " single_vol TEXT," +
+                                                                        " pack_vol TEXT);";
+        String CreateProcureTable = "create table " + Procure_TABLE_NAME + " (procure_no TEXT primary key,client_name TEXT);";
+
 
         public SqlOpenHelper(Context context) {
             super(context, DB_NAME, null , DB_VERSION);
         }
 
+        private void update(int type){
+            if(Goods == type){
+                Rdb.execSQL(DropGoodsTable);
+                Rdb.execSQL(CreateGoodsTable);
+            }
+            if(Procure == type){
+                Rdb.execSQL(DropProcureTable);
+                Rdb.execSQL(CreateProcureTable);
+            }
+        }
+
         @Override
         public void onCreate(SQLiteDatabase db) {
-            String DropGoodsTable = "DROP TABLE IF EXISTS " + GOODS_TABLE_NAME +";";
-            String DropProcureTable = "DROP TABLE IF EXISTS " + Procure_TABLE_NAME +";";
-            String CreateGoodsTable = "create table " + GOODS_TABLE_NAME + " (goods_no TEXT primary key," +
-                                                                                    " goods_name TEXT," +
-                                                                                    " barcode TEXT," +
-                                                                                    " box_barcode TEXT," +
-                                                                                    " goods_spce TEXT," +
-                                                                                    " unit TEXT," +
-                                                                                    " pack_quantity TEXT," +
-                                                                                    " ex_day TEXT," +
-                                                                                    " single_weight TEXT," +
-                                                                                    " pack_weight TEXT," +
-                                                                                    " single_vol TEXT," +
-                                                                                    " pack_vol TEXT);";
-            String CreateProcureTable = "create table " + Procure_TABLE_NAME + " (procure_no TEXT primary key,client_name TEXT);";
             Log.d(TAG, "onCreate: 执行"+DropGoodsTable);
             db.execSQL(DropGoodsTable);
             Log.d(TAG, "onCreate: 执行"+CreateGoodsTable);
@@ -106,7 +121,7 @@ public class SQLite {
         boolean isSuccess = false;
         List<Goods> goods = DJson.JsonToList(string,Goods.class);
         Wdb.beginTransaction();
-        help.onCreate(Rdb);
+        help.update(help.Goods);
         try {
             for (Goods good : goods) {
                 String insert_sql = "insert into " + help.GOODS_TABLE_NAME + " values(\""+ good.goods_no + "\",\""
@@ -167,6 +182,7 @@ public class SQLite {
         boolean isSuccess = false;
         List<Procure> Procures = DJson.JsonToList(string,Procure.class);
         Wdb.beginTransaction();
+        help.update(help.Procure);
         try {
             for (Procure procure : Procures) {
                 String insert_sql = "insert into " + help.Procure_TABLE_NAME + " values(\""+ procure.procure_no + "\",\"" + procure.client_name +"\");";

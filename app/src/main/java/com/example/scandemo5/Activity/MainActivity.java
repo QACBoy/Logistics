@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,8 +27,10 @@ import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Recevier.TReceiver;
 import com.example.scandemo5.Utils.Global;
+import com.example.scandemo5.Utils.JMap;
 import com.example.scandemo5.Utils.RMap;
 import com.example.scandemo5.Utils.SQLite;
+import com.example.scandemo5.Utils.Msg;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
@@ -124,61 +124,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private interface MsgCallBack{  //弹窗回调
-        void confirm(DialogPlus dialog);
-    }
-    private void showMsg(final String title, final String msg, final MsgCallBack callBack){
-        DialogPlus dialog = DialogPlus.newDialog(this)
-                .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
-                .setGravity(Gravity.CENTER)
-                .setAdapter(new BaseAdapter() {
-                    @Override
-                    public int getCount() {
-                        return 1;
-                    }
-
-                    @Override
-                    public Object getItem(int position) {
-                        return null;
-                    }
-
-                    @Override
-                    public long getItemId(int position) {
-                        return position;
-                    }
-
-                    @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        convertView = getLayoutInflater().inflate(R.layout.show_msg,null);
-                        ((TextView)convertView.findViewById(R.id.title_msg)).setText(title);
-                        ((TextView)convertView.findViewById(R.id.content_msg)).setText(msg);
-                        return convertView;
-                    }
-                })
-                .setFooter(R.layout.msg_foot)
-                .setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(DialogPlus dialog, View view) {
-                        switch (view.getId()){
-                            case R.id.msg_footer_close_button://点击关闭按钮
-                                dialog.dismiss();
-                                break;
-                            case R.id.msg_footer_confirm_button://点击保存按钮
-                                callBack.confirm(dialog);
-                                break;
-                        }
-                    }
-                })
-                .create();
-        dialog.show();
-    }
-    
     private void alertUpdateScannData(){
         DialogPlus dialog = DialogPlus.newDialog(this)
                 .setAdapter(new BaseAdapter() {
                     @Override
                     public int getCount() {
-                        return 4;
+                        return 5;
                     }
 
                     @Override
@@ -198,29 +149,14 @@ public class MainActivity extends AppCompatActivity {
                         TextView tKey = (TextView) convertView.findViewById(R.id.handle_item_key);
                         EditText tValue = (EditText) convertView.findViewById(R.id.handle_item_value);
 
-                        tKey.setText(RMap.getrMap().get(Global.ShowUI_Scanmap.get(position + 3)));
+                        tKey.setText(RMap.getrMap().get(Global.ShowUI_Scanmap.get(position + 3)));  //从Global.ShowUI_Scanmap中第3项开始显示
                         tValue.setText(Global.ShowUI_Scanmap.get(Global.ShowUI_Scanmap.get(position+3)));
 
-                        if(position > 1) {
+                        if(position > 2) {  //到生产日期才开始启用日期选择组件
                             tValue.setFocusableInTouchMode(false);
                             tValue.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(final View v) {
-//                                    Calendar now = Calendar.getInstance();
-//                                    DatePickerDialog dpd = DatePickerDialog.newInstance(
-//                                            new DatePickerDialog.OnDateSetListener() {
-//                                                @Override
-//                                                public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-//                                                    Log.d("12111", "onDateSet() called with: view = [" + view + "], year = [" + year + "], monthOfYear = [" + monthOfYear + "], dayOfMonth = [" + dayOfMonth + "], yearEnd = [" + yearEnd + "], monthOfYearEnd = [" + monthOfYearEnd + "], dayOfMonthEnd = [" + dayOfMonthEnd + "]");
-////                                                ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).setText(year+"-"+(monthOfYear + 1)+"-"+dayOfMonth);
-////                                                ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).setText(yearEnd+"-"+(monthOfYearEnd + 1)+"-"+dayOfMonthEnd);
-//                                                }
-//                                            },
-//                                            now.get(Calendar.YEAR),
-//                                            now.get(Calendar.MONTH),
-//                                            now.get(Calendar.DAY_OF_MONTH)
-//                                    );
-//                                    dpd.show(getFragmentManager(), "Datepickerdialog");
                                     TimeSelector timeSelector = new TimeSelector(MainActivity.this, new TimeSelector.ResultHandler() {
                                         @Override
                                         public void handle(String time) {
@@ -241,9 +177,12 @@ public class MainActivity extends AppCompatActivity {
                                 convertView.setId(R.id.ids_LOT);
                                 break;
                             case 2:
-                                convertView.setId(R.id.ids_MFG);
+                                convertView.setId(R.id.ids_location_no);
                                 break;
                             case 3:
+                                convertView.setId(R.id.ids_MFG);
+                                break;
+                            case 4:
                                 convertView.setId(R.id.ids_EXP);
                                 break;
                         }
@@ -266,10 +205,12 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.footer_confirm_button://点击保存按钮
                                 String sl = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_quantity).findViewById(R.id.handle_item_value))).getText().toString();
                                 String pc = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_LOT).findViewById(R.id.handle_item_value))).getText().toString();
+                                String kw = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_location_no).findViewById(R.id.handle_item_value))).getText().toString();
                                 String sc = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_MFG).findViewById(R.id.handle_item_value))).getText().toString();
                                 String dq = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_EXP).findViewById(R.id.handle_item_value))).getText().toString();
                                 Global.upLoad.list.get(Postion).quantity = sl;
                                 Global.upLoad.list.get(Postion).LOT = pc;
+                                Global.upLoad.list.get(Postion).location_no = kw;
                                 Global.upLoad.list.get(Postion).MFG = sc;
                                 Global.upLoad.list.get(Postion).EXP = dq;
                                 adapter.notifyItemChanged(Postion);
@@ -414,6 +355,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Global.ifCloseInput(MainActivity.this);
+        if(!Global.isSuccessUpdataHttpdata){
+            Msg.showMsg(this, "警告", "未能成功更新数据,请检查网络后重试", new Msg.CallBack() {
+                @Override
+                public void confirm(DialogPlus dialog) {
+                    dialog.dismiss();
+                }
+            });
+        }
         //注册广播来获取扫描结果
      //   this.registerReceiver(mReceiver, mFilter);
     }
@@ -467,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_upload:
-                showMsg("确定", "确定上传吗？", new MsgCallBack() {
+                Msg.showMsg(this,"确定", "确定上传吗？", new Msg.CallBack() {
                     @Override
                     public void confirm(DialogPlus dialog) {
                         dialog.dismiss();
@@ -478,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
                 ToMain();
                 break;
             case R.id.action_reset:
-                showMsg("警告", "此举将清空所有已扫描数据 您确定吗？", new MsgCallBack() {
+                Msg.showMsg(this,"警告", "此举将清空所有已扫描数据 您确定吗？", new Msg.CallBack() {
                     @Override
                     public void confirm(DialogPlus dialog) {
                         Global.upLoad = new UpLoad();
@@ -494,6 +443,39 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    //扫描结果处理
+    public void dealScanData(String data){
+
+        if(Global.dialog != null){  //看看是否有弹窗存在
+            Global.dialog.dismiss();
+        }
+
+        SQLite.Goods goods = SQLite.getInstance().getGoods(data);
+
+        if (goods != null) {
+//            Global.ShowUI_map = Global.GoodsToJMap(goods);
+//            Global.ShowUI_Scanmap = Global.ScanDataToJMap(new UpLoad.ScanData());
+//            Intent intent1 = new Intent(MainActivity.mainActivity, ScanRActivity.class);
+//            startActivity(intent1);
+
+            JMap<String, String> map = new JMap<>();
+            map.add("goods_no", goods.goods_no);
+            map.add("goods_name", goods.goods_name);
+            map.add("barcode", goods.barcode);
+            map.add("goods_spce", goods.goods_spce);
+            map.add("quantity", "");
+            map.add("LOT", "");
+            map.add("location_no", "010001");
+            map.add("MFG", "");
+            map.add("EXP", "");
+
+            Msg.showSacn(this,map);
+
+        } else {
+            Toast.makeText(MyApp.getContext(), "未找到商品" + data, Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 
 

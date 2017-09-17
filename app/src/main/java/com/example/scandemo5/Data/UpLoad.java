@@ -36,10 +36,11 @@ public class UpLoad {
         public String MFG;
         public String EXP;
         public String LOT;
+        public String location_no;
         public String quantity;
         public ScanData(){ }
-        public ScanData(String barcode,String goods_no,String goods_name,String MFG,String EXP,String LOT,String quantity){
-            this.barcode = barcode;this.goods_no = goods_no;this.goods_name = goods_name;this.MFG = MFG;this.EXP = EXP;this.LOT = LOT;this.quantity = quantity;
+        public ScanData(String barcode,String goods_no,String goods_name,String MFG,String EXP,String LOT,String location_no,String quantity){
+            this.barcode = barcode;this.goods_no = goods_no;this.goods_name = goods_name;this.MFG = MFG;this.EXP = EXP;this.LOT = LOT;this.quantity = quantity;this.location_no = location_no;
         }
     }
 }

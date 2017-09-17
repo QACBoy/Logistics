@@ -4,4 +4,5 @@
     <item type="id" name="ids_LOT" />
     <item type="id" name="ids_MFG" />
     <item type="id" name="ids_EXP" />
+    <item type="id" name="ids_location_no" />
 </resources>

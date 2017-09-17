@@ -53,32 +53,32 @@ public class TReceiver extends BroadcastReceiver {
         //  for(int i=0; i<20; i++)
         //    System.out.println("调用了此函数！！！！！！！！！！！！！");
         //此处获取扫描结果信息
-        String scanResult = intent.getStringExtra("EXTRA_SCAN_DATA");
+        String scanResult1 = intent.getStringExtra("SCAN_BARCODE1");
+//        String scanResult2 = intent.getStringExtra("SCAN_BARCODE2");
+        String scanStatus = intent.getStringExtra("SCAN_STATE");
+//        String scanResult = intent.getStringExtra("EXTRA_SCAN_DATA");
 
-        str = scanResult;
+//        Log.d("12344", "onReceive: "+ scanResult1 + "--" + scanResult2);
+        if("ok".equals(scanStatus)){
+            //成功
+            str = scanResult1;
 
-        Log.d("12344", "onReceive: 扫描结果：" + str);
-        if (Global.Procure.equals(Global.getTYPE_SAC())) {//扫描入库单
-            ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).setText(str);
-        }
-        if (Global.ComeGoodsNo.equals(Global.getTYPE_SAC())) {//扫描入库单
-            ((EditText) MainActivity.mainActivity.findViewById(R.id.come_goods_no)).setText(str);
-            Global.setTYPE_SCA(Global.Procure);
-            ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).requestFocus();
-        }
-        if (Global.GoodsNo.equals(Global.getTYPE_SAC())) {//扫描条码
-            SQLite.Goods goods = SQLite.getInstance().getGoods(str);
-
-            if (goods != null) {
-                Global.ShowUI_map = Global.GoodsToJMap(goods);
-                Global.ShowUI_Scanmap = Global.ScanDataToJMap(new UpLoad.ScanData());
-                Intent intent1 = new Intent(MainActivity.mainActivity, ScanRActivity.class);
-                MainActivity.mainActivity.startActivity(intent1);
-
-            } else {
-                Toast.makeText(MyApp.getContext(), "未找到商品" + str, Toast.LENGTH_SHORT).show();
+            Log.d("12344", "onReceive: 扫描结果：" + str);
+            if (Global.Procure.equals(Global.getTYPE_SAC())) {//扫描入库单
+                ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).setText(str);
             }
+            if (Global.ComeGoodsNo.equals(Global.getTYPE_SAC())) {//扫描入库单
+                ((EditText) MainActivity.mainActivity.findViewById(R.id.come_goods_no)).setText(str);
+                Global.setTYPE_SCA(Global.Procure);
+                ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).requestFocus();
+            }
+            if (Global.GoodsNo.equals(Global.getTYPE_SAC())) {//扫描条码
+                MainActivity.mainActivity.dealScanData(str);
+            }
+        }else{
+            Toast.makeText(MyApp.getContext(), "扫描失败", Toast.LENGTH_SHORT).show();
         }
+
     }
 
 }

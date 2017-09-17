@@ -16,7 +16,7 @@
         tools:replace="android:icon">
         <receiver android:name=".Recevier.TReceiver">
             <intent-filter android:priority="2147483647">
-                <action android:name="ACTION_BAR_SCAN" />
+                <action android:name="nlscan.action.SCANNER_RESULT" />
             </intent-filter>
         </receiver>
         <activity android:name=".Activity.WelcomeActivity"

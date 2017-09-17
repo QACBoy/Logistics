@@ -117,16 +117,17 @@ public class ScanRActivity extends AppCompatActivity {
             String barcode = ((EditText) tabltLayout.getChildAt(3).findViewById(R.id.handle_item_value)).getText().toString();
             String goods_no = ((EditText) tabltLayout.getChildAt(1).findViewById(R.id.handle_item_value)).getText().toString();
             String goods_name = ((EditText) tabltLayout.getChildAt(2).findViewById(R.id.handle_item_value)).getText().toString();
-            String MFG = ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).getText().toString();
-            String EXP = ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).getText().toString();
+            String MFG = ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).getText().toString();
+            String EXP = ((EditText) tabltLayout.getChildAt(17).findViewById(R.id.handle_item_value)).getText().toString();
+            String location_no = ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).getText().toString();
             String LOT = ((EditText) tabltLayout.getChildAt(14).findViewById(R.id.handle_item_value)).getText().toString();
             String quantity = ((EditText) tabltLayout.getChildAt(13).findViewById(R.id.handle_item_value)).getText().toString();
 //            Global.upLoad.add(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
             int pos = getIntent().getIntExtra("postion",-1);
             if( -1 == pos) {
-                MainActivity.mainActivity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
+                MainActivity.mainActivity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
             }else {
-                MainActivity.mainActivity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
+                MainActivity.mainActivity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
             }
         }
     }
@@ -148,6 +149,7 @@ public class ScanRActivity extends AppCompatActivity {
         }
         addChildView(RMap.getrMap().get("quantity"),Scanmap.get("quantity"),true);
         addChildView(RMap.getrMap().get("LOT"),Scanmap.get("LOT"),true);
+        addChildView(RMap.getrMap().get("location_no"),Scanmap.get("location_no"),true);
         //生产日期
         addChildTimeView(RMap.getrMap().get("MFG"),Scanmap.get("MFG"));
         //到期日期
