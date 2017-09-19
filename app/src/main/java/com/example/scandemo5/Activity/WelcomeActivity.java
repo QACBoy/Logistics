@@ -112,7 +112,6 @@ public class WelcomeActivity extends AppCompatActivity {
                         loadingview.stopOk();
                     }else {
                         Global.isSuccessUpdataHttpdata = false;
-                        Toast.makeText(MyApp.getContext(),"供货商数据更新失败",Toast.LENGTH_SHORT).show();
                         loadingview.stopFailure();
                     }
                     new Thread(new Runnable() {
