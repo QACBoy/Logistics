@@ -107,11 +107,10 @@ public class WelcomeActivity extends AppCompatActivity {
             HttpData.getInstance().GetHttpData(new HttpData.CallBack() {
                 @Override
                 public void done(boolean isSuccess) {
+                    Global.isSuccessUpdataHttpdata = isSuccess;
                     if(isSuccess){
-                        Global.isSuccessUpdataHttpdata = true;
                         loadingview.stopOk();
                     }else {
-                        Global.isSuccessUpdataHttpdata = false;
                         loadingview.stopFailure();
                     }
                     new Thread(new Runnable() {

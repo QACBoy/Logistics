@@ -43,6 +43,7 @@ public class HttpData {
 
     public void GetHttpData(CallBack callBack) throws Exception{
 
+        isFinish = false;
         _callback = callBack;
 
         //商品信息

@@ -66,7 +66,10 @@ public class Msg {
                                 dialog.dismiss();
                                 break;
                             case R.id.msg_footer_confirm_button://点击保存按钮
-                                callBack.confirm(dialog);
+                                if(callBack != null)
+                                    callBack.confirm(dialog);
+                                else
+                                    dialog.dismiss();
                                 break;
                         }
                     }
