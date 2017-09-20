@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -166,6 +167,9 @@ public class MainActivity extends BaseActivity {
                                     timeSelector.show();
                                 }
                             });
+                        }else {
+                            tValue.setSingleLine();
+                            tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                         }
                         switch (position){
                             case 0:
@@ -277,6 +281,8 @@ public class MainActivity extends BaseActivity {
             ScanDataViewHolder vh = (ScanDataViewHolder) holder;
             vh.titleView.setText(item.barcode);
             vh.authorView.setText(item.goods_name);
+            vh.lot.setText(item.LOT);
+            vh.quantity.setText(item.quantity);
             if(!Global.isNullorEmpty(Global.upLoad.list.get(position).quantity) && !Global.isNullorEmpty(Global.upLoad.list.get(position).EXP) && !Global.isNullorEmpty(Global.upLoad.list.get(position).MFG) && !Global.isNullorEmpty(Global.upLoad.list.get(position).LOT)){
                 vh.imageView.setImageResource(R.mipmap.accept);
             }else {
@@ -294,6 +300,8 @@ public class MainActivity extends BaseActivity {
 
             public TextView titleView;
             public TextView authorView;
+            public TextView lot;
+            public TextView quantity;
             public ImageView imageView;
 
             public ScanDataViewHolder(View v) {
@@ -301,6 +309,8 @@ public class MainActivity extends BaseActivity {
 
                 titleView = (TextView) v.findViewById(R.id.title);
                 authorView = (TextView) v.findViewById(R.id.author);
+                lot = (TextView) v.findViewById(R.id.lot);
+                quantity = (TextView) v.findViewById(R.id.quantity);
                 imageView = (ImageView) v.findViewById(R.id.image);
             }
         }

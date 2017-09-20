@@ -38,8 +38,9 @@ public class TReceiver extends BroadcastReceiver {
         if("ok".equals(scanStatus)){
             //成功
             str = scanResult1;
-
             Log.d("12344", "onReceive: 扫描结果：" + str);
+
+            //入库管理区
             if (Global.ScanType.rk_Procure.equals(Global.getTYPE_SCA())) {//扫描入库单
                 ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).setText(str);
             }

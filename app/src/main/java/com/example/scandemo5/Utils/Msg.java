@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -204,6 +205,9 @@ public class Msg {
                                                 timeSelector.show();
                                             }
                                         });
+                                    }else {
+                                        tValue.setSingleLine();
+                                        tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                                     }
                                     switch (position - 4) {
                                         case 0:

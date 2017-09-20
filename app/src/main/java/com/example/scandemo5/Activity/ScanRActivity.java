@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -65,6 +66,9 @@ public class ScanRActivity extends AppCompatActivity {
 //              Log.d("11010", "showUI: " + key + "------" + value);
         tKey.setText(key);
         tValue.setText(value);
+
+        tValue.setSingleLine();
+        tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
         tabltLayout.addView(row);
     }
