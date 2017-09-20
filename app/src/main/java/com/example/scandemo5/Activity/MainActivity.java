@@ -5,9 +5,11 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +41,7 @@ import org.feezu.liuli.timeselector.TimeSelector;
 
 import co.dift.ui.SwipeToAction;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     TReceiver mReceiver;  //接收广播信息
     private IntentFilter mFilter;
@@ -57,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
         ToMain();
         mainActivity = this;
     }
-
-
 
     private void ToScanner(){
         Global.setTYPE_SCA(Global.GoodsNo);
@@ -443,7 +443,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     //扫描结果处理
     public void dealScanData(String data){

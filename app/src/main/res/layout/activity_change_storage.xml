@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fab_stroke_end_inner_color"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <!--<Button-->
-    <!--android:padding="20sp"-->
-    <!--android:textSize="36sp"-->
-    <!--android:id="@+id/auto"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="自动连续扫描" />-->
-
     <EditText
         android:id="@+id/come_goods_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="  请扫描 到货单号"
-        android:inputType="text"
-        android:singleLine="true"
-        android:textSize="36sp" />
-
-    <EditText
-        android:id="@+id/procure_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="  请扫描 供货商号"
+        android:hint="  请扫描 库位编号"
         android:inputType="text"
         android:singleLine="true"
         android:textSize="36sp" />
@@ -46,6 +30,5 @@
         fbutton:shadowColor="@color/disenable"
         fbutton:shadowEnabled="true"
         fbutton:shadowHeight="10dp" />
-
 
 </LinearLayout>

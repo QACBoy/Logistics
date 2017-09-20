@@ -1,6 +1,7 @@
 package com.example.scandemo5.Utils;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,60 +27,126 @@ import org.feezu.liuli.timeselector.TimeSelector;
 
 public class Msg {
 
+    private static long Sleep_time = 400; //ms
+
     public interface CallBack{  //弹窗回调
         void confirm(DialogPlus dialog);
     }
     public static void showMsg(final Activity activity, final String title, final String msg, final CallBack callBack){
-        DialogPlus dialog = DialogPlus.newDialog(activity)
-                .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
-                .setGravity(Gravity.CENTER)
-                .setAdapter(new BaseAdapter() {
-                    @Override
-                    public int getCount() {
-                        return 1;
-                    }
+        if(Global.dialog != null)Global.dialog.dismiss();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(Sleep_time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Global.dialog = DialogPlus.newDialog(activity)
+                        .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setGravity(Gravity.CENTER)
+                        .setAdapter(new BaseAdapter() {
+                            @Override
+                            public int getCount() {
+                                return 1;
+                            }
 
-                    @Override
-                    public Object getItem(int position) {
-                        return null;
-                    }
+                            @Override
+                            public Object getItem(int position) {
+                                return null;
+                            }
 
-                    @Override
-                    public long getItemId(int position) {
-                        return position;
-                    }
+                            @Override
+                            public long getItemId(int position) {
+                                return position;
+                            }
 
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                convertView = activity.getLayoutInflater().inflate(R.layout.show_msg,null);
+                                ((TextView)convertView.findViewById(R.id.title_msg)).setText(title);
+                                ((TextView)convertView.findViewById(R.id.content_msg)).setText(msg);
+                                return convertView;
+                            }
+                        })
+                        .setFooter(R.layout.msg_foot)
+                        .setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(DialogPlus dialog, View view) {
+                                switch (view.getId()){
+                                    case R.id.msg_footer_close_button://点击关闭按钮
+                                        dialog.dismiss();
+                                        break;
+                                    case R.id.msg_footer_confirm_button://点击保存按钮
+                                        if(callBack != null)
+                                            callBack.confirm(dialog);
+                                        else
+                                            dialog.dismiss();
+                                        break;
+                                }
+                            }
+                        })
+                        .create();
+                activity.runOnUiThread(new Runnable() {
                     @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
-                        convertView = activity.getLayoutInflater().inflate(R.layout.show_msg,null);
-                        ((TextView)convertView.findViewById(R.id.title_msg)).setText(title);
-                        ((TextView)convertView.findViewById(R.id.content_msg)).setText(msg);
-                        return convertView;
+                    public void run() {
+                        Global.dialog.show();
                     }
-                })
-                .setFooter(R.layout.msg_foot)
-                .setOnClickListener(new OnClickListener() {
+                });
+            }
+        }).start();
+    }
+
+
+    public static void showFunciton(final Activity activity, final View.OnClickListener callBack){
+        if(Global.dialog != null)Global.dialog.dismiss();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(Sleep_time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Global.dialog = DialogPlus.newDialog(activity)
+                        .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setGravity(Gravity.TOP)
+                        .setAdapter(new BaseAdapter() {
+                            @Override
+                            public int getCount() {
+                                return 1;
+                            }
+
+                            @Override
+                            public Object getItem(int position) {
+                                return null;
+                            }
+
+                            @Override
+                            public long getItemId(int position) {
+                                return position;
+                            }
+
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                convertView = activity.getLayoutInflater().inflate(R.layout.function,null);
+                                convertView.findViewById(R.id.function_storage).setOnClickListener(callBack);
+                                convertView.findViewById(R.id.function_changestorage).setOnClickListener(callBack);
+                                return convertView;
+                            }
+                        })
+                        .create();
+                activity.runOnUiThread(new Runnable() {
                     @Override
-                    public void onClick(DialogPlus dialog, View view) {
-                        switch (view.getId()){
-                            case R.id.msg_footer_close_button://点击关闭按钮
-                                dialog.dismiss();
-                                break;
-                            case R.id.msg_footer_confirm_button://点击保存按钮
-                                if(callBack != null)
-                                    callBack.confirm(dialog);
-                                else
-                                    dialog.dismiss();
-                                break;
-                        }
+                    public void run() {
+                        Global.dialog.show();
                     }
-                })
-                .create();
-        dialog.show();
+                });
+            }
+        }).start();
     }
 
     //连续扫描
-
     private static boolean ifSave;
 
     public static void showSacn(final Activity activity, final JMap<String,String> map){
@@ -88,7 +155,7 @@ public class Msg {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(Sleep_time);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
