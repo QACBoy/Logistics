@@ -28,11 +28,11 @@ import static android.content.ContentValues.TAG;
 public class Global {
     private static SharedPreferences sharedPreferences = MyApp.getContext().getSharedPreferences("dms", Context.MODE_PRIVATE);
 
-    public static SharedPreferences getSharedPreferences() {
+    public static SharedPreferences getSharedPreferences() {  //微数据存储区
         return sharedPreferences;
     }
 
-    public static String DealXmlStr(String str){
+    public static String DealXmlStr(String str){ //处理网络返回xml文件函数
         int start = str.indexOf("\">") + 2;
         int end = str.lastIndexOf("</");
         return str.substring(start,end);
@@ -67,7 +67,7 @@ public class Global {
         return map;
     }
 
-    public static boolean isNullorEmpty(String str){
+    public static boolean isNullorEmpty(String str){  //自定数据判断函数
         if(str == null){
             return true;
         }
@@ -83,7 +83,7 @@ public class Global {
         return false;
     }
 
-    public static void ifCloseInput(Activity activity){
+    public static void ifCloseInput(Activity activity){  //输入法控制端
         int flags = WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
         if(!getSharedPreferences().getBoolean("ifOpenKeyboard",false)) {
             activity.getWindow().addFlags(flags);
@@ -92,24 +92,12 @@ public class Global {
         }
     }
 
-    public static boolean isSuccessUpdataHttpdata = false;
+    public static boolean isSuccessUpdataHttpdata = false;//网络数据是否加载成功
 
-    private static String TYPE_SCA = "132564";
-    public static String Procure = "100100";
-    public static String ComeGoodsNo = "100111";
-    public static String GoodsNo = "100110";
-
-    public static void setTYPE_SCA(String TYPE_SAC) {
-        TYPE_SCA = TYPE_SAC;
-    }
-
-    public static String getTYPE_SAC() {
-        return TYPE_SCA;
-    }
 
     public static String PROCURENO = null;
 
-    public static UpLoad upLoad = new UpLoad();
+    public static UpLoad upLoad = new UpLoad();  //上传数据存储区
 
     public static ScanRActivity scanRActivity;
 
@@ -117,5 +105,24 @@ public class Global {
     public static JMap<String,String> ShowUI_Scanmap;
 
 
-    public static DialogPlus dialog;
+    public static DialogPlus dialog; //弹出窗口唯一控制
+
+
+    //    扫描器工作模式
+    private static String TYPE_SCA = "132564";
+    public static void setTYPE_SCA(String TYPE_SAC) {
+        TYPE_SCA = TYPE_SAC;
+    }
+    public static String getTYPE_SCA() {
+        return TYPE_SCA;
+    }
+    public static class ScanType{
+        ///入库管理模式
+        public static String rk_Procure = "rk10001";//扫描供货商
+        public static String rk_ComeGoodsNo = "rk10002";//扫描到货单
+        public static String rk_GoodsNo = "rk10003";//扫描商品
+        ///库位调拨模式
+        public static String kw_stroageno = "kw10001";//扫描商品
+    }
+
 }

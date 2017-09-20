@@ -59,7 +59,12 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Global.ifCloseInput(BaseActivity.this);
+        Global.ifCloseInput(BaseActivity.this);//输入法控制
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();   //屏蔽返回按键
     }
 
     @Override
@@ -91,6 +96,7 @@ public class BaseActivity extends AppCompatActivity {
                         break;
                 }
                 dialog.dismiss();
+                finish();
             }
         });
     }

@@ -5,11 +5,8 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,7 +58,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void ToScanner(){
-        Global.setTYPE_SCA(Global.GoodsNo);
+        Global.setTYPE_SCA(Global.ScanType.rk_GoodsNo);
         setContentView(R.layout.handle);
         tabltLayout = (TableLayout) findViewById(R.id.table);
         BindRectclerView();
@@ -225,7 +222,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void ToMain() {
-        Global.setTYPE_SCA(Global.ComeGoodsNo);
+        Global.setTYPE_SCA(Global.ScanType.rk_ComeGoodsNo);
         setContentView(R.layout.procure);
         EditText procure_no = (EditText) findViewById(R.id.procure_no);
         EditText come_goods_no = (EditText) findViewById(R.id.come_goods_no);
@@ -234,14 +231,14 @@ public class MainActivity extends BaseActivity {
         procure_no.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Global.setTYPE_SCA(Global.Procure);
+                Global.setTYPE_SCA(Global.ScanType.rk_Procure);
                 return false;
             }
         });
         come_goods_no.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Global.setTYPE_SCA(Global.ComeGoodsNo);
+                Global.setTYPE_SCA(Global.ScanType.rk_ComeGoodsNo);
                 return false;
             }
         });
@@ -319,15 +316,6 @@ public class MainActivity extends BaseActivity {
         ((TextView) v.findViewById(android.support.design.R.id.snackbar_action)).setTextColor(Color.WHITE);
 
         snack.show();
-    }
-
-    @Override
-    public void onBackPressed() {
-//        super.onBackPressed();
-//        InputMethodManager imm =  (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-//        if(imm != null) {
-//            imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-//        }
     }
 
     private int removeScanData(UpLoad.ScanData data){

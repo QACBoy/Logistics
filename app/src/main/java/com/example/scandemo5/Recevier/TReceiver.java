@@ -1,38 +1,16 @@
 package com.example.scandemo5.Recevier;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.scandemo5.Activity.MainActivity;
-import com.example.scandemo5.Activity.ScanRActivity;
-import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
-import com.example.scandemo5.Utils.DJson;
-import com.example.scandemo5.Utils.Encryption;
 import com.example.scandemo5.Utils.Global;
-import com.example.scandemo5.Utils.Http;
-import com.example.scandemo5.Utils.JMap;
-import com.example.scandemo5.Utils.RMap;
-import com.example.scandemo5.Utils.SQLite;
-
-import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.content.ContentValues.TAG;
 
 public class TReceiver extends BroadcastReceiver {
     private static String str;
@@ -50,8 +28,6 @@ public class TReceiver extends BroadcastReceiver {
     //商品名称，商品编码，商品类别编码，规格型号，单品单位，产地
     @Override
     public void onReceive(Context context, Intent intent) {
-        //  for(int i=0; i<20; i++)
-        //    System.out.println("调用了此函数！！！！！！！！！！！！！");
         //此处获取扫描结果信息
         String scanResult1 = intent.getStringExtra("SCAN_BARCODE1");
 //        String scanResult2 = intent.getStringExtra("SCAN_BARCODE2");
@@ -64,15 +40,15 @@ public class TReceiver extends BroadcastReceiver {
             str = scanResult1;
 
             Log.d("12344", "onReceive: 扫描结果：" + str);
-            if (Global.Procure.equals(Global.getTYPE_SAC())) {//扫描入库单
+            if (Global.ScanType.rk_Procure.equals(Global.getTYPE_SCA())) {//扫描入库单
                 ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).setText(str);
             }
-            if (Global.ComeGoodsNo.equals(Global.getTYPE_SAC())) {//扫描入库单
+            if (Global.ScanType.rk_ComeGoodsNo.equals(Global.getTYPE_SCA())) {//扫描入库单
                 ((EditText) MainActivity.mainActivity.findViewById(R.id.come_goods_no)).setText(str);
-                Global.setTYPE_SCA(Global.Procure);
+                Global.setTYPE_SCA(Global.ScanType.rk_Procure);
                 ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).requestFocus();
             }
-            if (Global.GoodsNo.equals(Global.getTYPE_SAC())) {//扫描条码
+            if (Global.ScanType.rk_GoodsNo.equals(Global.getTYPE_SCA())) {//扫描条码
                 MainActivity.mainActivity.dealScanData(str);
             }
         }else{

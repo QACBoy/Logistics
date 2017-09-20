@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/come_goods_no"
+        android:id="@+id/changestorage_stroageno"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="  请扫描 库位编号"

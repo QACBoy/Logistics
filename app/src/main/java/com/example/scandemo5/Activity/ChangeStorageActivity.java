@@ -10,6 +10,10 @@ public class ChangeStorageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        toStorageNo();
+    }
+
+    private void toStorageNo(){
         setContentView(R.layout.activity_change_storage);
     }
 }
