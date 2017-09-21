@@ -33,6 +33,7 @@ import com.example.scandemo5.Utils.SQLite;
 import com.example.scandemo5.Utils.Msg;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.feezu.liuli.timeselector.TimeSelector;
@@ -45,10 +46,12 @@ public class MainActivity extends BaseActivity {
     private IntentFilter mFilter;
     public static MainActivity mainActivity;
     public static TableLayout tabltLayout;
+    public static String LocationNo;
     private RecyclerView recyclerView;
     private ScanDataAdapter adapter;
     private SwipeToAction swipeToAction;
     private int Postion;
+    public View LocationNo_EditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +154,38 @@ public class MainActivity extends BaseActivity {
                         tKey.setText(RMap.getrMap().get(Global.ShowUI_Scanmap.get(position + 3)));  //从Global.ShowUI_Scanmap中第3项开始显示
                         tValue.setText(Global.ShowUI_Scanmap.get(Global.ShowUI_Scanmap.get(position+3)));
 
+                        //,, switch 函数从末尾往前移动到了该位置
+                        switch (position){
+                            case 0:
+                                convertView.setId(R.id.ids_quantity);
+                                break;
+                            case 1:
+                                convertView.setId(R.id.ids_LOT);
+                                break;
+                            case 2:
+                                convertView.setId(R.id.ids_location_no);
+                                break;
+                            case 3:
+                                convertView.setId(R.id.ids_MFG);
+                                break;
+                            case 4:
+                                convertView.setId(R.id.ids_EXP);
+                                break;
+                        }
+
+                        //,,对库位编号的点击添加事件(右滑快速填写)
+                        if(position == 2){
+                            tValue.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    MainActivity.mainActivity.LocationNo_EditText = v;
+                                    Global.setTYPE_SCA(Global.ScanType.rk_LocationNo);
+                                    return false;
+                                }
+                            });
+                        }
+
+
                         if(position > 2) {  //到生产日期才开始启用日期选择组件
                             tValue.setFocusableInTouchMode(false);
                             tValue.setOnClickListener(new View.OnClickListener() {
@@ -171,24 +206,14 @@ public class MainActivity extends BaseActivity {
                             tValue.setSingleLine();
                             tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                         }
-                        switch (position){
-                            case 0:
-                                convertView.setId(R.id.ids_quantity);
-                                break;
-                            case 1:
-                                convertView.setId(R.id.ids_LOT);
-                                break;
-                            case 2:
-                                convertView.setId(R.id.ids_location_no);
-                                break;
-                            case 3:
-                                convertView.setId(R.id.ids_MFG);
-                                break;
-                            case 4:
-                                convertView.setId(R.id.ids_EXP);
-                                break;
-                        }
+
                         return convertView;
+                    }
+                })
+                .setOnDismissListener(new OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogPlus dialog) {
+                        Global.setTYPE_SCA(Global.ScanType.rk_GoodsNo);
                     }
                 })
                 .setOnItemClickListener(new OnItemClickListener() {
@@ -219,6 +244,7 @@ public class MainActivity extends BaseActivity {
                                 dialog.dismiss();
                                 break;
                         }
+
                     }
                 })
                 .create();

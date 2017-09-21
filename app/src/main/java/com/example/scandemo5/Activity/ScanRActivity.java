@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -35,6 +36,7 @@ public class ScanRActivity extends AppCompatActivity {
         int secondary = getResources().getColor(R.color.colorPrimaryDark);
         SlidrInterface slidrInterface = Slidr.attach(this, primary, secondary);
         tabltLayout = (TableLayout) findViewById(R.id.table);
+
     }
 
     @Override
@@ -72,6 +74,37 @@ public class ScanRActivity extends AppCompatActivity {
 
         tabltLayout.addView(row);
     }
+
+    private void addChildLocationNoView(String key,String value){
+        TableRow row = (TableRow) LayoutInflater.from(ScanRActivity.this).inflate(R.layout.handle_item, null);
+
+        TextView tKey = (TextView) row.findViewById(R.id.handle_item_key);
+        EditText tValue = (EditText) row.findViewById(R.id.handle_item_value);
+
+        tKey.setText(key);
+        tValue.setText(value);
+
+
+        tValue.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                MainActivity.mainActivity.LocationNo_EditText = v;
+                Global.setTYPE_SCA(Global.ScanType.rk_LocationNo);
+                return false;
+            }
+        });
+//        tValue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity.mainActivity.LocationNo_EditText = v;
+//                Global.setTYPE_SCA(Global.ScanType.rk_LocationNo);
+//            }
+//        });
+
+        tabltLayout.addView(row);
+    }
+
+
 
     private void addChildTimeView(String key,String value){
         TableRow row = (TableRow) LayoutInflater.from(ScanRActivity.this).inflate(R.layout.handle_item, null);
@@ -116,6 +149,7 @@ public class ScanRActivity extends AppCompatActivity {
         tabltLayout.addView(row);
     }
 
+
     private void addDataToUpLoadList(){
         if(tabltLayout.getChildCount() > 0) {
             String barcode = ((EditText) tabltLayout.getChildAt(3).findViewById(R.id.handle_item_value)).getText().toString();
@@ -153,7 +187,8 @@ public class ScanRActivity extends AppCompatActivity {
         }
         addChildView(RMap.getrMap().get("quantity"),Scanmap.get("quantity"),true);
         addChildView(RMap.getrMap().get("LOT"),Scanmap.get("LOT"),true);
-        addChildView(RMap.getrMap().get("location_no"),Scanmap.get("location_no"),true);
+        //库位编号
+        addChildLocationNoView(RMap.getrMap().get("location_no"),Scanmap.get("location_no"));
         //生产日期
         addChildTimeView(RMap.getrMap().get("MFG"),Scanmap.get("MFG"));
         //到期日期

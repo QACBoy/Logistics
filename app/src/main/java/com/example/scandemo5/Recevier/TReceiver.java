@@ -42,16 +42,20 @@ public class TReceiver extends BroadcastReceiver {
             Log.d("12344", "onReceive: 扫描结果：" + str);
 
             //入库管理区
-            if (Global.ScanType.rk_Procure.equals(Global.getTYPE_SCA())) {//扫描入库单
+            if (Global.ScanType.rk_Procure.equals(Global.getTYPE_SCA())) {// 扫描入库单/采购单
                 ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).setText(str);
             }
-            if (Global.ScanType.rk_ComeGoodsNo.equals(Global.getTYPE_SCA())) {//扫描入库单
+            if (Global.ScanType.rk_ComeGoodsNo.equals(Global.getTYPE_SCA())) {// 扫描入库单
                 ((EditText) MainActivity.mainActivity.findViewById(R.id.come_goods_no)).setText(str);
                 Global.setTYPE_SCA(Global.ScanType.rk_Procure);
                 ((EditText) MainActivity.mainActivity.findViewById(R.id.procure_no)).requestFocus();
             }
-            if (Global.ScanType.rk_GoodsNo.equals(Global.getTYPE_SCA())) {//扫描条码
+            if (Global.ScanType.rk_GoodsNo.equals(Global.getTYPE_SCA())) {// 扫描商品条码
                 MainActivity.mainActivity.dealScanData(str);
+            }
+
+            if ( Global.ScanType.rk_LocationNo.equals(Global.getTYPE_SCA())){//,, 扫描库位编码
+                ((EditText) MainActivity.mainActivity.LocationNo_EditText).setText(str);
             }
 
             //移库区

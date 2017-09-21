@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -189,6 +190,20 @@ public class Msg {
                                     tKey.setText(RMap.getrMap().get(map.get(position)));
                                     tValue.setText(map.get(map.get(position)));
 
+
+                                    //,,对库位编号的点击添加事件(扫描结果填写)
+                                    if(position - 4 == 2){
+                                        tValue.setOnTouchListener(new View.OnTouchListener() {
+                                            @Override
+                                            public boolean onTouch(View v, MotionEvent event) {
+                                                MainActivity.mainActivity.LocationNo_EditText = v;
+                                                Global.setTYPE_SCA(Global.ScanType.rk_LocationNo);
+                                                return false;
+                                            }
+                                        });
+                                    }
+
+
                                     if (position - 4 > 2) {
                                         tValue.setFocusableInTouchMode(false);
                                         tValue.setOnClickListener(new View.OnClickListener() {
@@ -234,11 +249,6 @@ public class Msg {
                                 return convertView;
                             }
                         })
-                        .setOnItemClickListener(new OnItemClickListener() {
-                            @Override
-                            public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-                            }
-                        })
                         .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
                         .setFooter(R.layout.dialog_foot).setContentBackgroundResource(R.color.balck).setOnClickListener(new OnClickListener() {
                             @Override
@@ -265,6 +275,7 @@ public class Msg {
                             public void onDismiss(DialogPlus dialog) {
                                 if(ifSave)
                                     addtoMainactivity(dialog);
+                                Global.setTYPE_SCA(Global.ScanType.rk_GoodsNo);
                             }
                         })
                         .create();

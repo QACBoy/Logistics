@@ -121,6 +121,7 @@ public class Global {
         public static String rk_Procure = "rk10001";//扫描供货商
         public static String rk_ComeGoodsNo = "rk10002";//扫描到货单
         public static String rk_GoodsNo = "rk10003";//扫描商品
+        public static String rk_LocationNo = "rk10004";//,, 扫描库位编码
         ///库位调拨模式
         public static String kw_stroageno = "kw10001";//扫描商品
     }
