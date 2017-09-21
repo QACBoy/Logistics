@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.scandemo5.Activity.ChangeStorageActivity;
 import com.example.scandemo5.Activity.MainActivity;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
@@ -51,6 +52,11 @@ public class TReceiver extends BroadcastReceiver {
             }
             if (Global.ScanType.rk_GoodsNo.equals(Global.getTYPE_SCA())) {//扫描条码
                 MainActivity.mainActivity.dealScanData(str);
+            }
+
+            //移库区
+            if(Global.getTYPE_SCA().equals(Global.ScanType.kw_stroageno)){
+                ((EditText)ChangeStorageActivity.activity.findViewById(R.id.changestorage_stroageno)).setText(str);
             }
         }else{
             Toast.makeText(MyApp.getContext(), "扫描失败", Toast.LENGTH_SHORT).show();

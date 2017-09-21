@@ -36,6 +36,8 @@ public class Http {   //单例化模式
     public String get_stock = "";
     public String test_json = "";
 
+    public String get_location = "http://119.29.223.148/dms/public/location/get/";
+
     private static Http http;
 
 
