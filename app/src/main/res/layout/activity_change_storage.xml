@@ -18,7 +18,7 @@
         android:textSize="36sp" />
 
     <info.hoang8f.widget.FButton
-        android:id="@+id/handle"
+        android:id="@+id/changestorage_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20sp"

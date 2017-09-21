@@ -163,9 +163,16 @@ public class ScanRActivity extends AppCompatActivity {
 //            Global.upLoad.add(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
             int pos = getIntent().getIntExtra("postion",-1);
             if( -1 == pos) {
-                MainActivity.mainActivity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+                if("MainActivity".equals(Global.ScanUpdateActivity))
+                    MainActivity.mainActivity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+                if("ChangeStorageActivity".equals(Global.ScanUpdateActivity))
+                    ChangeStorageActivity.activity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+
             }else {
-                MainActivity.mainActivity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+                if("MainActivity".equals(Global.ScanUpdateActivity))
+                    MainActivity.mainActivity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+                if("ChangeStorageActivity".equals(Global.ScanUpdateActivity))
+                    ChangeStorageActivity.activity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
             }
         }
     }
