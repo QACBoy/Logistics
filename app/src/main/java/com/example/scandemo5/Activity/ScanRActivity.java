@@ -55,6 +55,7 @@ public class ScanRActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         addDataToUpLoadList();
+        Global.setTYPE_SCA(Global.ScanType.rk_GoodsNo);//扫描模式设置
         super.onStop();
     }
 

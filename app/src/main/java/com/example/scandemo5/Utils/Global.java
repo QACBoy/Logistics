@@ -15,6 +15,7 @@ import com.example.scandemo5.Activity.MainActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
+import com.nightonke.boommenu.BoomMenuButton;
 import com.orhanobut.dialogplus.DialogPlus;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class Global {
+    public static Boolean firstIn=true;
     private static SharedPreferences sharedPreferences = MyApp.getContext().getSharedPreferences("dms", Context.MODE_PRIVATE);
 
     public static SharedPreferences getSharedPreferences() {  //微数据存储区

@@ -114,6 +114,14 @@ public class SetActivity extends AppCompatActivity {
         InputMethodManager inputmanger = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputmanger.hideSoftInputFromWindow(getWindow().peekDecorView().getWindowToken(), 0);
     }
+//
+//    @Override
+//    protected void onStop(){
+//        startActivity(new Intent(SetActivity.this,WelcomeActivity.class));
+//        if(Global.firstIn == true) WelcomeActivity.isInApp=10198;
+//        Global.firstIn = false;
+//        super.onStop();
+//    }
 
     @Override
     protected void onPause() {
@@ -122,8 +130,11 @@ public class SetActivity extends AppCompatActivity {
         if(!str.isEmpty()){
             Global.getSharedPreferences().edit().putString("url",str).commit();
             Global.getSharedPreferences().edit().putBoolean("isFirst", false).commit();
-//                    toLogin();
-            setResult(1);
+//            toLogin();
+            if(Global.firstIn == false)
+                setResult(1);//当 SetActivity 被关闭时，会回到原来的操作界面
+            else
+                startActivity(new Intent(SetActivity.this,WelcomeActivity.class));
 //            finish();
         }else {
             Toast.makeText(SetActivity.this,"输入不能为空，保存失败",Toast.LENGTH_SHORT).show();

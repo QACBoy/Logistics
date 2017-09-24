@@ -32,11 +32,13 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(isFirstin()){
+        Global.firstIn=isFirstin();
+        if(Global.firstIn){
             startActivityForResult(new Intent(WelcomeActivity.this,SetActivity.class),SET_RequestCode);
         }else {
+
             if (isLogin()) {
-                toLoad();
+                    toLoad();
             } else {
 //                toLoad();
                 toLogin();
@@ -94,7 +96,7 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
-    private void toLoad(){
+    public void toLoad(){
         setContentView(R.layout.activity_welcome);
         loadingview = (AnimatedCircleLoadingView) findViewById(R.id.circle_loading_view);
         loadingview.startDeterminate();

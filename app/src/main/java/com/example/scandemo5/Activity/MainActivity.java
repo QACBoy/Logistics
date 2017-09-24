@@ -46,7 +46,6 @@ public class MainActivity extends BaseActivity {
     private IntentFilter mFilter;
     public static MainActivity mainActivity;
     public static TableLayout tabltLayout;
-    public static String LocationNo;
     private RecyclerView recyclerView;
     private ScanDataAdapter adapter;
     private SwipeToAction swipeToAction;
