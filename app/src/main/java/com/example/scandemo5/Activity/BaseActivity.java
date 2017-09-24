@@ -52,7 +52,7 @@ public class BaseActivity extends AppCompatActivity {
     private void init_actionbar(){
         ActionBar actionBar =getSupportActionBar();
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.action_settings);
+        actionBar.setHomeAsUpIndicator(R.drawable.menu);
     }
 
 
@@ -87,6 +87,7 @@ public class BaseActivity extends AppCompatActivity {
         Msg.showMsg(this,"警告", "切换模式将清空所有已扫描数据 您确定继续吗？", new Msg.CallBack() {
             @Override
             public void confirm(DialogPlus dialog) {
+                Global.upLoad = new UpLoad();//切换模式清空数据
                 switch (id){
                     case R.id.function_storage:
                         startActivity(new Intent(getApplicationContext(),MainActivity.class));

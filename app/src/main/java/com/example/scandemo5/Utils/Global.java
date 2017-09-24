@@ -109,6 +109,8 @@ public class Global {
 
     public static DialogPlus dialog; //弹出窗口唯一控制
 
+    public static String ScanUpdateActivity;//扫描详细返回结果控制到哪一个Activity
+
 
     //    扫描器工作模式
     private static String TYPE_SCA = "132564";

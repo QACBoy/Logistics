@@ -22,6 +22,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.scandemo5.Adapter.ScanDataAdapter;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
@@ -110,9 +111,10 @@ public class MainActivity extends BaseActivity {
                     Global.ShowUI_map = Global.GoodsToJMap(goods);
                     Global.ShowUI_Scanmap = Global.ScanDataToJMap(itemData);
                     int pos = removeScanData(itemData);
-                    Intent intent1 = new Intent(MainActivity.mainActivity, ScanRActivity.class);
+                    Intent intent1 = new Intent(MainActivity.this, ScanRActivity.class);
                     intent1.putExtra("postion",pos);
-                    MainActivity.mainActivity.startActivity(intent1);
+                    Global.ScanUpdateActivity = "MainActivity";
+                    startActivity(intent1);
                 }
 
 
@@ -288,59 +290,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-
-    public class ScanDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_view, parent, false);
-
-            return new ScanDataViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            UpLoad.ScanData item = Global.upLoad.list.get(position);
-            ScanDataViewHolder vh = (ScanDataViewHolder) holder;
-            vh.titleView.setText(item.barcode);
-            vh.authorView.setText(item.goods_name);
-            vh.lot.setText(item.LOT);
-            vh.quantity.setText(item.quantity);
-            if(!Global.isNullorEmpty(Global.upLoad.list.get(position).quantity) && !Global.isNullorEmpty(Global.upLoad.list.get(position).EXP) && !Global.isNullorEmpty(Global.upLoad.list.get(position).MFG) && !Global.isNullorEmpty(Global.upLoad.list.get(position).LOT)){
-                vh.imageView.setImageResource(R.mipmap.accept);
-            }else {
-                vh.imageView.setImageResource(R.mipmap.warning);
-            }
-            vh.data = item;
-        }
-
-        @Override
-        public int getItemCount() {
-            return Global.upLoad.list.size();
-        }
-
-        public class ScanDataViewHolder extends SwipeToAction.ViewHolder<UpLoad.ScanData> {
-
-            public TextView titleView;
-            public TextView authorView;
-            public TextView lot;
-            public TextView quantity;
-            public ImageView imageView;
-
-            public ScanDataViewHolder(View v) {
-                super(v);
-
-                titleView = (TextView) v.findViewById(R.id.title);
-                authorView = (TextView) v.findViewById(R.id.author);
-                lot = (TextView) v.findViewById(R.id.lot);
-                quantity = (TextView) v.findViewById(R.id.quantity);
-                imageView = (ImageView) v.findViewById(R.id.image);
-            }
-        }
-    }
-
     private void displaySnackbar(String text, String actionName, View.OnClickListener action) {
         Snackbar snack = Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG)
                 .setAction(actionName, action);
@@ -433,8 +382,6 @@ public class MainActivity extends BaseActivity {
         }).start();
         return super.onCreateOptionsMenu(menu);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -20,6 +20,10 @@ public class DJson {
         return gson.toJson(object);
     }
 
+    public static <T> T JsonToObject(String json,Class<T> tClass){
+        return gson.fromJson(json,tClass);
+    }
+
     public static <T> List<T> JsonToList(String Json, Class<T> tClass){
         List<T> list = new ArrayList<T>();
         JsonArray array = new JsonParser().parse(Json).getAsJsonArray();
