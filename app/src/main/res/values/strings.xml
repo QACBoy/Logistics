@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">扫描器</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="text_outside_circle_button_text_0">入库管理</string>
+    <string name="text_outside_circle_button_text_1">库位调拨</string>
+    <string name="text_outside_circle_button_text_2">Text2</string>
+    <string name="text_outside_circle_button_text_3">Text3</string>
+    <string name="text_outside_circle_button_text_4">Text4</string>
+    <string name="text_outside_circle_button_text_5">Text5</string>
+    <string name="text_outside_circle_button_text_6">Text6</string>
+    <string name="text_outside_circle_button_text_7">Text7</string>
+    <string name="text_outside_circle_button_text_8">Text8</string>
+
+    <string name="text_ham_button_text_0">上传扫描数据</string>
+    <string name="text_ham_button_text_1">修改到货单/供货商号</string>
+    <string name="text_ham_button_text_2">重置扫描数据</string>
+    <string name="text_ham_button_text_3">设置</string>
 </resources>

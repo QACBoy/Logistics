@@ -290,7 +290,17 @@ public class ChangeStorageActivity extends BaseActivity {
         adapter.notifyItemInserted(pos);
     }
 
-    @Override
+
+
+
+
+
+
+
+
+
+
+ /*   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
@@ -326,10 +336,6 @@ public class ChangeStorageActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+*/
 
-    private void toUpload(){
-        setContentView(R.layout.activity_change_storage);
-        ((EditText)findViewById(R.id.changestorage_stroageno)).setHint("请扫描 移至库位");
-        ((FButton)findViewById(R.id.changestorage_ok)).setText("确定移动商品");
-    }
 }

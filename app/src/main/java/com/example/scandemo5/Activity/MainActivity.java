@@ -355,6 +355,14 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
+
+
+
+
+
+/*
+
     private MenuItem count;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -413,6 +421,7 @@ public class MainActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+*/
 
     //扫描结果处理
     public void dealScanData(String data){

@@ -26,7 +26,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private AnimatedCircleLoadingView loadingview;
     private int SET_RequestCode = 10101;
-
     private FButton login_btn;
 
     @Override
@@ -36,9 +35,8 @@ public class WelcomeActivity extends AppCompatActivity {
         if(Global.firstIn){
             startActivityForResult(new Intent(WelcomeActivity.this,SetActivity.class),SET_RequestCode);
         }else {
-
             if (isLogin()) {
-                    toLoad();
+                toLoad();
             } else {
 //                toLoad();
                 toLogin();

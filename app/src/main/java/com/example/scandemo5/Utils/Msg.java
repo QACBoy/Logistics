@@ -131,9 +131,20 @@ public class Msg {
 
                             @Override
                             public View getView(int position, View convertView, ViewGroup parent) {
+
+
+
+
+
+
+
+
+
+
+                                /*
                                 convertView = activity.getLayoutInflater().inflate(R.layout.function,null);
                                 convertView.findViewById(R.id.function_storage).setOnClickListener(callBack);
-                                convertView.findViewById(R.id.function_changestorage).setOnClickListener(callBack);
+                                convertView.findViewById(R.id.function_changestorage).setOnClickListener(callBack);*/
                                 return convertView;
                             }
                         })

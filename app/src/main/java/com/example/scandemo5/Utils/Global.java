@@ -97,6 +97,7 @@ public class Global {
     public static boolean isSuccessUpdataHttpdata = false;//网络数据是否加载成功
 
 
+
     public static String PROCURENO = null;
 
     public static UpLoad upLoad = new UpLoad();  //上传数据存储区
