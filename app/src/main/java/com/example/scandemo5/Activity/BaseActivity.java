@@ -78,12 +78,11 @@ public class BaseActivity extends AppCompatActivity {
                     case 0:
 //                        Toast.makeText(BaseActivity.this,"0ooooo",Toast.LENGTH_SHORT).show();
                         hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",0,MainActivity.class);
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        finish();
+//                        finish();
                         break;
                     case 1:
 //                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
-                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",0,MainActivity.class);
+                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",1,ChangeStorageActivity.class);
 //                        startActivity(new Intent(getApplicationContext(),ChangeStorageActivity.class));
                         break;
                     case 2:
@@ -152,16 +151,37 @@ public class BaseActivity extends AppCompatActivity {
             public void onClicked(int index, BoomButton boomButton) {
                 switch (index){
                     case 0:
-                        Toast.makeText(BaseActivity.this,"ooooo",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BaseActivity.this,"ooooo",Toast.LENGTH_SHORT).show();
+                        Msg.showMsg(BaseActivity.this,"确定", "确定上传吗？", new Msg.CallBack() {
+                            @Override
+                            public void confirm(DialogPlus dialog) {
+                                dialog.dismiss();
+                            }
+                        });
                         break;
                     case 1:
-                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
+
+
+
+                        new MainActivity().ToMain();
                         break;
                     case 2:
-                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
+                        Msg.showMsg(BaseActivity.this,"警告", "此举将清空所有已扫描数据 您确定吗？", new Msg.CallBack() {
+                        @Override
+                        public void confirm(DialogPlus dialog) {
+                        Global.upLoad = new UpLoad();
+
+
+
+                        new MainActivity().ToMain();
+                    }
+                });
                         break;
                     case 3:
-                        Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(BaseActivity.this,SetActivity.class));
                         break;
                     /*
                     case 4:
