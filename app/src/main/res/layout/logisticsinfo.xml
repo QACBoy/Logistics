@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/fab_stroke_end_inner_color"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <EditText
+        android:id="@+id/distribution_logistics_no"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:hint="  请扫描 配送单号"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textSize="36sp" />
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/distribution_logistics_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:padding="20sp"
+        android:text="继续"
+        android:textSize="36sp"
+        fbutton:buttonColor="@color/background"
+        fbutton:cornerRadius="10dp"
+        fbutton:shadowColor="@color/disenable"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="10dp" />
 
 </LinearLayout>

@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Sam on 2017/10/12.
  */
 
-public class LogisticsInfo extends Fragment
+public class LogisticsInfoShowActivity extends Fragment
 {
     View mView;
     private VerticalStepView mSetpview0;

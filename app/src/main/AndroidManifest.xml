@@ -54,7 +54,9 @@
             <!-- android:name="android.support.PARENT_ACTIVITY" -->
             <!-- android:value=".Activity.MainActivity" /> -->
         </activity>
-        <activity android:name=".Activity.Distribution">
+        <activity android:name=".Activity.DistributionActivity">
+        </activity>
+        <activity android:name=".Activity.LogisticsInfoActivity">
 
         </activity>
     </application>

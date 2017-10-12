@@ -1,6 +1,5 @@
 package com.example.scandemo5.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.BuilderManager;
 import com.example.scandemo5.Utils.Global;
@@ -26,8 +24,6 @@ import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.orhanobut.dialogplus.DialogPlus;
 
 import info.hoang8f.widget.FButton;
-
-import static com.example.scandemo5.Utils.Global.dialog;
 
 public class BaseActivity extends AppCompatActivity {
     BoomMenuButton leftBmb,rightBmb;
@@ -87,7 +83,7 @@ public class BaseActivity extends AppCompatActivity {
                         break;
                     case 2:
 //                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),Distribution.class));
+                        startActivity(new Intent(getApplicationContext(),DistributionActivity.class));
                         break;
                     case 3:
                         Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
