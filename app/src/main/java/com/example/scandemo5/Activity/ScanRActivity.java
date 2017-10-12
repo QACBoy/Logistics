@@ -168,12 +168,16 @@ public class ScanRActivity extends AppCompatActivity {
                     MainActivity.mainActivity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
                 if("ChangeStorageActivity".equals(Global.ScanUpdateActivity))
                     ChangeStorageActivity.activity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+                if("DistributionActivity".equals(Global.ScanUpdateActivity))
+                    DistributionActivity.activity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
 
             }else {
                 if("MainActivity".equals(Global.ScanUpdateActivity))
                     MainActivity.mainActivity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
                 if("ChangeStorageActivity".equals(Global.ScanUpdateActivity))
                     ChangeStorageActivity.activity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+                if("DistributionActivity".equals(Global.ScanUpdateActivity))
+                    DistributionActivity.activity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
             }
         }
     }
