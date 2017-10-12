@@ -48,6 +48,7 @@ public class LogisticsInfoShowActivity extends Fragment
         for (int i = 0; i < logisticsInfo.info.size(); i++){
             list0.add("[ "+ logisticsInfo.info.get(i).time+" ] " + logisticsInfo.info.get(i).distribution_address);
         }
+        list0.add("");
 //        list0.add("您的商品需要从外地调拨，我们会尽快处理，请耐心等待");
 //        list0.add("您的订单已经进入亚洲第一仓储中心1号库准备出库");
 //        list0.add("您的订单预计6月23日送达您的手中，618期间促销火爆，可能影响送货时间，请您谅解，我们会第一时间送到您的手中");
