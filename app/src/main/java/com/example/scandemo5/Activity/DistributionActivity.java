@@ -53,13 +53,8 @@ public class DistributionActivity extends BaseActivity{
         findViewById(R.id.distribution_info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                LogisticsInfoShowActivity mVerticalStepViewReverseFragment;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                mVerticalStepViewReverseFragment = new LogisticsInfoShowActivity();
-                setContentView(R.layout.logisticsinfo_show);
-                fragmentTransaction.replace(R.id.container, mVerticalStepViewReverseFragment).commit();
-
+                startActivity(new Intent(DistributionActivity.this,LogisticsInfoActivity.class));
+                finish();
             }
         });
         findViewById(R.id.distribution_star).setOnClickListener(new View.OnClickListener() {

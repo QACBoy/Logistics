@@ -39,7 +39,6 @@ public class Http {   //单例化模式
     public String get_location = "http://119.29.223.148/dms/public/location/get/";
     public String get_distribution = "http://119.29.223.148/dms/public/distribution/get/";//20171019012
     public String address_distribution = "http://119.29.223.148/dms/public/address/get/";//20171019012
-
     private static Http http;
 
 

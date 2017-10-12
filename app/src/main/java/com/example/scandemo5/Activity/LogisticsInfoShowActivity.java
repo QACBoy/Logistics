@@ -4,12 +4,16 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.baoyachi.stepview.VerticalStepView;
+import com.example.scandemo5.Data.DistributionInfo;
 import com.example.scandemo5.R;
+import com.example.scandemo5.Utils.DJson;
+import com.example.scandemo5.Utils.Global;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +26,8 @@ public class LogisticsInfoShowActivity extends Fragment
 {
     View mView;
     private VerticalStepView mSetpview0;
-
+    DistributionInfo logisticsInfo;
+//    public static String jsonData;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -35,9 +40,14 @@ public class LogisticsInfoShowActivity extends Fragment
     public void onStart()
     {
         super.onStart();
+        Log.d("000000111111", "onStart: "+ Global.logistics_jsonData);
+        logisticsInfo= DJson.JsonToObject(Global.logistics_jsonData, DistributionInfo.class);
         mSetpview0 = (VerticalStepView) mView.findViewById(R.id.step_view0);
         List<String> list0 = new ArrayList<>();
-        list0.add("您已提交定单，等待系统确认");
+
+        for (int i = 0; i < logisticsInfo.info.size(); i++){
+            list0.add("[ "+ logisticsInfo.info.get(i).time+" ] " + logisticsInfo.info.get(i).distribution_address);
+        }
 //        list0.add("您的商品需要从外地调拨，我们会尽快处理，请耐心等待");
 //        list0.add("您的订单已经进入亚洲第一仓储中心1号库准备出库");
 //        list0.add("您的订单预计6月23日送达您的手中，618期间促销火爆，可能影响送货时间，请您谅解，我们会第一时间送到您的手中");
@@ -50,8 +60,8 @@ public class LogisticsInfoShowActivity extends Fragment
 //        list0.add("您的订单在京东【北京通州分拣中心】发货完成，准备送往京东【北京中关村大厦站】");
 //        list0.add("您的订单在京东【北京中关村大厦站】验货完成，正在分配配送员");
 //        list0.add("配送员【包牙齿】已出发，联系电话【130-0000-0000】，感谢您的耐心等待，参加评价还能赢取好多礼物哦");
-        list0.add("感谢你在京东购物，欢迎你下次光临！");
-        list0.add("ohhe");
+//        list0.add("欢迎你下次光临！");
+//        list0.add("ohhe");
         mSetpview0.setStepsViewIndicatorComplectingPosition(list0.size() - 2)//设置完成的步数
                 .reverseDraw(false)//default is true
                 .setTextSize(14)
@@ -65,4 +75,5 @@ public class LogisticsInfoShowActivity extends Fragment
                 .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(getActivity(), R.drawable.attention));//设置StepsViewIndicator AttentionIcon
 
     }
+
 }

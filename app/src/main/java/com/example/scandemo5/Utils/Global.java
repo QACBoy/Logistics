@@ -130,5 +130,5 @@ public class Global {
         ///库位调拨模式
         public static String kw_stroageno = "kw10001";//扫描商品
     }
-
+    public static String logistics_jsonData=null;
 }

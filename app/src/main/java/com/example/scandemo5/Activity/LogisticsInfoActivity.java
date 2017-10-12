@@ -4,32 +4,64 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.scandemo5.R;
+import com.example.scandemo5.Utils.Global;
+import com.example.scandemo5.Utils.Http;
+
+import info.hoang8f.widget.FButton;
 
 /**
  * Created by Sam on 2017/10/12.
  */
 
-public class LogisticsInfoActivity  extends BaseActivity{
+public class LogisticsInfoActivity  extends BaseActivity {
 
     private EditText distribution_no;
+    private FButton button;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logisticsinfo);
-        distribution_no= (EditText) findViewById(R.id.distribution_logistics_no);
-        findViewById(R.id.distribution_logistics_bt).setOnClickListener(new View.OnClickListener() {
+        distribution_no = (EditText) findViewById(R.id.distribution_logistics_no);
+        button = (FButton) findViewById(R.id.distribution_logistics_bt);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Global.isNullorEmpty(distribution_no.getText().toString())) {
+                    Toast.makeText(LogisticsInfoActivity.this, "请扫描配送单号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                button.setEnabled(false);
+                button.setText("获取数据中");
+                Http.getInstance().Get(Http.getInstance().get_distribution + distribution_no.getText().toString(), new Http.Callback() {
+                    @Override
+                    public void done(String data) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                button.setEnabled(true);
+                                button.setText("继续");
+                            }
+                        });
+                        if ("NetError".equals(data)) {
+                            Toast.makeText(LogisticsInfoActivity.this, "网络数据获取失败，请检查网络", Toast.LENGTH_SHORT).show();
+                        }else if(Global.isNullorEmpty(data)){
+                            Toast.makeText(LogisticsInfoActivity.this, "暂无该物流信息，请检查配单号", Toast.LENGTH_SHORT).show();
+                        } else{
+//                            Toast.makeText(LogisticsInfoActivity.this, distribution_no.getText().toString(), Toast.LENGTH_SHORT).show();
+                            Global.logistics_jsonData = data;
+                            LogisticsInfoShowActivity mlogisticsInfoShowActivity;
+                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                            mlogisticsInfoShowActivity = new LogisticsInfoShowActivity();
 
-
-                LogisticsInfoShowActivity mVerticalStepViewReverseFragment;
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                mVerticalStepViewReverseFragment = new LogisticsInfoShowActivity();
-                setContentView(R.layout.logisticsinfo_show);
-                fragmentTransaction.replace(R.id.container, mVerticalStepViewReverseFragment).commit();
-
+                            setContentView(R.layout.logisticsinfo_show);
+                            fragmentTransaction.replace(R.id.container, mlogisticsInfoShowActivity).commit();
+                        }
+                    }
+                });
             }
         });
     }
