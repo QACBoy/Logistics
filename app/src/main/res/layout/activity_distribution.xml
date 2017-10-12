@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/distribution_star"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:padding="20sp"
+        android:text="配送开始"
+        android:textSize="36sp"
+        fbutton:buttonColor="@color/background"
+        fbutton:cornerRadius="10dp"
+        fbutton:shadowColor="@color/disenable"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="10dp" />
+    <info.hoang8f.widget.FButton
+    android:id="@+id/distribution_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20sp"
+    android:padding="20sp"
+    android:text="物流信息"
+    android:textSize="36sp"
+    fbutton:buttonColor="@color/background"
+    fbutton:cornerRadius="10dp"
+    fbutton:shadowColor="@color/disenable"
+    fbutton:shadowEnabled="true"
+    fbutton:shadowHeight="10dp" />
+    <info.hoang8f.widget.FButton
+        android:id="@+id/distribution_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:padding="20sp"
+        android:text="签收确认"
+        android:textSize="36sp"
+        fbutton:buttonColor="@color/background"
+        fbutton:cornerRadius="10dp"
+        fbutton:shadowColor="@color/disenable"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="10dp" />
+</LinearLayout>

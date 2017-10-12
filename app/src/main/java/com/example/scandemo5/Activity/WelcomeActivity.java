@@ -35,12 +35,17 @@ public class WelcomeActivity extends AppCompatActivity {
         if(Global.firstIn){
             startActivityForResult(new Intent(WelcomeActivity.this,SetActivity.class),SET_RequestCode);
         }else {
-            if (isLogin()) {
+
+
+            //待定
+
+            toLoad();
+            /*if (isLogin()) {
                 toLoad();
             } else {
 //                toLoad();
                 toLogin();
-            }
+            }*/
         }
 //        GetHttpData();
     }

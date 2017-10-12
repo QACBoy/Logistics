@@ -21,6 +21,7 @@ android {
         maven {
             url "http://dl.bintray.com/jlmd/maven"
         }
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -39,4 +40,5 @@ dependencies {
     compile 'com.github.florent37:materialtextfield:1.0.7'
     compile 'info.hoang8f:fbutton:1.0.5'
     testCompile 'junit:junit:4.12'
+    compile 'com.github.baoyachi:StepView:1.9'
 }
