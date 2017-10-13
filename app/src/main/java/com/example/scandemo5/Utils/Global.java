@@ -2,25 +2,13 @@ package com.example.scandemo5.Utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.text.InputType;
-import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
-import com.example.scandemo5.Activity.MainActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
-import com.nightonke.boommenu.BoomMenuButton;
 import com.orhanobut.dialogplus.DialogPlus;
-
-import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Sam on 2017/8/28.

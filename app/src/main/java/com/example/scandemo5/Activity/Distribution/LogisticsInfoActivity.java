@@ -1,4 +1,4 @@
-package com.example.scandemo5.Activity;
+package com.example.scandemo5.Activity.Distribution;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.scandemo5.Activity.BaseActivity;
 import com.example.scandemo5.R;
+import com.example.scandemo5.Utils.BamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
 
@@ -23,6 +25,7 @@ public class LogisticsInfoActivity  extends BaseActivity {
 
 
     protected void onCreate(Bundle savedInstanceState) {
+        BamButtonBuilderManager.setHamButtonText(BamButtonBuilderManager.distristartextId);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logisticsinfo);
         distribution_no = (EditText) findViewById(R.id.distribution_logistics_no);

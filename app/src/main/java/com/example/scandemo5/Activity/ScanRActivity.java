@@ -12,6 +12,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.scandemo5.Activity.Distribution.DistributionActivity;
+import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
+import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.Global;

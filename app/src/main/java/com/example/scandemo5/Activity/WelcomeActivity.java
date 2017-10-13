@@ -3,18 +3,16 @@ package com.example.scandemo5.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.scandemo5.MyApp;
+import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.Encryption;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
 import com.example.scandemo5.Utils.HttpData;
-import com.example.scandemo5.Utils.SQLite;
 import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 
 import java.util.HashMap;

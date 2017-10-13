@@ -3,7 +3,6 @@ package com.example.scandemo5.Utils;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -13,7 +12,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.scandemo5.Activity.MainActivity;
 import com.example.scandemo5.MyApp;
 
 import java.io.UnsupportedEncodingException;
@@ -38,7 +36,7 @@ public class Http {   //单例化模式
 
     public String get_location = "http://119.29.223.148/dms/public/location/get/";
     public String get_distribution = "http://119.29.223.148/dms/public/distribution/get/";//20171019012
-    public String address_distribution = "http://119.29.223.148/dms/public/address/get/";//20171019012
+    public String address_distribution = "http://119.29.223.148/dms/public/distribution/address/";//20171019012
     private static Http http;
 
 

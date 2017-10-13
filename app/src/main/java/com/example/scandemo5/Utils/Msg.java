@@ -1,7 +1,6 @@
 package com.example.scandemo5.Utils;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,14 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.scandemo5.Activity.MainActivity;
+import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnBackPressListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
-import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.feezu.liuli.timeselector.TimeSelector;
 

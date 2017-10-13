@@ -7,7 +7,6 @@ import com.example.scandemo5.R;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomButtons.HamButton;
 import com.nightonke.boommenu.BoomButtons.SimpleCircleButton;
-import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.nightonke.boommenu.Util;
@@ -19,7 +18,7 @@ import java.util.List;
  * Created by Sam on 2017/9/20.
  */
 
-public class BuilderManager {
+public class BamButtonBuilderManager {
 
     private static int[] imageResources = new int[]{
             R.drawable.bat,
@@ -137,16 +136,27 @@ public class BuilderManager {
                 .subNormalTextRes(R.string.text_ham_button_sub_text_normal);
     }*/
 
-    public static HamButton.Builder getHamButtonBuilderWithDifferentPieceColor(int id) {
-        int [] textId={ R.string.text_ham_button_text_0,
-                        R.string.text_ham_button_text_1,
-                        R.string.text_ham_button_text_2,
-                        R.string.text_ham_button_text_3,
+    private static int[] righttextId; //右菜单文字
+    public static int[] mainTextId = {
+                R.string.main_ham_button_text_0,
+                R.string.main_ham_button_text_1,
+                R.string.main_ham_button_text_2,
+                R.string.main_ham_button_text_3,
+    };
+    public static int[] distristartextId = {
+            R.string.distribstart_ham_button_text_0,
+            R.string.distribstart_ham_button_text_1,
+            R.string.distribstart_ham_button_text_2,
+            R.string.distribstart_ham_button_text_3,
+    };
+    public static void setHamButtonText(int[] textId){
+        righttextId = textId;
+    }
 
-        };
+    public static HamButton.Builder getHamButtonBuilderWithDifferentPieceColor(int id) {
         return new HamButton.Builder()
                 .normalImageRes(getImageResource())
-                .normalTextRes(textId[id])
+                .normalTextRes(righttextId[id])
 //                .subNormalTextRes(R.string.text_ham_button_sub_text_normal)
                 .pieceColor(Color.WHITE);
     }
@@ -210,12 +220,12 @@ public class BuilderManager {
         return data;
     }
 
-    private static BuilderManager ourInstance = new BuilderManager();
+    private static BamButtonBuilderManager ourInstance = new BamButtonBuilderManager();
 
-    public static BuilderManager getInstance() {
+    public static BamButtonBuilderManager getInstance() {
         return ourInstance;
     }
 
-    private BuilderManager() {
+    private BamButtonBuilderManager() {
     }
 }

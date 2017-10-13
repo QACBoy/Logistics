@@ -1,6 +1,5 @@
 package com.example.scandemo5.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.HttpData;

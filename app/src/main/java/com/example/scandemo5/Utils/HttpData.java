@@ -1,14 +1,8 @@
 package com.example.scandemo5.Utils;
 
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.toolbox.Volley;
-import com.example.scandemo5.Activity.MainActivity;
-import com.example.scandemo5.Activity.WelcomeActivity;
 import com.example.scandemo5.MyApp;
-import com.orhanobut.dialogplus.DialogPlus;
 
 /**
  * Created by Sam on 2017/9/17.

@@ -1,4 +1,4 @@
-package com.example.scandemo5.Activity;
+package com.example.scandemo5.Activity.Storage;
 
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -8,30 +8,32 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.scandemo5.Activity.BaseActivity;
+import com.example.scandemo5.Activity.ScanRActivity;
+import com.example.scandemo5.Activity.SetActivity;
 import com.example.scandemo5.Adapter.ScanDataAdapter;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Recevier.TReceiver;
+import com.example.scandemo5.Utils.BamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.JMap;
 import com.example.scandemo5.Utils.RMap;
 import com.example.scandemo5.Utils.SQLite;
 import com.example.scandemo5.Utils.Msg;
+import com.nightonke.boommenu.BoomButtons.BoomButton;
+import com.nightonke.boommenu.OnBoomListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
@@ -55,10 +57,95 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        BamButtonBuilderManager.setHamButtonText(BamButtonBuilderManager.mainTextId);//设置右bambutton文字
         super.onCreate(savedInstanceState);
         if(!Global.isSuccessUpdataHttpdata) Toast.makeText(MyApp.getContext(),"供货商数据更新失败",Toast.LENGTH_SHORT).show();
+        initHanButtonClick();
         ToMain();
         mainActivity = this;
+    }
+
+    private void initHanButtonClick() { //初始化
+        rightBmb.setOnBoomListener(new OnBoomListener() {
+            @Override
+            public void onClicked(int index, BoomButton boomButton) {
+                switch (index){
+                    case 0:
+//                        Toast.makeText(BaseActivity.this,"ooooo",Toast.LENGTH_SHORT).show();
+                        Msg.showMsg(MainActivity.this,"确定", "确定上传吗？", new Msg.CallBack() {
+                            @Override
+                            public void confirm(DialogPlus dialog) {
+                                dialog.dismiss();
+                            }
+                        });
+                        break;
+                    case 1:
+//                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
+
+//                        new MainActivity().ToMain();
+                        break;
+                    case 2:
+//                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
+                        Msg.showMsg(MainActivity.this,"警告", "此举将清空所有已扫描数据 您确定吗？", new Msg.CallBack() {
+                            @Override
+                            public void confirm(DialogPlus dialog) {
+//                        Global.upLoad = new UpLoad();
+
+
+
+//                        new MainActivity().ToMain();
+                            }
+                        });
+                        break;
+                    case 3:
+//                        Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this,SetActivity.class));
+                        break;
+                    /*
+                    case 4:
+                        Toast.makeText(BaseActivity.this,"4ooooo",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5:
+                        Toast.makeText(BaseActivity.this,"5ooooo",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6:
+                        Toast.makeText(BaseActivity.this,"6ooooo",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 7:
+                        Toast.makeText(BaseActivity.this,"7ooooo",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 8:
+                        Toast.makeText(BaseActivity.this,"8ooooo",Toast.LENGTH_SHORT).show();
+                        break;*/
+                    default:
+                }
+            }
+
+            @Override
+            public void onBackgroundClick() {
+
+            }
+
+            @Override
+            public void onBoomWillHide() {
+
+            }
+
+            @Override
+            public void onBoomDidHide() {
+
+            }
+
+            @Override
+            public void onBoomWillShow() {
+
+            }
+
+            @Override
+            public void onBoomDidShow() {
+
+            }
+        });
     }
 
     private void ToScanner(){

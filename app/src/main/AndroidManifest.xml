@@ -40,7 +40,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.Storage.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden">
 
@@ -48,15 +48,15 @@
             <!-- android:name="android.support.PARENT_ACTIVITY" -->
             <!-- android:value=".Activity.MainActivity" /> -->
         </activity>
-        <activity android:name=".Activity.ChangeStorageActivity">
+        <activity android:name=".Activity.Storage.ChangeStorageActivity">
 
             <!-- <meta-data -->
             <!-- android:name="android.support.PARENT_ACTIVITY" -->
             <!-- android:value=".Activity.MainActivity" /> -->
         </activity>
-        <activity android:name=".Activity.DistributionActivity">
+        <activity android:name=".Activity.Distribution.DistributionActivity">
         </activity>
-        <activity android:name=".Activity.LogisticsInfoActivity">
+        <activity android:name=".Activity.Distribution.LogisticsInfoActivity">
 
         </activity>
     </application>

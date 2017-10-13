@@ -1,4 +1,4 @@
-package com.example.scandemo5.Activity;
+package com.example.scandemo5.Activity.Distribution;
 
 import android.app.Fragment;
 import android.os.Bundle;

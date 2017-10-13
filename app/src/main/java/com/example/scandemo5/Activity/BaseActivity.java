@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.scandemo5.Activity.Distribution.DistributionActivity;
+import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
+import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.R;
-import com.example.scandemo5.Utils.BuilderManager;
+import com.example.scandemo5.Utils.BamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Msg;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
@@ -23,10 +25,8 @@ import com.nightonke.boommenu.OnBoomListener;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.orhanobut.dialogplus.DialogPlus;
 
-import info.hoang8f.widget.FButton;
-
 public class BaseActivity extends AppCompatActivity {
-    BoomMenuButton leftBmb,rightBmb;
+    public BoomMenuButton leftBmb,rightBmb;
     TextView mTitleTextView;
 
     @Override
@@ -62,7 +62,7 @@ public class BaseActivity extends AppCompatActivity {
         leftBmb.setDuration(300);
         leftBmb.setDelay(25);
         for (int i = 0; i < leftBmb.getPiecePlaceEnum().pieceNumber(); i++)
-            leftBmb.addBuilder(BuilderManager.getTextOutsideCircleButtonBuilderWithDifferentPieceColor(i));
+            leftBmb.addBuilder(BamButtonBuilderManager.getTextOutsideCircleButtonBuilderWithDifferentPieceColor(i));
 
         leftBmb.setOnBoomListener(new OnBoomListener() {
 
@@ -73,12 +73,12 @@ public class BaseActivity extends AppCompatActivity {
                 switch (index){
                     case 0:
 //                        Toast.makeText(BaseActivity.this,"0ooooo",Toast.LENGTH_SHORT).show();
-                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",0,MainActivity.class);
+                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",MainActivity.class);
 //                        finish();
                         break;
                     case 1:
 //                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
-                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",1,ChangeStorageActivity.class);
+                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",ChangeStorageActivity.class);
 //                        startActivity(new Intent(getApplicationContext(),ChangeStorageActivity.class));
                         break;
                     case 2:
@@ -139,88 +139,9 @@ public class BaseActivity extends AppCompatActivity {
         rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_4);
         rightBmb.setDuration(400);
         rightBmb.setDelay(35);
+        //注意要先设置文字   监听事件放回本身activity
         for (int i = 0; i < rightBmb.getPiecePlaceEnum().pieceNumber(); i++)
-            rightBmb.addBuilder(BuilderManager.getHamButtonBuilderWithDifferentPieceColor(i));
-        rightBmb.setOnBoomListener(new OnBoomListener() {
-            @Override
-            public void onClicked(int index, BoomButton boomButton) {
-                switch (index){
-                    case 0:
-//                        Toast.makeText(BaseActivity.this,"ooooo",Toast.LENGTH_SHORT).show();
-                        Msg.showMsg(BaseActivity.this,"确定", "确定上传吗？", new Msg.CallBack() {
-                            @Override
-                            public void confirm(DialogPlus dialog) {
-                                dialog.dismiss();
-                            }
-                        });
-                        break;
-                    case 1:
-//                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
-
-//                        new MainActivity().ToMain();
-                        break;
-                    case 2:
-//                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
-                        Msg.showMsg(BaseActivity.this,"警告", "此举将清空所有已扫描数据 您确定吗？", new Msg.CallBack() {
-                        @Override
-                        public void confirm(DialogPlus dialog) {
-//                        Global.upLoad = new UpLoad();
-
-
-
-//                        new MainActivity().ToMain();
-                    }
-                });
-                        break;
-                    case 3:
-//                        Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(BaseActivity.this,SetActivity.class));
-                        break;
-                    /*
-                    case 4:
-                        Toast.makeText(BaseActivity.this,"4ooooo",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 5:
-                        Toast.makeText(BaseActivity.this,"5ooooo",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 6:
-                        Toast.makeText(BaseActivity.this,"6ooooo",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 7:
-                        Toast.makeText(BaseActivity.this,"7ooooo",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 8:
-                        Toast.makeText(BaseActivity.this,"8ooooo",Toast.LENGTH_SHORT).show();
-                        break;*/
-                    default:
-                }
-            }
-
-            @Override
-            public void onBackgroundClick() {
-
-            }
-
-            @Override
-            public void onBoomWillHide() {
-
-            }
-
-            @Override
-            public void onBoomDidHide() {
-
-            }
-
-            @Override
-            public void onBoomWillShow() {
-
-            }
-
-            @Override
-            public void onBoomDidShow() {
-
-            }
-        });
+            rightBmb.addBuilder(BamButtonBuilderManager.getHamButtonBuilderWithDifferentPieceColor(i));
     }
 
 
@@ -275,23 +196,23 @@ public class BaseActivity extends AppCompatActivity {
         });
     }*/
 
-    private  void  hintMsg(String str1, String str2, final int n, final Class<?> activity){
+    private  void  hintMsg(String str1, String str2, final Class<?> activity){
         Msg.showMsg(BaseActivity.this, str1, str2, new Msg.CallBack() {
             @Override
             public void confirm(DialogPlus dialog) {
-                if(n == 1)
-                    toUpload();
-                else
+//                if(n == 1)
+//                    toUpload();
+//                else
                     startActivity(new Intent(getApplicationContext(), activity));
                 dialog.dismiss();
             }
         });
     }
-    private void toUpload(){
-        setContentView(R.layout.activity_change_storage);
-        ((EditText)findViewById(R.id.changestorage_stroageno)).setHint("请扫描 移至库位");
-        ((FButton)findViewById(R.id.changestorage_ok)).setText("确定移动商品");
-    }
+//    private void toUpload(){
+//        setContentView(R.layout.activity_change_storage);
+//        ((EditText)findViewById(R.id.changestorage_stroageno)).setHint("请扫描 移至库位");
+//        ((FButton)findViewById(R.id.changestorage_ok)).setText("确定移动商品");
+//    }
 }
 
 

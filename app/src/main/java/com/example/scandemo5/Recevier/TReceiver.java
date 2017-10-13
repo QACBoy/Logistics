@@ -7,8 +7,8 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.scandemo5.Activity.ChangeStorageActivity;
-import com.example.scandemo5.Activity.MainActivity;
+import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
+import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.Global;
