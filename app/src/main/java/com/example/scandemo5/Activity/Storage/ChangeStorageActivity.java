@@ -21,7 +21,7 @@ import com.example.scandemo5.Adapter.ScanDataAdapter;
 import com.example.scandemo5.Data.LocationInfo;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
-import com.example.scandemo5.Utils.BamButtonBuilderManager;
+import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.DJson;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
@@ -51,7 +51,7 @@ public class ChangeStorageActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        BamButtonBuilderManager.setHamButtonText(BamButtonBuilderManager.mainTextId);//设置右bambutton文字
+        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.mainTextId);//设置右bambutton文字
         super.onCreate(savedInstanceState);
         activity = this;
         toStorageNo();

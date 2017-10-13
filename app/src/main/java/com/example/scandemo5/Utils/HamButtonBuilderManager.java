@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Sam on 2017/9/20.
  */
 
-public class BamButtonBuilderManager {
+public class HamButtonBuilderManager {
 
     private static int[] imageResources = new int[]{
             R.drawable.bat,
@@ -220,12 +220,12 @@ public class BamButtonBuilderManager {
         return data;
     }
 
-    private static BamButtonBuilderManager ourInstance = new BamButtonBuilderManager();
+    private static HamButtonBuilderManager ourInstance = new HamButtonBuilderManager();
 
-    public static BamButtonBuilderManager getInstance() {
+    public static HamButtonBuilderManager getInstance() {
         return ourInstance;
     }
 
-    private BamButtonBuilderManager() {
+    private HamButtonBuilderManager() {
     }
 }

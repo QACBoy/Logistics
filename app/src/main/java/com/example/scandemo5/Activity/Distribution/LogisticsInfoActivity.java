@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.example.scandemo5.Activity.BaseActivity;
 import com.example.scandemo5.R;
-import com.example.scandemo5.Utils.BamButtonBuilderManager;
+import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
 
@@ -25,7 +25,7 @@ public class LogisticsInfoActivity  extends BaseActivity {
 
 
     protected void onCreate(Bundle savedInstanceState) {
-        BamButtonBuilderManager.setHamButtonText(BamButtonBuilderManager.distristartextId);
+        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.distristartextId);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logisticsinfo);
         distribution_no = (EditText) findViewById(R.id.distribution_logistics_no);

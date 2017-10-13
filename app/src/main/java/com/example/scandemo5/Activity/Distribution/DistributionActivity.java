@@ -16,7 +16,7 @@ import com.example.scandemo5.Adapter.ScanDataAdapter;
 import com.example.scandemo5.Data.DistributionInfo;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
-import com.example.scandemo5.Utils.BamButtonBuilderManager;
+import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.DJson;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
@@ -45,7 +45,7 @@ public class DistributionActivity extends BaseActivity {
     private DistributionInfo info;
 
     protected void onCreate(Bundle savedInstanceState) {
-        BamButtonBuilderManager.setHamButtonText(BamButtonBuilderManager.distristartextId);
+        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.distristartextId);
         super.onCreate(savedInstanceState);
         initRigthHamButtonClick();
         activity = this;

@@ -26,7 +26,7 @@ import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Recevier.TReceiver;
-import com.example.scandemo5.Utils.BamButtonBuilderManager;
+import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.JMap;
 import com.example.scandemo5.Utils.RMap;
@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        BamButtonBuilderManager.setHamButtonText(BamButtonBuilderManager.mainTextId);//设置右bambutton文字
+        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.mainTextId);//设置右bambutton文字
         super.onCreate(savedInstanceState);
         if(!Global.isSuccessUpdataHttpdata) Toast.makeText(MyApp.getContext(),"供货商数据更新失败",Toast.LENGTH_SHORT).show();
         initHanButtonClick();

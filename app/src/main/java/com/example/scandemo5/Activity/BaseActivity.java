@@ -14,7 +14,7 @@ import com.example.scandemo5.Activity.Distribution.DistributionActivity;
 import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
 import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.R;
-import com.example.scandemo5.Utils.BamButtonBuilderManager;
+import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Msg;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
@@ -62,7 +62,7 @@ public class BaseActivity extends AppCompatActivity {
         leftBmb.setDuration(300);
         leftBmb.setDelay(25);
         for (int i = 0; i < leftBmb.getPiecePlaceEnum().pieceNumber(); i++)
-            leftBmb.addBuilder(BamButtonBuilderManager.getTextOutsideCircleButtonBuilderWithDifferentPieceColor(i));
+            leftBmb.addBuilder(HamButtonBuilderManager.getTextOutsideCircleButtonBuilderWithDifferentPieceColor(i));
 
         leftBmb.setOnBoomListener(new OnBoomListener() {
 
@@ -141,7 +141,7 @@ public class BaseActivity extends AppCompatActivity {
         rightBmb.setDelay(35);
         //注意要先设置文字   监听事件放回本身activity
         for (int i = 0; i < rightBmb.getPiecePlaceEnum().pieceNumber(); i++)
-            rightBmb.addBuilder(BamButtonBuilderManager.getHamButtonBuilderWithDifferentPieceColor(i));
+            rightBmb.addBuilder(HamButtonBuilderManager.getHamButtonBuilderWithDifferentPieceColor(i));
     }
 
 
