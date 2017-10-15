@@ -41,4 +41,5 @@ dependencies {
     compile 'info.hoang8f:fbutton:1.0.5'
     testCompile 'junit:junit:4.12'
     compile 'com.github.baoyachi:StepView:1.9'
+    compile 'it.neokree:MaterialTabs:0.11'
 }

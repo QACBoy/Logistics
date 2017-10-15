@@ -57,7 +57,8 @@
         <activity android:name=".Activity.Distribution.DistributionActivity">
         </activity>
         <activity android:name=".Activity.Distribution.LogisticsInfoActivity">
-
+        </activity>
+        <activity android:name=".Activity.Distribution.OutGoingActivity">
         </activity>
     </application>
 

@@ -4,7 +4,7 @@
     <!--左菜单文字-->
     <string name="text_outside_circle_button_text_0">入库管理</string>
     <string name="text_outside_circle_button_text_1">库位调拨</string>
-    <string name="text_outside_circle_button_text_2">配送管理</string>
+    <string name="text_outside_circle_button_text_2">出库检货</string>
     <string name="text_outside_circle_button_text_3">Text3</string>
     <string name="text_outside_circle_button_text_4">Text4</string>
     <string name="text_outside_circle_button_text_5">Text5</string>

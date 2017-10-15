@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.scandemo5.Activity.Distribution.DistributionActivity;
+import com.example.scandemo5.Activity.Distribution.OutGoingActivity;
 import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
 import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.Data.UpLoad;
@@ -91,7 +92,7 @@ public class BaseActivity extends AppCompatActivity {
                         break;
                     case 2:
 //                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
-                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",DistributionActivity.class);
+                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",OutGoingActivity.class);
                         break;
                     case 3:
                         Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
@@ -234,64 +235,17 @@ public class BaseActivity extends AppCompatActivity {
 //        super.onBackPressed();   //屏蔽返回按键
     }
 
-    // 待修改功能还补不全
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {  //写有home导航的判断
-        switch (item.getItemId()){
-            case android.R.id.home: //点击导航按钮事件
-//                Toast.makeText(MainActivity.this,"-------",Toast.LENGTH_SHORT).show();
-                Msg.showFunciton(BaseActivity.this, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        toFunction(v.getId());
-                    }
-                });
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
-    private void toFunction(final int id){
-        Msg.showMsg(this,"警告", "切换模式将清空所有已扫描数据 您确定继续吗？", new Msg.CallBack() {
-            @Override
-            public void confirm(DialogPlus dialog) {
-                Global.upLoad = new UpLoad();//切换模式清空数据
-                switch (id){
-                    case R.id.function_storage:
-                        startActivity(new Intent(getApplicationContext(),BaseActivity.class));
-                        break;
-                    case R.id.function_changestorage:
-                        startActivity(new Intent(getApplicationContext(),ChangeStorageActivity.class));
-                        break;
-                }
-                dialog.dismiss();
-                finish();
-            }
-        });
-    }*/
 
     private  void  hintMsg(String str1, String str2, final Class<?> activity){
         Msg.showMsg(BaseActivity.this, str1, str2, new Msg.CallBack() {
             @Override
             public void confirm(DialogPlus dialog) {
-//                if(n == 1)
-//                    toUpload();
-//                else
                 Global.upLoad = new UpLoad();
                 startActivity(new Intent(getApplicationContext(), activity));
                 dialog.dismiss();
             }
         });
     }
-//    private void toUpload(){
-//        setContentView(R.layout.activity_change_storage);
-//        ((EditText)findViewById(R.id.changestorage_stroageno)).setHint("请扫描 移至库位");
-//        ((FButton)findViewById(R.id.changestorage_ok)).setText("确定移动商品");
-//    }
 }
 
 

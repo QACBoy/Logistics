@@ -5,39 +5,9 @@
     android:layout_height="80dp">
 
     <!-- this view reveals when swipe right -->
-    <RelativeLayout
-        android:tag="reveal-right"
-        android:background="@color/accent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:tint="@color/icons"
-            android:src="@mipmap/gear"/>
-    </RelativeLayout>
 
 
     <!-- this view reveals when swipe left -->
-    <RelativeLayout
-        android:tag="reveal-left"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:tint="@color/icons"
-            android:src="@mipmap/ic_delete_black_24dp"/>
-    </RelativeLayout>
 
 
     <!-- this is the item front view -->
@@ -65,19 +35,10 @@
 
         <TextView
             android:id="@+id/author"
+            android:layout_below="@+id/title"
+            android:layout_alignLeft="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/title"
-            android:layout_below="@+id/title"
-            android:text="用户 地址"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/title"
-            android:layout_below="@+id/title"
             android:textSize="14dp" />
 
         <TextView
