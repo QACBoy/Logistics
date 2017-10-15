@@ -28,6 +28,7 @@ import com.example.scandemo5.Utils.Http;
 import com.example.scandemo5.Utils.Msg;
 import com.example.scandemo5.Utils.RMap;
 import com.example.scandemo5.Utils.SQLite;
+import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
@@ -51,10 +52,27 @@ public class ChangeStorageActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.mainTextId);//设置右bambutton文字
+        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.changestoragetextId);//设置右bambutton文字
         super.onCreate(savedInstanceState);
         activity = this;
+        setActionTitle(R.string.text_outside_circle_button_text_1);
+        initHanButton();
         toStorageNo();
+    }
+
+    private void initHanButton() { //初始化右菜单
+        setHamButtonClick(new HamButtonClick() {
+            @Override
+            public void onClick(int index, BoomButton boomButton) {
+                Msg.showMsg(ChangeStorageActivity.this,"警告", "此举将清空所有已修改数据 您确定吗？", new Msg.CallBack() {
+                    @Override
+                    public void confirm(DialogPlus dialog) {
+                        Global.upLoad = new UpLoad();
+                        toStorageNo();
+                    }
+                });
+            }
+        });
     }
 
     private void toStorageNo(){
@@ -95,8 +113,14 @@ public class ChangeStorageActivity extends BaseActivity {
     private void toShow(String data){
         Log.d("12222", "toShow: " + data);
         //处理网络数据
-        locationinfo = DJson.JsonToObject(data,LocationInfo.class);
-        if(Global.isNullorEmpty(locationinfo.location.location_no)){
+        try {
+            locationinfo = DJson.JsonToObject(data, LocationInfo.class);
+            if (Global.isNullorEmpty(locationinfo.location.location_no)) {
+                Msg.showMsg(ChangeStorageActivity.this, "警告", "未找到该库位信息", null);
+                return;
+            }
+        }
+        catch (NullPointerException e){
             Msg.showMsg(ChangeStorageActivity.this,"警告","未找到该库位信息",null);
             return;
         }
@@ -289,53 +313,5 @@ public class ChangeStorageActivity extends BaseActivity {
         int pos = Global.upLoad.list.indexOf(data);
         adapter.notifyItemInserted(pos);
     }
-
-
-
-
-
-
-
-
-
-
-
- /*   @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actionbar_changestroage, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_upload:
-                Msg.showMsg(this,"确定", "确定上传吗？", new Msg.CallBack() {
-                    @Override
-                    public void confirm(DialogPlus dialog) {
-                        toUpload();
-                        dialog.dismiss();
-                    }
-                });
-                break;
-            case R.id.action_reset:
-                Msg.showMsg(this,"警告", "此举将清空所有已修改数据 您确定吗？", new Msg.CallBack() {
-                    @Override
-                    public void confirm(DialogPlus dialog) {
-                        Global.upLoad = new UpLoad();
-                        toStorageNo();
-                    }
-                });
-                break;
-            case R.id.action_set:
-                startActivity(new Intent(ChangeStorageActivity.this,SetActivity.class));
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-*/
 
 }

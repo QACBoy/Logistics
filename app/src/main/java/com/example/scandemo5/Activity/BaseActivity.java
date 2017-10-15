@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.scandemo5.Activity.Distribution.DistributionActivity;
 import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
 import com.example.scandemo5.Activity.Storage.MainActivity;
+import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
@@ -25,14 +26,21 @@ import com.nightonke.boommenu.OnBoomListener;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.orhanobut.dialogplus.DialogPlus;
 
+import java.util.ArrayList;
+
 public class BaseActivity extends AppCompatActivity {
     public BoomMenuButton leftBmb,rightBmb;
     TextView mTitleTextView;
+    private HamButtonClick hamButtonClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init_actionbar();
+    }
+
+    public void setActionTitle(int textid){
+        mTitleTextView.setText(textid);
     }
 
     private void init_actionbar(){
@@ -48,7 +56,7 @@ public class BaseActivity extends AppCompatActivity {
 
         View actionBar = mInflater.inflate(R.layout.actionbar, null);
         mTitleTextView = (TextView) actionBar.findViewById(R.id.title_text);
-        mTitleTextView.setText("DMS System");
+        mTitleTextView.setText("DMS");
         mActionBar.setCustomView(actionBar);
         mActionBar.setDisplayShowCustomEnabled(true);
         ((Toolbar) actionBar.getParent()).setContentInsetsAbsolute(0,0);
@@ -83,7 +91,7 @@ public class BaseActivity extends AppCompatActivity {
                         break;
                     case 2:
 //                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),DistributionActivity.class));
+                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",DistributionActivity.class);
                         break;
                     case 3:
                         Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
@@ -135,15 +143,85 @@ public class BaseActivity extends AppCompatActivity {
         });
 
         rightBmb.setButtonEnum(ButtonEnum.Ham);
-        rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_4);
-        rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_4);
+        int count = HamButtonBuilderManager.getHamButtonText().length;
+        switch (HamButtonBuilderManager.getHamButtonText().length){
+            case 2:
+                rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_2);
+                rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_2);
+                break;
+            case 3:
+                rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_3);
+                rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_3);
+                break;
+            case 4:
+                rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_4);
+                rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_4);
+                break;
+            case 5:
+                rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_5);
+                rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_5);
+                break;
+            case 6:
+                rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_6);
+                rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_6);
+                break;
+        }
+//        rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_4);
+//        rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_4);
         rightBmb.setDuration(400);
         rightBmb.setDelay(35);
-        //注意要先设置文字   监听事件放回本身activity
+        //注意要先设置文字
         for (int i = 0; i < rightBmb.getPiecePlaceEnum().pieceNumber(); i++)
             rightBmb.addBuilder(HamButtonBuilderManager.getHamButtonBuilderWithDifferentPieceColor(i));
+        initHanButtonClick();
     }
 
+    public interface HamButtonClick{ //菜单点击事件
+        void onClick(int index, BoomButton boomButton);
+    }
+
+    public void setHamButtonClick(HamButtonClick click){
+        hamButtonClick = click;
+    }
+
+    protected void initHanButtonClick() { //初始化右菜单
+        rightBmb.setOnBoomListener(new OnBoomListener() {
+            @Override
+            public void onClicked(int index, BoomButton boomButton) {
+                if(boomButton.getTextView().getText().toString().equals("设置")){
+                    startActivity(new Intent(BaseActivity.this,SetActivity.class));
+                    return;//不允许个体Activity订制“设置”功能
+                }
+                if(hamButtonClick != null)
+                    hamButtonClick.onClick(index,boomButton);
+            }
+
+            @Override
+            public void onBackgroundClick() {
+
+            }
+
+            @Override
+            public void onBoomWillHide() {
+
+            }
+
+            @Override
+            public void onBoomDidHide() {
+
+            }
+
+            @Override
+            public void onBoomWillShow() {
+
+            }
+
+            @Override
+            public void onBoomDidShow() {
+
+            }
+        });
+    }
 
     @Override
     protected void onResume() {
@@ -203,7 +281,8 @@ public class BaseActivity extends AppCompatActivity {
 //                if(n == 1)
 //                    toUpload();
 //                else
-                    startActivity(new Intent(getApplicationContext(), activity));
+                Global.upLoad = new UpLoad();
+                startActivity(new Intent(getApplicationContext(), activity));
                 dialog.dismiss();
             }
         });

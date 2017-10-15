@@ -59,19 +59,19 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.mainTextId);//设置右bambutton文字
         super.onCreate(savedInstanceState);
-        if(!Global.isSuccessUpdataHttpdata) Toast.makeText(MyApp.getContext(),"供货商数据更新失败",Toast.LENGTH_SHORT).show();
-        initHanButtonClick();
-        ToMain();
         mainActivity = this;
+        setActionTitle(R.string.text_outside_circle_button_text_0);
+        if(!Global.isSuccessUpdataHttpdata) Toast.makeText(MyApp.getContext(),"供货商数据更新失败",Toast.LENGTH_SHORT).show();
+        initHanButton();
+        ToMain();
     }
 
-    private void initHanButtonClick() { //初始化
-        rightBmb.setOnBoomListener(new OnBoomListener() {
+    private void initHanButton() { //初始化右菜单
+        setHamButtonClick(new HamButtonClick() {
             @Override
-            public void onClicked(int index, BoomButton boomButton) {
+            public void onClick(int index, BoomButton boomButton) {
                 switch (index){
                     case 0:
-//                        Toast.makeText(BaseActivity.this,"ooooo",Toast.LENGTH_SHORT).show();
                         Msg.showMsg(MainActivity.this,"确定", "确定上传吗？", new Msg.CallBack() {
                             @Override
                             public void confirm(DialogPlus dialog) {
@@ -80,70 +80,19 @@ public class MainActivity extends BaseActivity {
                         });
                         break;
                     case 1:
-//                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
-
-//                        new MainActivity().ToMain();
+                        ToMain();
                         break;
                     case 2:
-//                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
                         Msg.showMsg(MainActivity.this,"警告", "此举将清空所有已扫描数据 您确定吗？", new Msg.CallBack() {
                             @Override
                             public void confirm(DialogPlus dialog) {
-//                        Global.upLoad = new UpLoad();
-
-
-
-//                        new MainActivity().ToMain();
+                                Global.upLoad = new UpLoad();
+                                ToMain();
                             }
                         });
                         break;
-                    case 3:
-//                        Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this,SetActivity.class));
-                        break;
-                    /*
-                    case 4:
-                        Toast.makeText(BaseActivity.this,"4ooooo",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 5:
-                        Toast.makeText(BaseActivity.this,"5ooooo",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 6:
-                        Toast.makeText(BaseActivity.this,"6ooooo",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 7:
-                        Toast.makeText(BaseActivity.this,"7ooooo",Toast.LENGTH_SHORT).show();
-                        break;
-                    case 8:
-                        Toast.makeText(BaseActivity.this,"8ooooo",Toast.LENGTH_SHORT).show();
-                        break;*/
                     default:
                 }
-            }
-
-            @Override
-            public void onBackgroundClick() {
-
-            }
-
-            @Override
-            public void onBoomWillHide() {
-
-            }
-
-            @Override
-            public void onBoomDidHide() {
-
-            }
-
-            @Override
-            public void onBoomWillShow() {
-
-            }
-
-            @Override
-            public void onBoomDidShow() {
-
             }
         });
     }

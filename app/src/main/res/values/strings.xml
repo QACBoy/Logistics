@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">扫描器</string>
+    <string name="app_name">DMS</string>
     <string name="title_activity_base">BaseActivity</string>
+    <!--左菜单文字-->
     <string name="text_outside_circle_button_text_0">入库管理</string>
     <string name="text_outside_circle_button_text_1">库位调拨</string>
     <string name="text_outside_circle_button_text_2">配送管理</string>
@@ -11,13 +12,15 @@
     <string name="text_outside_circle_button_text_7">Text7</string>
     <string name="text_outside_circle_button_text_8">Text8</string>
 
+    <string name="ham_button_set">设置</string>
+    <!--入库管理-->
     <string name="main_ham_button_text_0">上传扫描数据</string>
     <string name="main_ham_button_text_1">修改到货单/供货商号</string>
     <string name="main_ham_button_text_2">重置扫描数据</string>
-    <string name="main_ham_button_text_3">设置</string>
+    <!--库位调拨-->
+    <string name="changestorage_ham_button_text_0">重置移库数据</string>
 
     <string name="distribstart_ham_button_text_0">开始配送</string>
     <string name="distribstart_ham_button_text_1">确认签收</string>
     <string name="distribstart_ham_button_text_2">重置扫描数据</string>
-    <string name="distribstart_ham_button_text_3">设置</string>
 </resources>

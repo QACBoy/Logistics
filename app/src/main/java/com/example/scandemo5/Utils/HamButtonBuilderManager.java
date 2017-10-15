@@ -141,16 +141,23 @@ public class HamButtonBuilderManager {
                 R.string.main_ham_button_text_0,
                 R.string.main_ham_button_text_1,
                 R.string.main_ham_button_text_2,
-                R.string.main_ham_button_text_3,
+                R.string.ham_button_set,
+    };
+    public static int[] changestoragetextId = {
+            R.string.changestorage_ham_button_text_0,
+            R.string.ham_button_set,
     };
     public static int[] distristartextId = {
             R.string.distribstart_ham_button_text_0,
             R.string.distribstart_ham_button_text_1,
             R.string.distribstart_ham_button_text_2,
-            R.string.distribstart_ham_button_text_3,
+            R.string.ham_button_set,
     };
     public static void setHamButtonText(int[] textId){
         righttextId = textId;
+    }
+    public static int[] getHamButtonText(){
+        return righttextId;
     }
 
     public static HamButton.Builder getHamButtonBuilderWithDifferentPieceColor(int id) {
