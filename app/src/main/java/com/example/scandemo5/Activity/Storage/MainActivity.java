@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.scandemo5.Activity.BaseActivity;
+import com.example.scandemo5.Activity.Distribution.OutGoingDetailActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Activity.SetActivity;
 import com.example.scandemo5.Adapter.ScanDataAdapter;
@@ -152,7 +153,9 @@ public class MainActivity extends BaseActivity {
                     Global.ScanUpdateActivity = "MainActivity";
                     startActivity(intent1);
                 }
-
+                else {
+                    Msg.showMsg(MainActivity.this,"提示","商品库未找到该商品信息,更新商品数据后重试",null);
+                }
 
             }
 

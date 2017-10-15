@@ -33,6 +33,7 @@ public class BaseActivity extends AppCompatActivity {
     public BoomMenuButton leftBmb,rightBmb;
     TextView mTitleTextView;
     private HamButtonClick hamButtonClick;
+    private boolean useBackPress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +147,10 @@ public class BaseActivity extends AppCompatActivity {
         rightBmb.setButtonEnum(ButtonEnum.Ham);
         int count = HamButtonBuilderManager.getHamButtonText().length;
         switch (HamButtonBuilderManager.getHamButtonText().length){
+            case 1:
+                rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_1);
+                rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_1);
+                break;
             case 2:
                 rightBmb.setPiecePlaceEnum(PiecePlaceEnum.HAM_2);
                 rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_2);
@@ -230,9 +235,17 @@ public class BaseActivity extends AppCompatActivity {
         Global.ifCloseInput(BaseActivity.this);//输入法控制
     }
 
+    public void enableBackPress(){
+        useBackPress = true;
+    }
+    public void disenableBackPress(){
+        useBackPress = false;
+    }
+
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();   //屏蔽返回按键
+        if(useBackPress)
+            super.onBackPressed();   //屏蔽返回按键
     }
 
 

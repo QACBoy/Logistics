@@ -13,6 +13,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.scandemo5.Activity.Distribution.DistributionActivity;
+import com.example.scandemo5.Activity.Distribution.OutGoingDetailActivity;
 import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
 import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.Data.UpLoad;
@@ -173,6 +174,8 @@ public class ScanRActivity extends AppCompatActivity {
                     ChangeStorageActivity.activity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
                 if("DistributionActivity".equals(Global.ScanUpdateActivity))
                     DistributionActivity.activity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+                if("OutGoingDetailActivity".equals(Global.ScanUpdateActivity))
+                    OutGoingDetailActivity.activity.addScanDataEnd(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
 
             }else {
                 if("MainActivity".equals(Global.ScanUpdateActivity))
@@ -181,6 +184,8 @@ public class ScanRActivity extends AppCompatActivity {
                     ChangeStorageActivity.activity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
                 if("DistributionActivity".equals(Global.ScanUpdateActivity))
                     DistributionActivity.activity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
+                if("OutGoingDetailActivity".equals(Global.ScanUpdateActivity))
+                    OutGoingDetailActivity.activity.addScanData(pos,new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT,location_no, quantity));
             }
         }
     }

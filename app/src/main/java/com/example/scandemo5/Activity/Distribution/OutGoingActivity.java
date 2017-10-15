@@ -58,12 +58,13 @@ public class OutGoingActivity extends BaseActivity implements MaterialTabListene
     private MaterialTabHost tabHost;
     private ViewPager pager;
     private ViewPagerAdapter pagerAdapter;
+    private static OrderDataAdapter orderDataAdapter;
     private static List<Order> orders;
 
     private OutFragment allfragment,okfragment,notfragment;
 
     protected void onCreate(Bundle savedInstanceState) {
-        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.distristartextId);
+        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.setTextId);
         super.onCreate(savedInstanceState);
         activity = this;
         setContentView(R.layout.activity_outgoing);
@@ -101,16 +102,29 @@ public class OutGoingActivity extends BaseActivity implements MaterialTabListene
     }
 
     private void getHttpData(){
-        Http.getInstance().Get("http://192.168.1.133/order/all", new Http.Callback() {
+        Http.getInstance().Get("http://192.168.1.241/order/all", new Http.Callback() {
             @Override
             public void done(String data) {
                 Log.d("", "done: " + data);
-                orders = DJson.JsonToList(data,Order.class);
-                initadapter();
+                if (data == null || "NetError".equals(data)) {
+                    Toast.makeText(OutGoingActivity.this, "网络数据获取失败，请检查网络", Toast.LENGTH_SHORT).show();
+                } else {
+                    orders = DJson.JsonToList(data, Order.class);
+                    orderDataAdapter = new OrderDataAdapter(orders);
+                    orderDataAdapter.setOnClickListener(new OrderDataAdapter.OnClick() {
+                        @Override
+                        public void onClick(int postion, Order order) {
+                            Log.d("12321", "onClick: " + postion + " " + order.order_m.client_address);
+                            Global.outgoingdrtialorder = order;
+                            startActivity(new Intent(OutGoingActivity.this, OutGoingDetailActivity.class));
+                        }
+                    });
+                    initadapter();
 //                RecyclerView recyclerview = new RecyclerView(activity.getApplication());
 //                recyclerview.setLayoutManager(new LinearLayoutManager(activity.getApplication()));
 //                recyclerview.setAdapter(new OrderDataAdapter(orders));
 //                setContentView(recyclerview);
+                }
             }
         });
     }
@@ -121,7 +135,7 @@ public class OutGoingActivity extends BaseActivity implements MaterialTabListene
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             RecyclerView recyclerview = new RecyclerView(this.getContext());
             recyclerview.setLayoutManager(new LinearLayoutManager(activity.getApplication()));
-            recyclerview.setAdapter(new OrderDataAdapter(orders));
+            recyclerview.setAdapter(orderDataAdapter);
             return recyclerview;
 //            TextView text = new TextView(container.getContext());
 //            text.setText("Fragment content");

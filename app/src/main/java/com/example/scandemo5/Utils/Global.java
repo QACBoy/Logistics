@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.view.WindowManager;
 
 import com.example.scandemo5.Activity.ScanRActivity;
+import com.example.scandemo5.Data.Order;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.orhanobut.dialogplus.DialogPlus;
@@ -119,4 +120,6 @@ public class Global {
         public static String kw_stroageno = "kw10001";//扫描商品
     }
     public static String logistics_jsonData=null;
+
+    public static Order outgoingdrtialorder; //出库检货订单明细
 }

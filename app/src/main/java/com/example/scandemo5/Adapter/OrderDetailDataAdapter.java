@@ -9,9 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.scandemo5.Data.Order;
-import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
-import com.example.scandemo5.Utils.Global;
 
 import java.util.List;
 
@@ -21,17 +19,17 @@ import co.dift.ui.SwipeToAction;
  * Created by JC on 2017/9/21.
  */
 
-public class OrderDataAdapter extends   RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class OrderDetailDataAdapter extends   RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<Order> orders;
     private OnClick onClick;
 
-    public OrderDataAdapter(List<Order> orders){
+    public OrderDetailDataAdapter(List<Order> orders){
         this.orders = orders;
     }
 
     public interface OnClick{
-        void onClick(int postion , Order order);
+        void onClick(int postion, Order order);
     }
 
     public void setOnClickListener(OnClick clickListener){

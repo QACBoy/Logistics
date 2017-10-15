@@ -17,6 +17,7 @@ public class Order {
             public String client_name;
             public String linkman;
             public String client_address;
+            public String ord_date;
         }
 
         public class order_s{

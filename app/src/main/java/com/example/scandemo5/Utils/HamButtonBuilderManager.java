@@ -137,6 +137,9 @@ public class HamButtonBuilderManager {
     }*/
 
     private static int[] righttextId; //右菜单文字
+    public static int[] setTextId = {
+            R.string.ham_button_set,
+    };
     public static int[] mainTextId = {
                 R.string.main_ham_button_text_0,
                 R.string.main_ham_button_text_1,
@@ -145,6 +148,11 @@ public class HamButtonBuilderManager {
     };
     public static int[] changestoragetextId = {
             R.string.changestorage_ham_button_text_0,
+            R.string.ham_button_set,
+    };
+    public static int[] outgoingdetailtextId = {
+            R.string.outgoing_ham_button_text_0,
+            R.string.outgoing_ham_button_text_1,
             R.string.ham_button_set,
     };
     public static int[] distristartextId = {
