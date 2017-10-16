@@ -61,8 +61,6 @@ public class OutGoingActivity extends BaseActivity implements MaterialTabListene
     private static OrderDataAdapter orderDataAdapter;
     private static List<Order> orders;
 
-    private OutFragment allfragment,okfragment,notfragment;
-
     protected void onCreate(Bundle savedInstanceState) {
         HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.setTextId);
         super.onCreate(savedInstanceState);
@@ -102,7 +100,7 @@ public class OutGoingActivity extends BaseActivity implements MaterialTabListene
     }
 
     private void getHttpData(){
-        Http.getInstance().Get("http://192.168.1.241/order/all", new Http.Callback() {
+        Http.getInstance().Get("http://119.29.223.148/dms/public/order/all", new Http.Callback() {
             @Override
             public void done(String data) {
                 Log.d("", "done: " + data);

@@ -155,6 +155,10 @@ public class HamButtonBuilderManager {
             R.string.outgoing_ham_button_text_1,
             R.string.ham_button_set,
     };
+    public static int[] distristardetailtextId = {
+            R.string.distrbutiondetial_ham_button_text_0,
+            R.string.ham_button_set,
+    };
     public static int[] distristartextId = {
             R.string.distribstart_ham_button_text_0,
             R.string.distribstart_ham_button_text_1,

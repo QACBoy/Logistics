@@ -14,6 +14,7 @@ import com.example.scandemo5.Activity.Distribution.DistributionActivity;
 import com.example.scandemo5.Activity.Distribution.OutGoingActivity;
 import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
 import com.example.scandemo5.Activity.Storage.MainActivity;
+import com.example.scandemo5.Data.DistributionInfo;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.HamButtonBuilderManager;
@@ -77,8 +78,7 @@ public class BaseActivity extends AppCompatActivity {
         leftBmb.setOnBoomListener(new OnBoomListener() {
 
             @Override
-            public void onClicked(int index, BoomButton
-                    boomButton) {
+            public void onClicked(int index, BoomButton  boomButton) {
 
                 switch (index){
                     case 0:
@@ -96,7 +96,7 @@ public class BaseActivity extends AppCompatActivity {
                         hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",OutGoingActivity.class);
                         break;
                     case 3:
-                        Toast.makeText(BaseActivity.this,"3ooooo",Toast.LENGTH_SHORT).show();
+                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",DistributionActivity.class);
                         break;
                     case 4:
                         Toast.makeText(BaseActivity.this,"4ooooo",Toast.LENGTH_SHORT).show();
@@ -254,6 +254,7 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void confirm(DialogPlus dialog) {
                 Global.upLoad = new UpLoad();
+                finish();
                 startActivity(new Intent(getApplicationContext(), activity));
                 dialog.dismiss();
             }

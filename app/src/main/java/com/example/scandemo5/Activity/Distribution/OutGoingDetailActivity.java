@@ -322,6 +322,12 @@ public class OutGoingDetailActivity extends BaseActivity{
         adapter.notifyItemInserted(pos);
     }
 
+    @Override
+    protected void onDestroy() {
+        Global.outgoingdrtialorder = null;//清理本次数据
+        super.onDestroy();
+    }
+
     private void bindId() {
         layout = (LinearLayout) findViewById(R.id.outgoingdetail);
         order_no = (TextView) findViewById(R.id.outgoingdetailorder_no);
