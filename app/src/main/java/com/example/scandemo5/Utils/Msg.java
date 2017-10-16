@@ -1,6 +1,7 @@
 package com.example.scandemo5.Utils;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.scandemo5.Activity.Storage.MainActivity;
@@ -97,6 +99,54 @@ public class Msg {
         }).start();
     }
 
+    public static void showMsg(final Activity activity,final String title, final String msg, final Bitmap image, final View.OnClickListener callBack){
+        if(Global.dialog != null)Global.dialog.dismiss();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(Sleep_time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Global.dialog = DialogPlus.newDialog(activity)
+                        .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setGravity(Gravity.TOP)
+                        .setAdapter(new BaseAdapter() {
+                            @Override
+                            public int getCount() {
+                                return 1;
+                            }
+
+                            @Override
+                            public Object getItem(int position) {
+                                return null;
+                            }
+
+                            @Override
+                            public long getItemId(int position) {
+                                return position;
+                            }
+
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                convertView = activity.getLayoutInflater().inflate(R.layout.show_msg,null);
+                                ((TextView)convertView.findViewById(R.id.title_msg)).setText(title);
+                                ((TextView)convertView.findViewById(R.id.content_msg)).setText(msg);
+                                ((ImageView)convertView.findViewById(R.id.image_mag)).setImageBitmap(image);
+                                return convertView;
+                            }
+                        })
+                        .create();
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Global.dialog.show();
+                    }
+                });
+            }
+        }).start();
+    }
 
     public static void showFunciton(final Activity activity, final View.OnClickListener callBack){
         if(Global.dialog != null)Global.dialog.dismiss();

@@ -66,6 +66,10 @@
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity android:name=".Activity.Distribution.OutGoingDetailActivity"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
+        <activity android:name=".Activity.Distribution.OutGoingSureActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
+        <activity android:name=".Activity.Distribution.OutGoingSureDetailActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
     </application>
 
 </manifest>

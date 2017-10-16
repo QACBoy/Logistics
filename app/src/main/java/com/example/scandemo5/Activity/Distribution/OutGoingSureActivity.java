@@ -13,37 +13,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.example.scandemo5.Activity.BaseActivity;
-import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Adapter.DistributionDataAdapter;
-import com.example.scandemo5.Adapter.OrderDataAdapter;
-import com.example.scandemo5.Adapter.ScanDataAdapter;
+import com.example.scandemo5.Adapter.StorageDataAdapter;
 import com.example.scandemo5.Data.Distribution;
-import com.example.scandemo5.Data.DistributionInfo;
-import com.example.scandemo5.Data.Order;
 import com.example.scandemo5.Data.Storage;
-import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
-import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.DJson;
 import com.example.scandemo5.Utils.Global;
+import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Http;
-import com.example.scandemo5.Utils.Msg;
-import com.example.scandemo5.Utils.SQLite;
-import com.nightonke.boommenu.BoomButtons.BoomButton;
-import com.nightonke.boommenu.OnBoomListener;
-import com.orhanobut.dialogplus.DialogPlus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import co.dift.ui.SwipeToAction;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -52,32 +36,25 @@ import it.neokree.materialtabs.MaterialTabListener;
  * Created by Sam on 2017/10/12.
  */
 
-public class DistributionActivity extends BaseActivity implements MaterialTabListener {
+public class OutGoingSureActivity extends BaseActivity implements MaterialTabListener {
 
-    public static DistributionActivity activity;
+    public static OutGoingSureActivity activity;
     private MaterialTabHost tabHost;
     private ViewPager pager;
     private ViewPagerAdapter pagerAdapter;
-    private static DistributionDataAdapter orderDataAdapter;
-    private static List<Distribution> distributions;
+    private static StorageDataAdapter orderDataAdapter;
+    private static List<Storage> storages;
 
     protected void onCreate(Bundle savedInstanceState) {
-        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.distristartextId);
+        HamButtonBuilderManager.setHamButtonText(HamButtonBuilderManager.setTextId);
         super.onCreate(savedInstanceState);
         activity = this;
         setContentView(R.layout.activity_outgoing);
-        setActionTitle(R.string.text_outside_circle_button_text_4);
+        setActionTitle(R.string.text_outside_circle_button_text_3);
         getHttpData();
         tabHost = (MaterialTabHost) this.findViewById(R.id.materialTabHost);
         pager = (ViewPager) this.findViewById(R.id.viewpager);
 
-        setHamButtonClick(new HamButtonClick() {
-            @Override
-            public void onClick(int index, BoomButton boomButton) {
-                Global.setTYPE_SCA(Global.ScanType.ps_stroageno);
-                Msg.showMsg(DistributionActivity.this,"提示","请扫描二维码",null,null);
-            }
-        });
 
         // init view pager
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -91,30 +68,6 @@ public class DistributionActivity extends BaseActivity implements MaterialTabLis
             );
         }
 //        initadapter();
-    }
-
-    public void getStorage(final String storage){
-        Global.setTYPE_SCA("132564");//取消扫描器功能
-        Http.getInstance().Get("http://119.29.223.148/dms/public/srorage/get/" + storage, new Http.Callback() {
-            @Override
-            public void done(String data) {
-                Log.d("", "done: " + data);
-                if (data == null || "NetError".equals(data)) {
-                    Toast.makeText(DistributionActivity.this, "网络数据获取失败，请检查网络", Toast.LENGTH_SHORT).show();
-                } else {
-                    if("notfound".equals(data)){
-                        Msg.showMsg(DistributionActivity.this,"提示","未找到该出库单号\n" + storage ,null);
-                    }else {
-                        Storage storage1 = DJson.JsonToObject(data, Storage.class);
-                        Global.outgongsurestorage = storage1;
-                        Intent i = new Intent(DistributionActivity.this, OutGoingSureDetailActivity.class);
-                        i.putExtra("activity","DistributionActivity");
-                        startActivity(i);
-                    }
-                }
-            }
-        });
-//        Msg.showMsg(DistributionActivity.this,"提示","确认接收货物?\n" + storage,null);
     }
 
     private void initadapter(){
@@ -131,21 +84,21 @@ public class DistributionActivity extends BaseActivity implements MaterialTabLis
     }
 
     private void getHttpData(){
-        Http.getInstance().Get("http://119.29.223.148/dms/public/distribution/all", new Http.Callback() {
+        Http.getInstance().Get("http://119.29.223.148/dms/public/srorage/all", new Http.Callback() {
             @Override
             public void done(String data) {
                 Log.d("", "done: " + data);
                 if (data == null || "NetError".equals(data)) {
-                    Toast.makeText(DistributionActivity.this, "网络数据获取失败，请检查网络", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OutGoingSureActivity.this, "网络数据获取失败，请检查网络", Toast.LENGTH_SHORT).show();
                 } else {
-                    distributions = DJson.JsonToList(data, Distribution.class);
-                    orderDataAdapter = new DistributionDataAdapter(distributions);
-                    orderDataAdapter.setOnClickListener(new DistributionDataAdapter.OnClick() {
+                    storages = DJson.JsonToList(data, Storage.class);
+                    orderDataAdapter = new StorageDataAdapter(storages);
+                    orderDataAdapter.setOnClickListener(new StorageDataAdapter.OnClick() {
                         @Override
-                        public void onClick(int postion, Distribution order) {
+                        public void onClick(int postion, Storage order) {
                             Log.d("12321", "onClick: " + postion + " " + order.order_m.client_address);
-                            Global.Distributiondis = order;
-                            startActivity(new Intent(DistributionActivity.this, DistributionDetailActivity.class));
+                            Global.outgongsurestorage = order;
+                            startActivity(new Intent(OutGoingSureActivity.this, OutGoingSureDetailActivity.class));
                         }
                     });
                     initadapter();
@@ -191,7 +144,7 @@ public class DistributionActivity extends BaseActivity implements MaterialTabLis
         @Override
         public CharSequence getPageTitle(int position) {
             if(0 == position){
-                return "全部配送单";
+                return "全部出库单";
             }
             else if(1 == position){
                 return "未完成";

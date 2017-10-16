@@ -178,6 +178,34 @@ public class SQLite {
         }
     }
 
+    public Goods getGoodsByGoodNo(String goods_no){
+        String get_sql = "select * from "+ help.GOODS_TABLE_NAME + " where goods_no = \""+ goods_no +"\";";
+//        String get_sql = "select * from "+ help.GOODS_TABLE_NAME + " where barcode = \""+ barcode +"\";";
+        Cursor cursor = null;
+        Log.d("1235", "get: " + get_sql);
+        cursor = Rdb.rawQuery(get_sql,null);
+        if(cursor.getCount() > 0){
+
+            cursor.moveToNext();
+            Goods good = new Goods();
+            good.goods_no = cursor.getString(0);
+            good.goods_name = cursor.getString(1);
+            good.barcode = cursor.getString(2);
+            good.box_barcode = cursor.getString(3);
+            good.goods_spce = cursor.getString(4);
+            good.unit = cursor.getString(5);
+            good.pack_quantity = cursor.getString(6);
+            good.ex_day = cursor.getString(7);
+            good.single_weight = cursor.getString(8);
+            good.pack_weight = cursor.getString(9);
+            good.single_vol = cursor.getString(10);
+            good.pack_vol = cursor.getString(11);
+            return good;
+        }else {
+            return null;
+        }
+    }
+
     public boolean InsertProcureAll(String string){
         boolean isSuccess = false;
         List<Procure> Procures = DJson.JsonToList(string,Procure.class);

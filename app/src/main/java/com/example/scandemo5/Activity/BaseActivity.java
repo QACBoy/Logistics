@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.scandemo5.Activity.Distribution.DistributionActivity;
 import com.example.scandemo5.Activity.Distribution.OutGoingActivity;
+import com.example.scandemo5.Activity.Distribution.OutGoingSureActivity;
 import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
 import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.Data.DistributionInfo;
@@ -68,8 +69,8 @@ public class BaseActivity extends AppCompatActivity {
         rightBmb = (BoomMenuButton) actionBar.findViewById(R.id.action_bar_right_bmb);
 
         leftBmb.setButtonEnum(ButtonEnum.TextOutsideCircle);
-        leftBmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_4_1);//设置左菜单功能个数
-        leftBmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_4_1);
+        leftBmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_5_1);//设置左菜单功能个数
+        leftBmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_5_1);
         leftBmb.setDuration(300);
         leftBmb.setDelay(25);
         for (int i = 0; i < leftBmb.getPiecePlaceEnum().pieceNumber(); i++)
@@ -83,23 +84,23 @@ public class BaseActivity extends AppCompatActivity {
                 switch (index){
                     case 0:
 //                        Toast.makeText(BaseActivity.this,"0ooooo",Toast.LENGTH_SHORT).show();
-                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",MainActivity.class);
+                        hintMsg(MainActivity.class);
 //                        finish();
                         break;
                     case 1:
 //                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
-                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",ChangeStorageActivity.class);
+                        hintMsg(ChangeStorageActivity.class);
 //                        startActivity(new Intent(getApplicationContext(),ChangeStorageActivity.class));
                         break;
                     case 2:
 //                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
-                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",OutGoingActivity.class);
+                        hintMsg(OutGoingActivity.class);
                         break;
                     case 3:
-                        hintMsg("警告","切换模式将清空所有已扫描数据 您确定继续吗？",DistributionActivity.class);
+                        hintMsg(OutGoingSureActivity.class);
                         break;
                     case 4:
-                        Toast.makeText(BaseActivity.this,"4ooooo",Toast.LENGTH_SHORT).show();
+                        hintMsg(DistributionActivity.class);
                         break;
                     case 5:
                         Toast.makeText(BaseActivity.this,"5ooooo",Toast.LENGTH_SHORT).show();
@@ -249,8 +250,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    private  void  hintMsg(String str1, String str2, final Class<?> activity){
-        Msg.showMsg(BaseActivity.this, str1, str2, new Msg.CallBack() {
+    private  void  hintMsg(final Class<?> activity){
+        Msg.showMsg(BaseActivity.this, "警告","切换模式将清空所有已扫描数据 您确定继续吗？", new Msg.CallBack() {
             @Override
             public void confirm(DialogPlus dialog) {
                 Global.upLoad = new UpLoad();

@@ -5,8 +5,8 @@
     <string name="text_outside_circle_button_text_0">入库管理</string>
     <string name="text_outside_circle_button_text_1">库位调拨</string>
     <string name="text_outside_circle_button_text_2">出库检货</string>
-    <string name="text_outside_circle_button_text_3">配送管理</string>
-    <string name="text_outside_circle_button_text_4">Text4</string>
+    <string name="text_outside_circle_button_text_3">出库确认</string>
+    <string name="text_outside_circle_button_text_4">配送管理</string>
     <string name="text_outside_circle_button_text_5">Text5</string>
     <string name="text_outside_circle_button_text_6">Text6</string>
     <string name="text_outside_circle_button_text_7">Text7</string>
@@ -24,6 +24,10 @@
     <string name="outgoing_ham_button_text_1">重置出库数据</string>
     <!--配送管理-->
     <string name="distrbutiondetial_ham_button_text_0">确认已送完成</string>
+    <string name="distrbutiondetial_ham_button_text_1">扫描接收货物</string>
+    <string name="distrbutiondetial_ham_button_text_2">确定接收货物</string>
+    <!--出库确认-->
+    <string name="outgoingsuredetail_ham_button_text_0">确认出库移交到配送员</string>
     <string name="distribstart_ham_button_text_0">开始配送</string>
     <string name="distribstart_ham_button_text_1">确认签收</string>
     <string name="distribstart_ham_button_text_2">重置扫描数据</string>

@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Data.Distribution;
 import com.example.scandemo5.Data.Order;
+import com.example.scandemo5.Data.Storage;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.orhanobut.dialogplus.DialogPlus;
@@ -119,9 +120,13 @@ public class Global {
         public static String rk_LocationNo = "rk10004";//,, 扫描库位编码
         ///库位调拨模式
         public static String kw_stroageno = "kw10001";//扫描商品
+
+        //配送管理
+        public static String ps_stroageno = "ps10001";//送货员扫描接受出库
     }
     public static String logistics_jsonData=null;
 
     public static Order outgoingdrtialorder; //出库检货订单明细
     public static Distribution Distributiondis; //配送订单明细
+    public static Storage outgongsurestorage; //出库确认订单明细
 }

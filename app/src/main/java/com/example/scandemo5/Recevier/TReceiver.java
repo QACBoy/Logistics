@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.scandemo5.Activity.Distribution.DistributionActivity;
 import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
 import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.MyApp;
@@ -56,6 +57,11 @@ public class TReceiver extends BroadcastReceiver {
 
             if ( Global.ScanType.rk_LocationNo.equals(Global.getTYPE_SCA())){//,, 扫描库位编码
                 ((EditText) MainActivity.mainActivity.LocationNo_EditText).setText(str);
+            }
+
+            if ( Global.ScanType.ps_stroageno.equals(Global.getTYPE_SCA())){//,, 配送员扫描出库单号编码
+                Global.dialog.dismiss();
+                DistributionActivity.activity.getStorage(str);
             }
 
             //移库区
