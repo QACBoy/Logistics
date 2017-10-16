@@ -68,8 +68,8 @@ public class BaseActivity extends AppCompatActivity {
         rightBmb = (BoomMenuButton) actionBar.findViewById(R.id.action_bar_right_bmb);
 
         leftBmb.setButtonEnum(ButtonEnum.TextOutsideCircle);
-        leftBmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_9_1);
-        leftBmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_9_1);
+        leftBmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_4_1);//设置左菜单功能个数
+        leftBmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_4_1);
         leftBmb.setDuration(300);
         leftBmb.setDelay(25);
         for (int i = 0; i < leftBmb.getPiecePlaceEnum().pieceNumber(); i++)
