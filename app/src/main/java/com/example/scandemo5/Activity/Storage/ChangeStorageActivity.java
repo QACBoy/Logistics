@@ -64,13 +64,20 @@ public class ChangeStorageActivity extends BaseActivity {
         setHamButtonClick(new HamButtonClick() {
             @Override
             public void onClick(int index, BoomButton boomButton) {
-                Msg.showMsg(ChangeStorageActivity.this,"警告", "此举将清空所有已修改数据 您确定吗？", new Msg.CallBack() {
-                    @Override
-                    public void confirm(DialogPlus dialog) {
-                        Global.upLoad = new UpLoad();
-                        toStorageNo();
-                    }
-                });
+                switch (index){
+                    case 0:
+                        //上传移库数据
+                        break;
+                    case 1:
+                        Msg.showMsg(ChangeStorageActivity.this,"警告", "此举将清空所有已修改数据 您确定吗？", new Msg.CallBack() {
+                            @Override
+                            public void confirm(DialogPlus dialog) {
+                                Global.upLoad = new UpLoad();
+                                toStorageNo();
+                            }
+                        });
+                        break;
+                }
             }
         });
     }

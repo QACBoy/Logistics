@@ -148,6 +148,7 @@ public class HamButtonBuilderManager {
     };
     public static int[] changestoragetextId = {
             R.string.changestorage_ham_button_text_0,
+            R.string.changestorage_ham_button_text_1,
             R.string.ham_button_set,
     };
     public static int[] outgoingdetailtextId = {
