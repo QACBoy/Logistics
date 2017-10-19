@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,12 +28,15 @@ import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Recevier.TReceiver;
+import com.example.scandemo5.Utils.DJson;
 import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
+import com.example.scandemo5.Utils.Http;
 import com.example.scandemo5.Utils.JMap;
 import com.example.scandemo5.Utils.RMap;
 import com.example.scandemo5.Utils.SQLite;
 import com.example.scandemo5.Utils.Msg;
+import com.example.scandemo5.Utils.User;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
 import com.nightonke.boommenu.OnBoomListener;
 import com.orhanobut.dialogplus.DialogPlus;
@@ -41,6 +45,11 @@ import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.feezu.liuli.timeselector.TimeSelector;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.microedition.khronos.opengles.GL;
 
 import co.dift.ui.SwipeToAction;
 
@@ -77,6 +86,19 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void confirm(DialogPlus dialog) {
                                 dialog.dismiss();
+                                Map map = new HashMap();
+                                map.put("as_user", User.getUser().getUsername());
+                                map.put("as_password",User.getUser().getPassword());
+                                map.put("group_node_id",User.getUser().getGroup_node_id());
+                                map.put("ord_procure_no",Global.upLoad.come_goods_no);
+                                map.put("client_no",Global.upLoad.procure_no);
+                                map.put("as_json", DJson.ObjectToJson(Global.upLoad.list));
+                                Http.getInstance().Post(Http.getInstance().get_rk_detail, map, new Http.Callback() {
+                                    @Override
+                                    public void done(String data) {
+                                        Log.d("123", "done: " + data);
+                                    }
+                                });
                             }
                         });
                         break;

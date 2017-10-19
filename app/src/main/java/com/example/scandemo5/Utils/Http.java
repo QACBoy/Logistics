@@ -33,6 +33,7 @@ public class Http {   //单例化模式
     private RequestQueue mqueue;
     public String get_goods_info = "";// 用于测试的url "http://192.168.1.166/WebService1.asmx/show"
     public String access = "";
+    public String move_goods = "";
     public String get_procure_list = "";
     public String get_rk_detail = "";
     public String get_stock = "";
@@ -47,6 +48,7 @@ public class Http {   //单例化模式
     private Http(){
         mqueue = Volley.newRequestQueue(MyApp.getContext());
         access = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/access";
+        move_goods = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/move_goods";
         get_goods_info = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_goods_info";
         get_procure_list = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_procure_list";
         get_rk_detail = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_rk_detail";
@@ -97,6 +99,7 @@ public class Http {   //单例化模式
         ){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                Log.d(TAG, "getParams: " + map.size());
                 return map;
             }
 

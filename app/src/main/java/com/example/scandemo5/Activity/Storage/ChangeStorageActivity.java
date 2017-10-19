@@ -82,6 +82,20 @@ public class ChangeStorageActivity extends BaseActivity {
         });
     }
 
+    private void toTraget(){
+        setContentView(R.layout.activity_change_storage);
+        locationno = (EditText) findViewById(R.id.changestorage_stroageno);
+        locationno.setText("请扫描 目标库位");
+        button = (FButton) findViewById(R.id.changestorage_ok);
+        button.setText("确认移动");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
     private void toStorageNo(){
         Global.setTYPE_SCA(Global.ScanType.kw_stroageno);
         setContentView(R.layout.activity_change_storage);
