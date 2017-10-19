@@ -1,6 +1,8 @@
 package com.example.scandemo5.Utils;
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -12,9 +14,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.scandemo5.Activity.WelcomeActivity;
 import com.example.scandemo5.MyApp;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -42,8 +46,8 @@ public class Http {   //单例化模式
 
     private Http(){
         mqueue = Volley.newRequestQueue(MyApp.getContext());
-        get_goods_info = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_goods_info";
         access = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/access";
+        get_goods_info = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_goods_info";
         get_procure_list = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_procure_list";
         get_rk_detail = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_rk_detail";
         get_stock = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_stock";
@@ -63,6 +67,11 @@ public class Http {   //单例化模式
          void done(String data);
     }
 
+    public String DealXmlStr(String str){ //处理网络返回xml文件函数
+        int start = str.indexOf("\">") + 2;
+        int end = str.lastIndexOf("</");
+        return str.substring(start,end);
+    }
 
     public void Post(String url, final Map map, final Callback callback){
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -70,7 +79,11 @@ public class Http {   //单例化模式
                 new Response.Listener<String>() {   // (2) Volley的监听器
                     @Override
                     public void onResponse(String s) {  //回调函数，返回服务器回应的信息
-                        callback.done(s); //调用回调函数，实现异步
+                        s = DealXmlStr(s);
+                        if (!Global.isNullorEmpty(s))
+                            callback.done(s); //调用回调函数，实现异步
+                        else
+                            Toast.makeText(MyApp.getContext(),"网络异常，请检查网络",Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -78,6 +91,7 @@ public class Http {   //单例化模式
                     public void onErrorResponse(VolleyError volleyError) {
                         Log.d(TAG, "onErrorResponse: "+volleyError.getMessage());
                         callback.done("NetError");
+                        Toast.makeText(MyApp.getContext(),"网络连接失败，请检查网络",Toast.LENGTH_LONG).show();
                     }
                 }
         ){
@@ -110,7 +124,11 @@ public class Http {   //单例化模式
                 new Response.Listener<String>() {   // (2) Volley的监听器
                     @Override
                     public void onResponse(String s) {  //回调函数，返回服务器回应的信息
-                        callback.done(s);
+                        s = DealXmlStr(s);
+                        if (!Global.isNullorEmpty(s))
+                            callback.done(s); //调用回调函数，实现异步
+                        else
+                            Toast.makeText(MyApp.getContext(),"网络异常，请检查网络",Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -118,6 +136,7 @@ public class Http {   //单例化模式
                     public void onErrorResponse(VolleyError volleyError) {
                         Log.d(TAG, "onErrorResponse: "+volleyError.getMessage());
                         callback.done("NetError");
+                        Toast.makeText(MyApp.getContext(),"网络连接失败，请检查网络",Toast.LENGTH_LONG).show();
                     }
                 }
         ){

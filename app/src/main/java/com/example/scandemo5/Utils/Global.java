@@ -25,12 +25,6 @@ public class Global {
         return sharedPreferences;
     }
 
-    public static String DealXmlStr(String str){ //处理网络返回xml文件函数
-        int start = str.indexOf("\">") + 2;
-        int end = str.lastIndexOf("</");
-        return str.substring(start,end);
-    }
-
     public static JMap<String,String> GoodsToJMap(SQLite.Goods goods){
         JMap<String, String> map = new JMap<>();
         map.add("goods_no", goods.goods_no);

@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.example.scandemo5.MyApp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Sam on 2017/9/17.
  */
@@ -41,11 +44,14 @@ public class HttpData {
         _callback = callBack;
 
         //商品信息
-        Http.getInstance().Post(Http.getInstance().get_goods_info,null, new Http.Callback() {
+        Map map = new HashMap();
+        map.put("as_user",User.getUser().getUsername());
+        map.put("as_password",User.getUser().getPassword());
+        Http.getInstance().Post(Http.getInstance().get_goods_info,map, new Http.Callback() {
             @Override
             public void done(String data) {
                 if(data != null && !"NetError".equals(data)) {
-                    data = Global.DealXmlStr(data);
+//                    data = Global.DealXmlStr(data);
                     Log.d("1235", "done: 开始插入商品信息" + data);
                     SQLite.getInstance().InsertGoodsAll(data);
                     Log.d("1235", "done: 商品信息更新完成");
@@ -59,7 +65,7 @@ public class HttpData {
             @Override
             public void done(String data) {
                 if(data != null && !"NetError".equals(data)) {
-                    data = Global.DealXmlStr(data);
+//                    data = Global.DealXmlStr(data);
                     Log.d("1235", "done: 开始插入" + data);
                     SQLite.getInstance().InsertProcureAll(data);
                     Log.d("1235", "done: 供货商更新完成");
