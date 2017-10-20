@@ -5,6 +5,6 @@ package com.example.scandemo5.Data;
  */
 
 public class ClintInfo {
-    public String procure_no;
+    public String client_no;
     public String client_name;
 }

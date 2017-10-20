@@ -15,37 +15,79 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:text="自动连续扫描" />-->
 
-    <EditText
-        android:id="@+id/come_goods_no"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="  请扫描 到货单号"
-        android:inputType="text"
-        android:singleLine="true"
-        android:textSize="36sp" />
 
-    <EditText
-        android:id="@+id/procure_no"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="  请扫描 供货商号"
-        android:inputType="text"
-        android:singleLine="true"
-        android:textSize="36sp" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <info.hoang8f.widget.FButton
-        android:id="@+id/handle"
+        <EditText
+            android:id="@+id/procure_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="供货商关键字"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="36sp" />
+
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/get"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20sp"
+            android:padding="20sp"
+            android:text="查询"
+            android:textSize="36sp"
+            fbutton:buttonColor="@color/background"
+            fbutton:cornerRadius="10dp"
+            fbutton:shadowColor="@color/disenable"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20sp"
-        android:padding="20sp"
-        android:text="继续"
-        android:textSize="36sp"
-        fbutton:buttonColor="@color/background"
-        fbutton:cornerRadius="10dp"
-        fbutton:shadowColor="@color/disenable"
-        fbutton:shadowEnabled="true"
-        fbutton:shadowHeight="10dp" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <EditText
+            android:id="@+id/procure_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="供货商编号（必填）"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="36sp" />
+
+        <EditText
+            android:id="@+id/come_goods_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="厂家订单号（可选）"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="36sp" />
+
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/handle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20sp"
+            android:padding="20sp"
+            android:text="继续"
+            android:textSize="36sp"
+            fbutton:buttonColor="@color/background"
+            fbutton:cornerRadius="10dp"
+            fbutton:shadowColor="@color/disenable"
+            fbutton:shadowEnabled="true"
+            fbutton:shadowHeight="10dp" />
+    </LinearLayout>
 
 </LinearLayout>

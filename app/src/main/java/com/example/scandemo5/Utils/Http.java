@@ -35,6 +35,7 @@ import static android.content.ContentValues.TAG;
 public class Http {   //单例化模式
 
     public final String Success = "1";
+    public final String NetError = "0";
     public final String Fail = "-1";
 
     private RequestQueue mqueue;
@@ -189,7 +190,7 @@ public class Http {   //单例化模式
                 }
                 else if("NetError".equals(data)){
                     Log.d("", "done: " + data);
-                    callback.done("0");
+                    callback.done(NetError);
                 }
                 else {
                     Global.getSharedPreferences().edit().putBoolean("isLogin", true).commit();
@@ -207,14 +208,19 @@ public class Http {   //单例化模式
         Map map = new HashMap();
         map.put("as_user",User.getUser().getUsername());
         map.put("as_password", User.getUser().getPassword());
-        map.put("as_key", key);
+        map.put("as_keyword", key);
         Http.getInstance().Post(get_client_info, map, new Callback() {
             @Override
             public void done(String data) {
                 if("无数据".equals(data)){
                     Toast.makeText(MyApp.getContext(),"未找到该供应商",Toast.LENGTH_LONG).show();
                     callback.done(Fail,null);
-                }else {
+                }
+                else if("NetError".equals(data)){
+                    Log.d("", "done: " + data);
+                    callback.done(NetError,null);
+                }
+                else {
                     List<ClintInfo> Procures = DJson.JsonToList(data,ClintInfo.class);
                     callback.done(Success,Procures);
                 }

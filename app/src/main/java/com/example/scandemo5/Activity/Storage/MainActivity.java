@@ -14,16 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.scandemo5.Activity.BaseActivity;
-import com.example.scandemo5.Activity.Distribution.OutGoingDetailActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
-import com.example.scandemo5.Activity.SetActivity;
 import com.example.scandemo5.Adapter.ScanDataAdapter;
+import com.example.scandemo5.Data.ClintInfo;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
@@ -38,7 +38,6 @@ import com.example.scandemo5.Utils.SQLite;
 import com.example.scandemo5.Utils.Msg;
 import com.example.scandemo5.Utils.User;
 import com.nightonke.boommenu.BoomButtons.BoomButton;
-import com.nightonke.boommenu.OnBoomListener;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
@@ -47,9 +46,8 @@ import com.orhanobut.dialogplus.OnItemClickListener;
 import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import javax.microedition.khronos.opengles.GL;
 
 import co.dift.ui.SwipeToAction;
 
@@ -139,15 +137,20 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean swipeLeft(final UpLoad.ScanData itemData) {
                 //do something
-                final int pos = removeScanData(itemData);
-                if(-1 != pos) {
-                    displaySnackbar(pos + "-移除" + itemData.barcode + "的商品", "撤销", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            addScanData(pos, itemData);
+                Msg.showMsg(MainActivity.this, "警告", "是否确定删除该条目？", new Msg.CallBack() {
+                    @Override
+                    public void confirm(DialogPlus dialog) {
+                        final int pos = removeScanData(itemData);
+                        if(-1 != pos) {
+                            displaySnackbar(pos + "-移除" + itemData.barcode + "的商品", "撤销", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    addScanData(pos, itemData);
+                                }
+                            });
                         }
-                    });
-                }
+                    }
+                });
                 return true; //true will move the front view to its starting position
             }
 
@@ -317,6 +320,7 @@ public class MainActivity extends BaseActivity {
         Global.setTYPE_SCA(Global.ScanType.rk_ComeGoodsNo);
         setContentView(R.layout.procure);
         EditText procure_no = (EditText) findViewById(R.id.procure_no);
+        final EditText procure_key = (EditText) findViewById(R.id.procure_key);
         EditText come_goods_no = (EditText) findViewById(R.id.come_goods_no);
         procure_no.setText(Global.upLoad.procure_no);
         come_goods_no.setText(Global.upLoad.come_goods_no);
@@ -334,21 +338,63 @@ public class MainActivity extends BaseActivity {
                 return false;
             }
         });
+        findViewById(R.id.get).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String key = procure_key.getText().toString();
+                if(!Global.isNullorEmpty(key)){
+                    findViewById(R.id.get).setEnabled(false);
+                    ((Button)findViewById(R.id.get)).setText("查询中");
+                    Http.getInstance().Get_client_info(key, new Http.OBJCallback() {
+                        @Override
+                        public void done(String isSuccess, List data) {
+                            Log.d("", "done: " + isSuccess );
+                            if(Http.getInstance().Success.equals(isSuccess)){
+                                procuretoshow(data);
+                            }
+                            findViewById(R.id.get).setEnabled(true);
+                            ((Button)findViewById(R.id.get)).setText("查询");
+                        }
+                    });
+                }else {
+                    Toast.makeText(MainActivity.this,"关键字不能为空",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         findViewById(R.id.handle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String no = ((EditText)findViewById(R.id.procure_no)).getText().toString();
                 String com_no = ((EditText)findViewById(R.id.come_goods_no)).getText().toString();
-                if(!Global.isNullorEmpty(no) && !Global.isNullorEmpty(com_no)) {
+                if(!Global.isNullorEmpty(no)) {
                     Global.PROCURENO = no;
                     Global.upLoad.procure_no = no;
                     Global.upLoad.come_goods_no = com_no;
                     ToScanner();
                 }else {
-                    Toast.makeText(MyApp.getContext(),"请扫描或者输入入库单号",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApp.getContext(),"请选择供货商",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void procuretoshow(List data){
+//        RecyclerView recyclerview_list = new RecyclerView(MainActivity.this);
+//        recyclerview_list.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+//        recyclerview_list.setAdapter(new ClintInfoDataAdapter(data));
+//        LinearLayout content = ((LinearLayout)Global.dialog.getHolderView().findViewById(R.id.show_list_content));
+////        content.removeAllViews();
+//        content.addView(recyclerview_list,50,50);
+        Msg.showFunciton(MainActivity.this, "选择供货商", data, new OnItemClickListener() {
+            @Override
+            public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                dialog.dismiss();
+                ClintInfo info = (ClintInfo) item;
+                ((EditText) findViewById(R.id.procure_key)).setText(info.client_name);
+                ((EditText)findViewById(R.id.procure_no)).setText(info.client_no);
+            }
+        });
+
     }
 
     private void displaySnackbar(String text, String actionName, View.OnClickListener action) {

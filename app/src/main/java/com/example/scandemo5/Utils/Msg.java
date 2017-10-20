@@ -2,6 +2,7 @@ package com.example.scandemo5.Utils;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,17 +12,24 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.scandemo5.Activity.Storage.MainActivity;
+import com.example.scandemo5.Data.ClintInfo;
 import com.example.scandemo5.Data.UpLoad;
+import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnBackPressListener;
 import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnDismissListener;
+import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.feezu.liuli.timeselector.TimeSelector;
+
+import java.util.List;
 
 /**
  * Created by Sam on 2017/9/17.
@@ -148,7 +156,7 @@ public class Msg {
         }).start();
     }
 
-    public static void showFunciton(final Activity activity, final View.OnClickListener callBack){
+    public static void showFunciton(final Activity activity, final String title, final List dates, final OnItemClickListener callBack){
         if(Global.dialog != null)Global.dialog.dismiss();
         new Thread(new Runnable() {
             @Override
@@ -160,16 +168,16 @@ public class Msg {
                 }
                 Global.dialog = DialogPlus.newDialog(activity)
                         .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
-                        .setGravity(Gravity.TOP)
+                        .setGravity(Gravity.CENTER)
                         .setAdapter(new BaseAdapter() {
                             @Override
                             public int getCount() {
-                                return 1;
+                                return dates.size();
                             }
 
                             @Override
                             public Object getItem(int position) {
-                                return null;
+                                return dates.get(position);
                             }
 
                             @Override
@@ -179,21 +187,19 @@ public class Msg {
 
                             @Override
                             public View getView(int position, View convertView, ViewGroup parent) {
-
-
-
-
-
-
-
-
-
-
-                                /*
-                                convertView = activity.getLayoutInflater().inflate(R.layout.function,null);
-                                convertView.findViewById(R.id.function_storage).setOnClickListener(callBack);
-                                convertView.findViewById(R.id.function_changestorage).setOnClickListener(callBack);*/
+                                convertView  = LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.noimage_item_view, parent, false);
+                                ClintInfo data = (ClintInfo) dates.get(position);
+                                ((TextView) convertView.findViewById(R.id.title)).setText(data.client_no);
+                                ((TextView) convertView.findViewById(R.id.author)).setText(data.client_name);
                                 return convertView;
+                            }
+                        })
+                        .setOnItemClickListener(new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                                if(callBack != null)
+                                    callBack.onItemClick(dialog,item,view,position);
                             }
                         })
                         .create();
