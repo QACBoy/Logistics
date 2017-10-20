@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.Data.UserInfo;
+import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Utils.DJson;
 import com.example.scandemo5.Utils.Encryption;
@@ -69,31 +70,22 @@ public class WelcomeActivity extends AppCompatActivity {
                 login_btn.setText("登录中...");
                 String username = ((EditText)findViewById(R.id.username)).getText().toString();
                 String password = ((EditText)findViewById(R.id.password)).getText().toString();
-                Map map = new HashMap();
-                map.put("as_user",username);
-                map.put("as_password", Encryption.md5(password));
+
 //                Global.getSharedPreferences().edit().putString("username",username).commit();
-                User.getUser().setUsername(username);
-                User.getUser().setPassword(password);
-                Http.getInstance().Post(Http.getInstance().access, map, new Http.Callback() {
+
+                Http.getInstance().access(username, password, new Http.Callback() {
                     @Override
                     public void done(String data) {
-                            if ("-1".equals(data)) {
-                                Toast.makeText(WelcomeActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
-                            }
-                            else if("NetError".equals(data)){
-                                Log.d("", "done: " + data);
-                            }
-                            else {
-                                Global.getSharedPreferences().edit().putBoolean("isLogin", true).commit();
-                                List<UserInfo> userInfo = DJson.JsonToList(data,UserInfo.class);
-                                User.getUser().setAs_user(userInfo.get(0).as_user);
-                                User.getUser().setGroup_node_id(userInfo.get(0).group_node_id);
-//                                Global.getSharedPreferences().edit().putString("usercode", data).commit();
-                                toLoad();
-                            }
-                            login_btn.setEnabled(true);
-                            login_btn.setText("登录");
+                        login_btn.setEnabled(true);
+                        login_btn.setText("登录");
+                        if ("-1".equals(data)) {
+                            Toast.makeText(MyApp.getContext(), "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                        }else if("0".equals(data)){
+                            //网络错误这里不做提示
+                        }
+                        else {
+                            toLoad();
+                        }
                     }
                 });
             }

@@ -44,13 +44,10 @@ public class HttpData {
         _callback = callBack;
 
         //商品信息
-        Map map = new HashMap();
-        map.put("as_user",User.getUser().getUsername());
-        map.put("as_password",User.getUser().getPassword());
-        Http.getInstance().Post(Http.getInstance().get_goods_info,map, new Http.Callback() {
+        Http.getInstance().Get_goods_info(new Http.Callback() {
             @Override
             public void done(String data) {
-                if(data != null && !"NetError".equals(data)) {
+                if(!"NetError".equals(data)) {
 //                    data = Global.DealXmlStr(data);
                     Log.d("1235", "done: 开始插入商品信息" + data);
                     SQLite.getInstance().InsertGoodsAll(data);
@@ -60,19 +57,19 @@ public class HttpData {
             }
         });
 
-        //供货商信息
-        Http.getInstance().Post(Http.getInstance().get_procure_list, null, new Http.Callback() {
-            @Override
-            public void done(String data) {
-                if(data != null && !"NetError".equals(data)) {
-//                    data = Global.DealXmlStr(data);
-                    Log.d("1235", "done: 开始插入" + data);
-                    SQLite.getInstance().InsertProcureAll(data);
-                    Log.d("1235", "done: 供货商更新完成");
-                    ProcureState = Success;
-                }else { ProcureState = Fail; }
-            }
-        });
+//        //供货商信息
+//        Http.getInstance().Post(Http.getInstance().get_procure_list, null, new Http.Callback() {
+//            @Override
+//            public void done(String data) {
+//                if(data != null && !"NetError".equals(data)) {
+////                    data = Global.DealXmlStr(data);
+//                    Log.d("1235", "done: 开始插入" + data);
+//                    SQLite.getInstance().InsertProcureAll(data);
+//                    Log.d("1235", "done: 供货商更新完成");
+//                    ProcureState = Success;
+//                }else { ProcureState = Fail; }
+//            }
+//        });
 
         new Thread(
                 new Runnable() {
@@ -84,11 +81,19 @@ public class HttpData {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            if(GoodState == Success && ProcureState == Success){
+//                            if(GoodState == Success && ProcureState == Success){
+//                                isFinish = true;
+//                                _callback.done(true);
+//                            }
+//                            if(GoodState == Fail || ProcureState == Fail){
+//                                isFinish = true;
+//                                _callback.done(false);
+//                            }
+                            if(GoodState == Success){
                                 isFinish = true;
                                 _callback.done(true);
                             }
-                            if(GoodState == Fail || ProcureState == Fail){
+                            if(GoodState == Fail){
                                 isFinish = true;
                                 _callback.done(false);
                             }

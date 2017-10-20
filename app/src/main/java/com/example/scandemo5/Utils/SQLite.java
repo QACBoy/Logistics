@@ -50,15 +50,15 @@ public class SQLite {
             super(context, DB_NAME, null , DB_VERSION);
         }
 
-        private void update(int type){
-            if(Goods == type){
+        private void update(){
+//            if(Goods == type){
                 Rdb.execSQL(DropGoodsTable);
                 Rdb.execSQL(CreateGoodsTable);
-            }
-            if(Procure == type){
-                Rdb.execSQL(DropProcureTable);
-                Rdb.execSQL(CreateProcureTable);
-            }
+//            }
+//            if(Procure == type){
+//                Rdb.execSQL(DropProcureTable);
+//                Rdb.execSQL(CreateProcureTable);
+//            }
         }
 
         @Override
@@ -67,10 +67,10 @@ public class SQLite {
             db.execSQL(DropGoodsTable);
             Log.d(TAG, "onCreate: 执行"+CreateGoodsTable);
             db.execSQL(CreateGoodsTable);
-            Log.d(TAG, "onCreate: 执行"+DropProcureTable);
-            db.execSQL(DropProcureTable);
-            Log.d(TAG, "onCreate: 执行"+CreateProcureTable);
-            db.execSQL(CreateProcureTable);
+//            Log.d(TAG, "onCreate: 执行"+DropProcureTable);
+//            db.execSQL(DropProcureTable);
+//            Log.d(TAG, "onCreate: 执行"+CreateProcureTable);
+//            db.execSQL(CreateProcureTable);
         }
 
         @Override
@@ -94,10 +94,10 @@ public class SQLite {
         public String goods_name;
     }
 
-    public class Procure{
-        public String procure_no;
-        public String client_name;
-    }
+//    public class Procure{
+//        public String procure_no;
+//        public String client_name;
+//    }
 
     private static SqlOpenHelper help;
     private static SQLiteDatabase  Rdb;
@@ -121,7 +121,7 @@ public class SQLite {
         boolean isSuccess = false;
         List<Goods> goods = DJson.JsonToList(string,Goods.class);
         Wdb.beginTransaction();
-        help.update(help.Goods);
+        help.update();
         try {
             for (Goods good : goods) {
                 String insert_sql = "insert into " + help.GOODS_TABLE_NAME + " values(\""+ good.goods_no + "\",\""
@@ -206,41 +206,41 @@ public class SQLite {
         }
     }
 
-    public boolean InsertProcureAll(String string){
-        boolean isSuccess = false;
-        List<Procure> Procures = DJson.JsonToList(string,Procure.class);
-        Wdb.beginTransaction();
-        help.update(help.Procure);
-        try {
-            for (Procure procure : Procures) {
-                String insert_sql = "insert into " + help.Procure_TABLE_NAME + " values(\""+ procure.procure_no + "\",\"" + procure.client_name +"\");";
-                Log.d("1235", "InsertAll: " + insert_sql);
-                Wdb.execSQL(insert_sql);
-            }
-            Wdb.setTransactionSuccessful();
-            isSuccess = true;
-        }catch (Exception e){
-            Log.d(TAG, "InsertAll: 插入失败" + e.getMessage());
-        }finally {
-            Wdb.endTransaction();
-        }
-        return isSuccess;
-    }
-
-    public Procure getProcure(String procure_no){
-        String get_sql = "select * from "+ help.Procure_TABLE_NAME + " where procure_no = \""+ procure_no +"\";";
-        Cursor cursor = null;
-        Log.d("1235", "get: " + get_sql);
-        cursor = Rdb.rawQuery(get_sql,null);
-        if(cursor.getCount() > 0){
-
-            cursor.moveToNext();
-            Procure pro = new Procure();
-            pro.procure_no = cursor.getString(0);
-            pro.client_name = cursor.getString(1);
-            return pro;
-        }else {
-            return null;
-        }
-    }
+//    public boolean InsertProcureAll(String string){
+//        boolean isSuccess = false;
+//        List<Procure> Procures = DJson.JsonToList(string,Procure.class);
+//        Wdb.beginTransaction();
+//        help.update(help.Procure);
+//        try {
+//            for (Procure procure : Procures) {
+//                String insert_sql = "insert into " + help.Procure_TABLE_NAME + " values(\""+ procure.procure_no + "\",\"" + procure.client_name +"\");";
+//                Log.d("1235", "InsertAll: " + insert_sql);
+//                Wdb.execSQL(insert_sql);
+//            }
+//            Wdb.setTransactionSuccessful();
+//            isSuccess = true;
+//        }catch (Exception e){
+//            Log.d(TAG, "InsertAll: 插入失败" + e.getMessage());
+//        }finally {
+//            Wdb.endTransaction();
+//        }
+//        return isSuccess;
+//    }
+//
+//    public Procure getProcure(String procure_no){
+//        String get_sql = "select * from "+ help.Procure_TABLE_NAME + " where procure_no = \""+ procure_no +"\";";
+//        Cursor cursor = null;
+//        Log.d("1235", "get: " + get_sql);
+//        cursor = Rdb.rawQuery(get_sql,null);
+//        if(cursor.getCount() > 0){
+//
+//            cursor.moveToNext();
+//            Procure pro = new Procure();
+//            pro.procure_no = cursor.getString(0);
+//            pro.client_name = cursor.getString(1);
+//            return pro;
+//        }else {
+//            return null;
+//        }
+//    }
 }
