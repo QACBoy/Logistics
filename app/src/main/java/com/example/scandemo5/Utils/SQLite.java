@@ -23,7 +23,7 @@ public class SQLite {
 
         private static final int DB_VERSION = 1;
         private static final String DB_NAME = "DMS.db";
-        public static final String GOODS_TABLE_NAME = "Goods";
+        public static final String GOODS_TABLE_NAME = "GoodsInfo";
         public static final String Procure_TABLE_NAME = "procure";
 
         private int  Goods = 0;
@@ -51,7 +51,7 @@ public class SQLite {
         }
 
         private void update(){
-//            if(Goods == type){
+//            if(GoodsInfo == type){
                 Rdb.execSQL(DropGoodsTable);
                 Rdb.execSQL(CreateGoodsTable);
 //            }

@@ -79,6 +79,8 @@ public class Global {
         }
     }
 
+    public static boolean ScanRisEditable = true; //设置是否可编辑
+
     public static boolean isSuccessUpdataHttpdata = false;//网络数据是否加载成功
 
 

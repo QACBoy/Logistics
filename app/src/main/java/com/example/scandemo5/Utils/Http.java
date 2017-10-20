@@ -1,6 +1,7 @@
 package com.example.scandemo5.Utils;
 
 import android.app.Activity;
+import android.telecom.Call;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.scandemo5.Activity.WelcomeActivity;
 import com.example.scandemo5.Data.ClintInfo;
+import com.example.scandemo5.Data.GoodsInfo;
 import com.example.scandemo5.Data.UserInfo;
 import com.example.scandemo5.MyApp;
 
@@ -42,6 +44,7 @@ public class Http {   //单例化模式
     public String get_goods_info = "";// 用于测试的url "http://192.168.1.166/WebService1.asmx/show"
     public String access = "";
     public String get_client_info = "";
+    public String get_location_stock = "";
     public String move_goods = "";
     public String get_procure_list = "";
     public String get_rk_detail = "";
@@ -58,6 +61,7 @@ public class Http {   //单例化模式
         mqueue = Volley.newRequestQueue(MyApp.getContext());
         access = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/access";
         get_client_info = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_client_info";
+        get_location_stock = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_location_stock";
         move_goods = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/move_goods";
         get_goods_info = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_goods_info";
         get_procure_list = "http://" + Global.getSharedPreferences().getString("url",null) + "/webservice/n_webservice.asmx/get_procure_list";
@@ -181,7 +185,7 @@ public class Http {   //单例化模式
         map.put("as_user",username);
         map.put("as_password", Encryption.md5(password));
         User.getUser().setUsername(username);
-        Http.getInstance().Post(access, map, new Http.Callback() {
+        Post(access, map, new Http.Callback() {
             @Override
             public void done(String data) {
                 if ("-1".equals(data)) {
@@ -209,7 +213,7 @@ public class Http {   //单例化模式
         map.put("as_user",User.getUser().getUsername());
         map.put("as_password", User.getUser().getPassword());
         map.put("as_keyword", key);
-        Http.getInstance().Post(get_client_info, map, new Callback() {
+        Post(get_client_info, map, new Callback() {
             @Override
             public void done(String data) {
                 if("无数据".equals(data)){
@@ -232,10 +236,48 @@ public class Http {   //单例化模式
         Map map = new HashMap();
         map.put("as_user",User.getUser().getUsername());
         map.put("as_password",User.getUser().getPassword());
-        Http.getInstance().Post(get_goods_info,map, new Http.Callback() {
+        Post(get_goods_info,map, new Http.Callback() {
             @Override
             public void done(String data) {
                 callback.done(data);
+            }
+        });
+    }
+
+    public void Get_location_stock(String location, final OBJCallback callback){
+        Map map = new HashMap();
+        map.put("as_user",User.getUser().getUsername());
+        map.put("as_password",User.getUser().getPassword());
+        map.put("as_location_no",location);
+        Post(get_location_stock,map, new Callback() {
+            @Override
+            public void done(String data) {
+                if("无数据".equals(data)){
+                    Toast.makeText(MyApp.getContext(),"未找到该库位",Toast.LENGTH_LONG).show();
+                    callback.done(Fail,null);
+                }
+                else if("NetError".equals(data)){
+                    Log.d("", "done: " + data);
+                    callback.done(NetError,null);
+                }
+                else {
+                    List<GoodsInfo> GoodsInfo = DJson.JsonToList(data,GoodsInfo.class);
+                    callback.done(Success,GoodsInfo);
+                }
+            }
+        });
+    }
+
+    public void Move_goods(String json,Callback callback){
+        Map map = new HashMap();
+        map.put("as_user",User.getUser().getUsername());
+        map.put("as_password",User.getUser().getPassword());
+        map.put("group_node_id",User.getUser().getGroup_node_id());
+        map.put("as_json",json);
+        Post(move_goods, map, new Callback() {
+            @Override
+            public void done(String data) {
+                //判断
             }
         });
     }

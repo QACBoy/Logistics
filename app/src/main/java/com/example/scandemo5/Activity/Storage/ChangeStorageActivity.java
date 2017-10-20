@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.scandemo5.Activity.BaseActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
 import com.example.scandemo5.Adapter.ScanDataAdapter;
+import com.example.scandemo5.Data.GoodsInfo;
 import com.example.scandemo5.Data.LocationInfo;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
@@ -34,6 +36,8 @@ import com.orhanobut.dialogplus.OnClickListener;
 import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.feezu.liuli.timeselector.TimeSelector;
+
+import java.util.List;
 
 import co.dift.ui.SwipeToAction;
 import info.hoang8f.widget.FButton;
@@ -67,6 +71,7 @@ public class ChangeStorageActivity extends BaseActivity {
                 switch (index){
                     case 0:
                         //上传移库数据
+                        toTraget();
                         break;
                     case 1:
                         Msg.showMsg(ChangeStorageActivity.this,"警告", "此举将清空所有已修改数据 您确定吗？", new Msg.CallBack() {
@@ -110,51 +115,33 @@ public class ChangeStorageActivity extends BaseActivity {
                 }
                 button.setEnabled(false);
                 button.setText("获取数据中");
-                Http.getInstance().Get(Http.getInstance().get_location + locationno.getText().toString(), new Http.Callback() {
+                Http.getInstance().Get_location_stock(locationno.getText().toString(), new Http.OBJCallback() {
                     @Override
-                    public void done(String data) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                button.setEnabled(true);
-                                button.setText("继续");
-                            }
-                        });
-                        if(Global.isNullorEmpty(data) || "NetError".equals(data)){
-                            Toast.makeText(ChangeStorageActivity.this,"网络数据获取失败，请检查网络",Toast.LENGTH_SHORT).show();
-                        }else {
+                    public void done(String isSuccess, List data) {
+                        button.setEnabled(true);
+                        button.setText("继续");
+                        if(Http.getInstance().Success.equals(isSuccess))
                             toShow(data);
-                        }
                     }
                 });
             }
         });
     }
 
-    private void toShow(String data){
-        Log.d("12222", "toShow: " + data);
+    private void toShow(List data){
+        Log.d("12222", "toShow: " + data.size());
         //处理网络数据
-        try {
-            locationinfo = DJson.JsonToObject(data, LocationInfo.class);
-            if (Global.isNullorEmpty(locationinfo.location.location_no)) {
-                Msg.showMsg(ChangeStorageActivity.this, "警告", "未找到该库位信息", null);
-                return;
-            }
-        }
-        catch (NullPointerException e){
-            Msg.showMsg(ChangeStorageActivity.this,"警告","未找到该库位信息",null);
-            return;
-        }
-        for(int i = 0;i<locationinfo.goods.size();i++){
+        List<GoodsInfo> list = data;
+        for(int i = 0;i<list.size();i++){
             Global.upLoad.list.add(new UpLoad.ScanData(
-                    locationinfo.goods.get(i).barcode,
-                    locationinfo.goods.get(i).goods_no,
-                    locationinfo.goods.get(i).goods_name,
-                    locationinfo.goods.get(i).MFG,
-                    locationinfo.goods.get(i).EXP,
-                    locationinfo.goods.get(i).LOT,
-                    locationinfo.goods.get(i).location_no,
-                    locationinfo.goods.get(i).quantity
+                    list.get(i).barcode,
+                    list.get(i).goods_no,
+                    list.get(i).goods_name,
+                    list.get(i).mfg,
+                    list.get(i).exp,
+                    list.get(i).lot,
+                    list.get(i).location_no,
+                    list.get(i).free_stock
             ));
         }
 
@@ -190,6 +177,7 @@ public class ChangeStorageActivity extends BaseActivity {
                 //do something
                 SQLite.Goods goods = SQLite.getInstance().getGoods(itemData.barcode);
                 if (goods != null) {
+                    Global.ScanRisEditable = false;//设置成不可编辑
                     Global.ShowUI_map = Global.GoodsToJMap(goods);
                     Global.ShowUI_Scanmap = Global.ScanDataToJMap(itemData);
                     int pos = removeScanData(itemData);
@@ -238,24 +226,11 @@ public class ChangeStorageActivity extends BaseActivity {
                         tKey.setText(RMap.getrMap().get(Global.ShowUI_Scanmap.get(position + 3)));  //从Global.ShowUI_Scanmap中第3项开始显示
                         tValue.setText(Global.ShowUI_Scanmap.get(Global.ShowUI_Scanmap.get(position+3)));
 
-                        if(position > 2) {  //到生产日期才开始启用日期选择组件
-                            tValue.setFocusableInTouchMode(false);
-                            tValue.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(final View v) {
-                                    TimeSelector timeSelector = new TimeSelector(ChangeStorageActivity.this, new TimeSelector.ResultHandler() {
-                                        @Override
-                                        public void handle(String time) {
-                                            ((EditText)v).setText(time.substring(0,10));
-                                        }
-                                    }, "2015-01-01 00:00", "2030-12-31 24:00");
-                                    timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
-                                    timeSelector.setIsLoop(true);
-                                    timeSelector.show();
-                                }
-                            });
+                        if(position > 0) {  //只有数量才让改
+                            tValue.setEnabled(false);
                         }else {
                             tValue.setSingleLine();
+                            tValue.setInputType(InputType.TYPE_CLASS_NUMBER);
                             tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
                         }
                         switch (position){
@@ -293,17 +268,17 @@ public class ChangeStorageActivity extends BaseActivity {
                                 break;
                             case R.id.footer_confirm_button://点击保存按钮
                                 String sl = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_quantity).findViewById(R.id.handle_item_value))).getText().toString();
-                                String pc = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_LOT).findViewById(R.id.handle_item_value))).getText().toString();
-                                String kw = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_location_no).findViewById(R.id.handle_item_value))).getText().toString();
-                                String sc = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_MFG).findViewById(R.id.handle_item_value))).getText().toString();
-                                String dq = ((EditText)(dialog.getHolderView().findViewById(R.id.ids_EXP).findViewById(R.id.handle_item_value))).getText().toString();
-                                Global.upLoad.list.get(Postion).quantity = sl;
-                                Global.upLoad.list.get(Postion).LOT = pc;
-                                Global.upLoad.list.get(Postion).location_no = kw;
-                                Global.upLoad.list.get(Postion).MFG = sc;
-                                Global.upLoad.list.get(Postion).EXP = dq;
-                                adapter.notifyItemChanged(Postion);
-                                dialog.dismiss();
+                                if(Double.valueOf(sl) <=  Double.valueOf(Global.upLoad.list.get(Postion).quantity)) {
+                                    if(Double.valueOf(sl) < 0){
+                                        Toast.makeText(ChangeStorageActivity.this,"移动数量不能小于0",Toast.LENGTH_LONG).show();
+                                    }else {
+                                        Global.upLoad.list.get(Postion).quantity = sl;
+                                        adapter.notifyItemChanged(Postion);
+                                        dialog.dismiss();
+                                    }
+                                }else {
+                                    Toast.makeText(ChangeStorageActivity.this,"移动数量不能大于库存数量",Toast.LENGTH_LONG).show();
+                                }
                                 break;
                         }
                     }

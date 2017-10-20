@@ -113,7 +113,7 @@ public class OutGoingSureDetailActivity extends BaseActivity{
 //            @Override
 //            public void onClick(UpLoad.ScanData itemData) {
 //                //do something
-//                SQLite.Goods goods = SQLite.getInstance().getGoods(itemData.barcode);
+//                SQLite.GoodsInfo goods = SQLite.getInstance().getGoods(itemData.barcode);
 //                if (goods != null) {
 //                    Global.ShowUI_map = Global.GoodsToJMap(goods);
 //                    Global.ShowUI_Scanmap = Global.ScanDataToJMap(itemData);

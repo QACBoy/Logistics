@@ -77,6 +77,9 @@ public class ScanRActivity extends AppCompatActivity {
         tValue.setSingleLine();
         tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
+        if(!Global.ScanRisEditable){//如果全局设置不可编辑，就不可编辑
+            tValue.setEnabled(false);
+        }
         tabltLayout.addView(row);
     }
 
@@ -98,14 +101,10 @@ public class ScanRActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        tValue.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MainActivity.mainActivity.LocationNo_EditText = v;
-//                Global.setTYPE_SCA(Global.ScanType.rk_LocationNo);
-//            }
-//        });
 
+        if(!Global.ScanRisEditable){//如果全局设置不可编辑，就不可编辑
+            tValue.setEnabled(false);
+        }
         tabltLayout.addView(row);
     }
 
@@ -124,21 +123,6 @@ public class ScanRActivity extends AppCompatActivity {
         tValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-//                Calendar now = Calendar.getInstance();
-//                DatePickerDialog dpd = DatePickerDialog.newInstance(
-//                        new DatePickerDialog.OnDateSetListener() {
-//                            @Override
-//                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
-//                                Log.d("12111", "onDateSet() called with: view = [" + view + "], year = [" + year + "], monthOfYear = [" + monthOfYear + "], dayOfMonth = [" + dayOfMonth + "], yearEnd = [" + yearEnd + "], monthOfYearEnd = [" + monthOfYearEnd + "], dayOfMonthEnd = [" + dayOfMonthEnd + "]");
-//                                ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).setText(year+"-"+(monthOfYear + 1)+"-"+dayOfMonth);
-//                                ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).setText(yearEnd+"-"+(monthOfYearEnd + 1)+"-"+dayOfMonthEnd);
-//                            }
-//                        },
-//                        now.get(Calendar.YEAR),
-//                        now.get(Calendar.MONTH),
-//                        now.get(Calendar.DAY_OF_MONTH)
-//                );
-//                dpd.show(getFragmentManager(), "Datepickerdialog");
                 TimeSelector timeSelector = new TimeSelector(ScanRActivity.this, new TimeSelector.ResultHandler() {
                     @Override
                     public void handle(String time) {
@@ -151,20 +135,23 @@ public class ScanRActivity extends AppCompatActivity {
             }
         });
 
+        if(!Global.ScanRisEditable){//如果全局设置不可编辑，就不可编辑
+            tValue.setEnabled(false);
+        }
         tabltLayout.addView(row);
     }
 
 
     private void addDataToUpLoadList(){
         if(tabltLayout.getChildCount() > 0) {
-            String barcode = ((EditText) tabltLayout.getChildAt(3).findViewById(R.id.handle_item_value)).getText().toString();
-            String goods_no = ((EditText) tabltLayout.getChildAt(1).findViewById(R.id.handle_item_value)).getText().toString();
-            String goods_name = ((EditText) tabltLayout.getChildAt(2).findViewById(R.id.handle_item_value)).getText().toString();
-            String MFG = ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).getText().toString();
-            String EXP = ((EditText) tabltLayout.getChildAt(17).findViewById(R.id.handle_item_value)).getText().toString();
-            String location_no = ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).getText().toString();
-            String LOT = ((EditText) tabltLayout.getChildAt(14).findViewById(R.id.handle_item_value)).getText().toString();
-            String quantity = ((EditText) tabltLayout.getChildAt(13).findViewById(R.id.handle_item_value)).getText().toString();
+            String barcode = ((EditText) tabltLayout.getChildAt(2).findViewById(R.id.handle_item_value)).getText().toString();
+            String goods_no = ((EditText) tabltLayout.getChildAt(0).findViewById(R.id.handle_item_value)).getText().toString();
+            String goods_name = ((EditText) tabltLayout.getChildAt(1).findViewById(R.id.handle_item_value)).getText().toString();
+            String MFG = ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).getText().toString();
+            String EXP = ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).getText().toString();
+            String location_no = ((EditText) tabltLayout.getChildAt(14).findViewById(R.id.handle_item_value)).getText().toString();
+            String LOT = ((EditText) tabltLayout.getChildAt(13).findViewById(R.id.handle_item_value)).getText().toString();
+            String quantity = ((EditText) tabltLayout.getChildAt(12).findViewById(R.id.handle_item_value)).getText().toString();
 //            Global.upLoad.add(new UpLoad.ScanData(barcode, goods_no, goods_name, MFG, EXP, LOT, quantity));
             int pos = getIntent().getIntExtra("postion",-1);
             if( -1 == pos) {
@@ -194,7 +181,7 @@ public class ScanRActivity extends AppCompatActivity {
         Scanmap = Global.ShowUI_Scanmap;
         tabltLayout.removeAllViewsInLayout();
         tabltLayout.setBackgroundColor(Color.BLACK);
-        addChildView(RMap.getrMap().get("procure_no"),Global.PROCURENO,false);
+//        addChildView(RMap.getrMap().get("procure_no"),Global.PROCURENO,false);
         for (int i = 0; i < map.size(); i++) {
             String key = RMap.getrMap().get(map.get(i));
             String value = map.get(map.get(i));
