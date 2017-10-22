@@ -29,6 +29,7 @@ import com.example.scandemo5.MyApp;
 import com.example.scandemo5.R;
 import com.example.scandemo5.Recevier.TReceiver;
 import com.example.scandemo5.Utils.DJson;
+import com.example.scandemo5.Utils.DateDeal;
 import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
@@ -88,7 +89,9 @@ public class MainActivity extends BaseActivity {
                                 map.put("as_user", User.getUser().getUsername());
                                 map.put("as_password",User.getUser().getPassword());
                                 map.put("group_node_id",User.getUser().getGroup_node_id());
-                                map.put("ord_procure_no",Global.upLoad.come_goods_no);
+                                if(!Global.isNullorEmpty(Global.upLoad.come_goods_no))
+                                    map.put("factory_billno",Global.upLoad.come_goods_no);
+                                map.put("ord_procure_no","ord_procure_no"); //暂时填充
                                 map.put("client_no",Global.upLoad.procure_no);
                                 map.put("as_json", DJson.ObjectToJson(Global.upLoad.list));
                                 Http.getInstance().Post(Http.getInstance().get_rk_detail, map, new Http.Callback() {
@@ -168,7 +171,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(UpLoad.ScanData itemData) {
                 //do something
-                SQLite.Goods goods = SQLite.getInstance().getGoods(itemData.barcode);
+                SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(itemData.goods_no);
                 if (goods != null) {
                     Global.ShowUI_map = Global.GoodsToJMap(goods);
                     Global.ShowUI_Scanmap = Global.ScanDataToJMap(itemData);
@@ -192,7 +195,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void alertUpdateScannData(){
-        DialogPlus dialog = DialogPlus.newDialog(this)
+        final DialogPlus dialog = DialogPlus.newDialog(this)
                 .setAdapter(new BaseAdapter() {
                     @Override
                     public int getCount() {
@@ -210,7 +213,7 @@ public class MainActivity extends BaseActivity {
                     }
 
                     @Override
-                    public View getView(int position, View convertView, ViewGroup parent) {
+                    public View getView(final int position, View convertView, ViewGroup parent) {
                         convertView = LayoutInflater.from(MainActivity.this).inflate(R.layout.handle_item, null);
 
                         TextView tKey = (TextView) convertView.findViewById(R.id.handle_item_key);
@@ -259,7 +262,16 @@ public class MainActivity extends BaseActivity {
                                     TimeSelector timeSelector = new TimeSelector(MainActivity.this, new TimeSelector.ResultHandler() {
                                         @Override
                                         public void handle(String time) {
-                                            ((EditText)v).setText(time.substring(0,10));
+                                            time = time.substring(0,10);
+                                            ((EditText)v).setText(time);
+                                            SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(Global.upLoad.list.get(Postion).goods_no);
+                                            if(position == 3){
+                                                //出厂日期
+                                                ((EditText)(v.getRootView().findViewById(R.id.ids_EXP).findViewById(R.id.handle_item_value))).setText(DateDeal.add(time,Integer.parseInt(goods.ex_day)));
+                                            }else if(position == 4){
+                                                //到期日期
+                                                ((EditText)(v.getRootView().findViewById(R.id.ids_MFG).findViewById(R.id.handle_item_value))).setText(DateDeal.reduce(time,Integer.parseInt(goods.ex_day)));
+                                            }
                                         }
                                     }, "2015-01-01 00:00", "2030-12-31 24:00");
                                     timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
@@ -463,73 +475,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
-
-
-
-/*
-
-    private MenuItem count;
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.actionbar, menu);
-        count = menu.findItem(R.id.action_count);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!isFinishing()) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            count.setTitle(String.valueOf(Global.upLoad.list.size()));
-                        }
-                    });
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_upload:
-                Msg.showMsg(this,"确定", "确定上传吗？", new Msg.CallBack() {
-                    @Override
-                    public void confirm(DialogPlus dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                break;
-            case R.id.action_update_no:
-                ToMain();
-                break;
-            case R.id.action_reset:
-                Msg.showMsg(this,"警告", "此举将清空所有已扫描数据 您确定吗？", new Msg.CallBack() {
-                    @Override
-                    public void confirm(DialogPlus dialog) {
-                        Global.upLoad = new UpLoad();
-                        ToMain();
-                    }
-                });
-                break;
-            case R.id.action_set:
-                startActivity(new Intent(MainActivity.this,SetActivity.class));
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-*/
-
     //扫描结果处理
     public void dealScanData(String data){
 
@@ -537,26 +482,31 @@ public class MainActivity extends BaseActivity {
             Global.dialog.dismiss();
         }
 
-        SQLite.Goods goods = SQLite.getInstance().getGoods(data);
+        List<SQLite.Goods> goods = SQLite.getInstance().getGoods(data);
 
         if (goods != null) {
+            if(goods.size() == 1) {
+                SQLite.Goods good = goods.get(0);
 //            Global.ShowUI_map = Global.GoodsToJMap(goods);
 //            Global.ShowUI_Scanmap = Global.ScanDataToJMap(new UpLoad.ScanData());
 //            Intent intent1 = new Intent(MainActivity.mainActivity, ScanRActivity.class);
 //            startActivity(intent1);
 
-            JMap<String, String> map = new JMap<>();
-            map.add("goods_no", goods.goods_no);
-            map.add("goods_name", goods.goods_name);
-            map.add("barcode", goods.barcode);
-            map.add("goods_spce", goods.goods_spce);
-            map.add("quantity", "");
-            map.add("LOT", "");
-            map.add("location_no", "010001");
-            map.add("MFG", "");
-            map.add("EXP", "");
+                JMap<String, String> map = new JMap<>();
+                map.add("goods_no", good.goods_no);
+                map.add("goods_name", good.goods_name);
+                map.add("barcode", good.barcode);
+                map.add("goods_spce", good.goods_spce);
+                map.add("quantity", "");
+                map.add("LOT", "");
+                map.add("location_no", "010001");
+                map.add("MFG", "");
+                map.add("EXP", "");
 
-            Msg.showSacn(this,map);
+                Msg.showSacn(this, map);
+            }else {
+                //同一条码不同编号弹窗处理
+            }
 
         } else {
             Toast.makeText(MyApp.getContext(), "未找到商品" + data, Toast.LENGTH_SHORT).show();

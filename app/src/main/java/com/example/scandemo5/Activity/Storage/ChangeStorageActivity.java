@@ -175,7 +175,7 @@ public class ChangeStorageActivity extends BaseActivity {
             @Override
             public void onClick(UpLoad.ScanData itemData) {
                 //do something
-                SQLite.Goods goods = SQLite.getInstance().getGoods(itemData.barcode);
+                SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(itemData.goods_no);
                 if (goods != null) {
                     Global.ScanRisEditable = false;//设置成不可编辑
                     Global.ShowUI_map = Global.GoodsToJMap(goods);

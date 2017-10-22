@@ -151,18 +151,18 @@ public class OutGoingDetailActivity extends BaseActivity{
             @Override
             public void onClick(UpLoad.ScanData itemData) {
                 //do something
-                SQLite.Goods goods = SQLite.getInstance().getGoods(itemData.barcode);
-                if (goods != null) {
-                    Global.ShowUI_map = Global.GoodsToJMap(goods);
+//                SQLite.Goods goods = SQLite.getInstance().getGoods(itemData.barcode);
+//                if (goods != null) {
+//                    Global.ShowUI_map = Global.GoodsToJMap(goods);
                     Global.ShowUI_Scanmap = Global.ScanDataToJMap(itemData);
                     int pos = removeScanData(itemData);
                     Intent intent1 = new Intent(OutGoingDetailActivity.this, ScanRActivity.class);
                     intent1.putExtra("postion",pos);
                     Global.ScanUpdateActivity = "OutGoingDetailActivity";
                     startActivity(intent1);
-                }else {
+//                }else {
                     Msg.showMsg(OutGoingDetailActivity.this,"提示","商品库未找到该商品信息,更新商品数据后重试",null);
-                }
+//                }
 
 
             }

@@ -18,9 +18,11 @@ import com.example.scandemo5.Activity.Storage.ChangeStorageActivity;
 import com.example.scandemo5.Activity.Storage.MainActivity;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.R;
+import com.example.scandemo5.Utils.DateDeal;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.JMap;
 import com.example.scandemo5.Utils.RMap;
+import com.example.scandemo5.Utils.SQLite;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrInterface;
 
@@ -110,7 +112,7 @@ public class ScanRActivity extends AppCompatActivity {
 
 
 
-    private void addChildTimeView(String key,String value){
+    private void addChildTimeView(final String key, String value){
         TableRow row = (TableRow) LayoutInflater.from(ScanRActivity.this).inflate(R.layout.handle_item, null);
 
         TextView tKey = (TextView) row.findViewById(R.id.handle_item_key);
@@ -127,6 +129,16 @@ public class ScanRActivity extends AppCompatActivity {
                     @Override
                     public void handle(String time) {
                         ((EditText)v).setText(time.substring(0,10));
+                        time = time.substring(0,10);
+                        ((EditText)v).setText(time);
+                        SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(map.get("goods_no"));
+                        if("生产日期".equals(key)){
+                            //出厂日期
+                            ((EditText) tabltLayout.getChildAt(16).findViewById(R.id.handle_item_value)).setText(DateDeal.add(time,Integer.parseInt(goods.ex_day)));
+                        }else if("到期日期".equals(key)){
+                            //到期日期
+                            ((EditText) tabltLayout.getChildAt(15).findViewById(R.id.handle_item_value)).setText(DateDeal.reduce(time,Integer.parseInt(goods.ex_day)));
+                        }
                     }
                 }, "2015-01-01 00:00", "2030-12-31 24:00");
                 timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日

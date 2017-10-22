@@ -6,9 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.scandemo5.Data.LocationInfo;
 import com.example.scandemo5.MyApp;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -42,7 +44,8 @@ public class SQLite {
                                                                         " single_weight TEXT," +
                                                                         " pack_weight TEXT," +
                                                                         " single_vol TEXT," +
-                                                                        " pack_vol TEXT);";
+                                                                        " pack_vol TEXT," +
+                                                                        " batch TEXT);";
         String CreateProcureTable = "create table " + Procure_TABLE_NAME + " (procure_no TEXT primary key,client_name TEXT);";
 
 
@@ -92,6 +95,7 @@ public class SQLite {
         public String pack_vol;
         public String single_vol;
         public String goods_name;
+        public String batch;
     }
 
 //    public class Procure{
@@ -136,6 +140,7 @@ public class SQLite {
                                                                                         + good.pack_weight + "\",\""
                                                                                         + good.single_vol + "\",\""
                                                                                         + good.pack_vol
+                                                                                        + good.batch
                                                                                         +"\");";
                 Log.d("1235", "InsertAll: " + insert_sql);
                 Wdb.execSQL(insert_sql);
@@ -150,7 +155,7 @@ public class SQLite {
         return isSuccess;
     }
 
-    public Goods getGoods(String barcode){
+    public List<Goods> getGoods(String barcode){
 //        String get_sql = "select * from "+ help.GOODS_TABLE_NAME + " where goods_no = \""+ barcode +"\";";
         String get_sql = "select * from "+ help.GOODS_TABLE_NAME + " where barcode = \""+ barcode +"\";";
         Cursor cursor = null;
@@ -158,21 +163,25 @@ public class SQLite {
         cursor = Rdb.rawQuery(get_sql,null);
         if(cursor.getCount() > 0){
 
-            cursor.moveToNext();
-            Goods good = new Goods();
-            good.goods_no = cursor.getString(0);
-            good.goods_name = cursor.getString(1);
-            good.barcode = cursor.getString(2);
-            good.box_barcode = cursor.getString(3);
-            good.goods_spce = cursor.getString(4);
-            good.unit = cursor.getString(5);
-            good.pack_quantity = cursor.getString(6);
-            good.ex_day = cursor.getString(7);
-            good.single_weight = cursor.getString(8);
-            good.pack_weight = cursor.getString(9);
-            good.single_vol = cursor.getString(10);
-            good.pack_vol = cursor.getString(11);
-            return good;
+            List<Goods> goodsList = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                Goods good = new Goods();
+                good.goods_no = cursor.getString(0);
+                good.goods_name = cursor.getString(1);
+                good.barcode = cursor.getString(2);
+                good.box_barcode = cursor.getString(3);
+                good.goods_spce = cursor.getString(4);
+                good.unit = cursor.getString(5);
+                good.pack_quantity = cursor.getString(6);
+                good.ex_day = cursor.getString(7);
+                good.single_weight = cursor.getString(8);
+                good.pack_weight = cursor.getString(9);
+                good.single_vol = cursor.getString(10);
+                good.pack_vol = cursor.getString(11);
+
+                goodsList.add(good);
+            }
+            return goodsList;
         }else {
             return null;
         }

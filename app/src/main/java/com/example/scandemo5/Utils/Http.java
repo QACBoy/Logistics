@@ -108,12 +108,25 @@ public class Http {   //单例化模式
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Log.d(TAG, "onErrorResponse: "+volleyError.getMessage());
+                        Log.d(TAG, "onErrorResponse: "+volleyError.getMessage() + "---" + new String(volleyError.networkResponse.data));
+                        if(500 == volleyError.networkResponse.statusCode){
+                            Toast.makeText(MyApp.getContext(),"上传错误，" + new String(volleyError.networkResponse.data),Toast.LENGTH_LONG).show();
+                        }else {
+                            Toast.makeText(MyApp.getContext(),"网络连接失败，请检查网络",Toast.LENGTH_LONG).show();
+                        }
                         callback.done("NetError");
-                        Toast.makeText(MyApp.getContext(),"网络连接失败，请检查网络",Toast.LENGTH_LONG).show();
+
                     }
                 }
         ){
+
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> headers = new HashMap();
+//                headers.put("Content-Type", "application/x-www-form-urlencoded");
+//                return headers;
+//            }
+
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Log.d(TAG, "getParams: " + map.size());

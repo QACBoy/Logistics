@@ -3,6 +3,7 @@ package com.example.scandemo5.Utils;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -245,11 +246,12 @@ public class Msg {
                             }
 
                             @Override
-                            public View getView(int position, View convertView, ViewGroup parent) {
+                            public View getView(final int position, View convertView, ViewGroup parent) {
                                 convertView = LayoutInflater.from(activity).inflate(R.layout.handle_item, null);
 
                                 TextView tKey = (TextView) convertView.findViewById(R.id.handle_item_key);
                                 EditText tValue = (EditText) convertView.findViewById(R.id.handle_item_value);
+                                tValue.setInputType(InputType.TYPE_CLASS_NUMBER);
 
                                 if(position >= map.size() - 5) {
                                     tKey.setText(RMap.getrMap().get(map.get(position)));
@@ -277,7 +279,16 @@ public class Msg {
                                                 TimeSelector timeSelector = new TimeSelector(activity, new TimeSelector.ResultHandler() {
                                                     @Override
                                                     public void handle(String time) {
-                                                        ((EditText) v).setText(time.substring(0, 10));
+                                                        time = time.substring(0,10);
+                                                        ((EditText)v).setText(time);
+                                                        SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(map.get("goods_no"));
+                                                        if(position - 4 == 3){
+                                                            //出厂日期
+                                                            ((EditText)(v.getRootView().findViewById(R.id.ids_EXP).findViewById(R.id.handle_item_value))).setText(DateDeal.add(time,Integer.parseInt(goods.ex_day)));
+                                                        }else if(position - 4 == 4){
+                                                            //到期日期
+                                                            ((EditText)(v.getRootView().findViewById(R.id.ids_MFG).findViewById(R.id.handle_item_value))).setText(DateDeal.reduce(time,Integer.parseInt(goods.ex_day)));
+                                                        }
                                                     }
                                                 }, "2015-01-01 00:00", "2030-12-31 24:00");
                                                 timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
