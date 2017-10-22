@@ -120,13 +120,6 @@ public class Http {   //单例化模式
                 }
         ){
 
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> headers = new HashMap();
-//                headers.put("Content-Type", "application/x-www-form-urlencoded");
-//                return headers;
-//            }
-
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Log.d(TAG, "getParams: " + map.size());
@@ -276,6 +269,28 @@ public class Http {   //单例化模式
                 else {
                     List<GoodsInfo> GoodsInfo = DJson.JsonToList(data,GoodsInfo.class);
                     callback.done(Success,GoodsInfo);
+                }
+            }
+        });
+    }
+
+    public void Get_rk_detail(String client_no, String factory_billno, String as_json, final Callback callback){
+        Map map = new HashMap();
+        map.put("as_user", User.getUser().getUsername());
+        map.put("as_password",User.getUser().getPassword());
+        map.put("group_node_id",User.getUser().getGroup_node_id());
+        map.put("client_no",client_no);
+        map.put("ord_procure_no",""); //暂时填充
+        map.put("factory_billno",factory_billno);
+        map.put("as_json", as_json);
+        Post(get_rk_detail, map, new Http.Callback() {
+            @Override
+            public void done(String data) {
+                if("NetError".equals(data)){
+                    Log.d("", "done: " + data);
+                    callback.done(NetError);
+                }else {
+                    callback.done(data);
                 }
             }
         });

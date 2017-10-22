@@ -3,6 +3,7 @@ package com.example.scandemo5.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -75,6 +76,8 @@ public class ScanRActivity extends AppCompatActivity {
 //              Log.d("11010", "showUI: " + key + "------" + value);
         tKey.setText(key);
         tValue.setText(value);
+        tValue.setInputType(InputType.TYPE_CLASS_NUMBER);
+        tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
         tValue.setSingleLine();
         tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -94,6 +97,8 @@ public class ScanRActivity extends AppCompatActivity {
         tKey.setText(key);
         tValue.setText(value);
 
+        tValue.setInputType(InputType.TYPE_CLASS_NUMBER);
+        tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
         tValue.setOnTouchListener(new View.OnTouchListener() {
             @Override

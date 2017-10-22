@@ -252,6 +252,7 @@ public class Msg {
                                 TextView tKey = (TextView) convertView.findViewById(R.id.handle_item_key);
                                 EditText tValue = (EditText) convertView.findViewById(R.id.handle_item_value);
                                 tValue.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
                                 if(position >= map.size() - 5) {
                                     tKey.setText(RMap.getrMap().get(map.get(position)));

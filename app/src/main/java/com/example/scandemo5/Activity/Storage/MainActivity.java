@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -85,19 +86,16 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void confirm(DialogPlus dialog) {
                                 dialog.dismiss();
-                                Map map = new HashMap();
-                                map.put("as_user", User.getUser().getUsername());
-                                map.put("as_password",User.getUser().getPassword());
-                                map.put("group_node_id",User.getUser().getGroup_node_id());
-                                if(!Global.isNullorEmpty(Global.upLoad.come_goods_no))
-                                    map.put("factory_billno",Global.upLoad.come_goods_no);
-                                map.put("ord_procure_no","ord_procure_no"); //暂时填充
-                                map.put("client_no",Global.upLoad.procure_no);
-                                map.put("as_json", DJson.ObjectToJson(Global.upLoad.list));
-                                Http.getInstance().Post(Http.getInstance().get_rk_detail, map, new Http.Callback() {
+                                Http.getInstance().Get_rk_detail(Global.upLoad.procure_no, Global.upLoad.come_goods_no, DJson.ObjectToJson(Global.upLoad.list), new Http.Callback() {
                                     @Override
                                     public void done(String data) {
-                                        Log.d("123", "done: " + data);
+                                        if("提交成功".equals(data.substring(0,4))) {
+                                            Global.upLoad = new UpLoad();
+                                            ToMain();
+                                            Msg.showMsg(MainActivity.this, "提示", data, null);
+                                        }else {
+                                            Msg.showMsg(MainActivity.this, "警告", data, null);
+                                        }
                                     }
                                 });
                             }
@@ -218,6 +216,9 @@ public class MainActivity extends BaseActivity {
 
                         TextView tKey = (TextView) convertView.findViewById(R.id.handle_item_key);
                         EditText tValue = (EditText) convertView.findViewById(R.id.handle_item_value);
+
+                        tValue.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
                         tKey.setText(RMap.getrMap().get(Global.ShowUI_Scanmap.get(position + 3)));  //从Global.ShowUI_Scanmap中第3项开始显示
                         tValue.setText(Global.ShowUI_Scanmap.get(Global.ShowUI_Scanmap.get(position+3)));
