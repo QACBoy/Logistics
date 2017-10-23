@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -108,9 +109,14 @@ public class Http {   //单例化模式
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Log.d(TAG, "onErrorResponse: "+volleyError.getMessage() + "---" + new String(volleyError.networkResponse.data));
+                        String data = "";
+                        if(null != volleyError.networkResponse) {
+                            data = new String(volleyError.networkResponse.data);
+                            Log.d(TAG, "onErrorResponse: " + data);
+                        }
+                        Log.d(TAG, "onErrorResponse: " + volleyError.getMessage());
                         if(500 == volleyError.networkResponse.statusCode){
-                            Toast.makeText(MyApp.getContext(),"上传错误，" + new String(volleyError.networkResponse.data),Toast.LENGTH_LONG).show();
+                            Toast.makeText(MyApp.getContext(),"上传错误，" + data ,Toast.LENGTH_LONG).show();
                         }else {
                             Toast.makeText(MyApp.getContext(),"网络连接失败，请检查网络",Toast.LENGTH_LONG).show();
                         }
@@ -140,7 +146,7 @@ public class Http {   //单例化模式
                 }
             }
         };    //StringRequest stringRequest = new.....结束
-//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(200,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));  //超时设置
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000 , 0 , 1.0f));  //20秒超时，失败后不重试 超时设置
         mqueue.add(stringRequest);    //把请求放到队列中
     }
 
@@ -180,7 +186,7 @@ public class Http {   //单例化模式
                 }
             }
         };    //StringRequest stringRequest = new.....结束
-//        stringRequest.setRetryPolicy(new DefaultRetryPolicy(200,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));  //超时设置
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000 , 0 , 1.0f));  //20秒超时，失败后不重试 超时设置
         mqueue.add(stringRequest);    //把请求放到队列中
     }
 

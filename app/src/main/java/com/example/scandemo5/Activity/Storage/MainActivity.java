@@ -62,6 +62,7 @@ public class MainActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private ScanDataAdapter adapter;
     private SwipeToAction swipeToAction;
+    private LinearLayoutManager layoutManager;
     private int Postion;
     public View LocationNo_EditText;
 
@@ -76,30 +77,74 @@ public class MainActivity extends BaseActivity {
         ToMain();
     }
 
+    private boolean check(){
+        int size = Global.upLoad.list.size();
+        if(size == 0){
+            Msg.showMsg(MainActivity.this,"警告","请扫描数据后再次提交",null);
+            return false;
+        }
+        for(int i = 0;i<size;i++){
+            if(!Global.isNullorEmpty(Global.upLoad.list.get(i).quantity) && !Global.isNullorEmpty(Global.upLoad.list.get(i).EXP) && !Global.isNullorEmpty(Global.upLoad.list.get(i).MFG) && !Global.isNullorEmpty(Global.upLoad.list.get(i).LOT)){
+                //通过
+            }else {
+                //不通过
+                MoveToPosition(layoutManager,recyclerView,i);
+                Msg.showMsg(MainActivity.this,"警告","请填写完整后再次提交\n错误发生在" + i + "条数据",null);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * RecyclerView 移动到当前位置，
+     *
+     * @param manager   设置RecyclerView对应的manager
+     * @param mRecyclerView  当前的RecyclerView
+     * @param n  要跳转的位置
+     */
+    public static void MoveToPosition(LinearLayoutManager manager, RecyclerView mRecyclerView, int n) {
+
+
+        int firstItem = manager.findFirstVisibleItemPosition();
+        int lastItem = manager.findLastVisibleItemPosition();
+        if (n <= firstItem) {
+            mRecyclerView.scrollToPosition(n);
+        } else if (n <= lastItem) {
+            int top = mRecyclerView.getChildAt(n - firstItem).getTop();
+            mRecyclerView.scrollBy(0, top);
+        } else {
+            mRecyclerView.scrollToPosition(n);
+        }
+
+    }
+
     private void initHanButton() { //初始化右菜单
         setHamButtonClick(new HamButtonClick() {
             @Override
             public void onClick(int index, BoomButton boomButton) {
                 switch (index){
                     case 0:
-                        Msg.showMsg(MainActivity.this,"确定", "确定上传吗？", new Msg.CallBack() {
-                            @Override
-                            public void confirm(DialogPlus dialog) {
-                                dialog.dismiss();
-                                Http.getInstance().Get_rk_detail(Global.upLoad.procure_no, Global.upLoad.come_goods_no, DJson.ObjectToJson(Global.upLoad.list), new Http.Callback() {
-                                    @Override
-                                    public void done(String data) {
-                                        if("提交成功".equals(data.substring(0,4))) {
-                                            Global.upLoad = new UpLoad();
-                                            ToMain();
-                                            Msg.showMsg(MainActivity.this, "提示", data, null);
-                                        }else {
-                                            Msg.showMsg(MainActivity.this, "警告", data, null);
+                        if(check()) {
+                            Msg.showMsg(MainActivity.this, "确定", "确定上传吗？", new Msg.CallBack() {
+                                @Override
+                                public void confirm(DialogPlus dialog) {
+                                    dialog.dismiss();
+                                    Http.getInstance().Get_rk_detail(Global.upLoad.procure_no, Global.upLoad.come_goods_no, DJson.ObjectToJson(Global.upLoad.list), new Http.Callback() {
+                                        @Override
+                                        public void done(String data) {
+                                            if ("提交成功".equals(data.substring(0, 4))) {
+                                                Global.upLoad = new UpLoad();
+                                                ToMain();
+                                                Msg.showMsg(MainActivity.this, "提示", data, null);
+                                            } else {
+                                                Msg.showMsg(MainActivity.this, "警告", data, null);
+                                            }
                                         }
-                                    }
-                                });
-                            }
-                        });
+                                    });
+                                }
+                            });
+                        }
                         break;
                     case 1:
                         ToMain();
@@ -129,7 +174,7 @@ public class MainActivity extends BaseActivity {
     private void BindRectclerView(){
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         adapter = new ScanDataAdapter();
@@ -141,6 +186,7 @@ public class MainActivity extends BaseActivity {
                 Msg.showMsg(MainActivity.this, "警告", "是否确定删除该条目？", new Msg.CallBack() {
                     @Override
                     public void confirm(DialogPlus dialog) {
+                        dialog.dismiss();
                         final int pos = removeScanData(itemData);
                         if(-1 != pos) {
                             displaySnackbar(pos + "-移除" + itemData.barcode + "的商品", "撤销", new View.OnClickListener() {
