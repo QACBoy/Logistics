@@ -334,7 +334,7 @@ public class Msg {
                                         });
                                     }
 
-
+                                    final SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(map.get("goods_no"));
                                     if (position - 4 > 2) {
                                         tValue.setFocusableInTouchMode(false);
                                         tValue.setOnClickListener(new View.OnClickListener() {
@@ -345,7 +345,6 @@ public class Msg {
                                                     public void handle(String time) {
                                                         time = time.substring(0,10);
                                                         ((EditText)v).setText(time);
-                                                        SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(map.get("goods_no"));
                                                         if(position - 4 == 3){
                                                             //出厂日期
                                                             ((EditText)(v.getRootView().findViewById(R.id.ids_EXP).findViewById(R.id.handle_item_value))).setText(DateDeal.add(time,Integer.parseInt(goods.ex_day)));
@@ -354,7 +353,7 @@ public class Msg {
                                                             ((EditText)(v.getRootView().findViewById(R.id.ids_MFG).findViewById(R.id.handle_item_value))).setText(DateDeal.reduce(time,Integer.parseInt(goods.ex_day)));
                                                         }
                                                     }
-                                                }, "2015-01-01 00:00", "2030-12-31 24:00");
+                                                }, DateDeal.Format(DateDeal.reduce(DateDeal.Now(),Integer.parseInt(goods.ex_day))), DateDeal.Format(DateDeal.add(DateDeal.Now(),Integer.parseInt(goods.ex_day))));
                                                 timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
                                                 timeSelector.setIsLoop(true);
                                                 timeSelector.show();

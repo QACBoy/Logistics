@@ -45,6 +45,9 @@ import info.hoang8f.widget.FButton;
 
 public class ChangeStorageActivity extends BaseActivity {
 
+    public String location_no_old;
+    public String location_no_traget;
+
     public static ChangeStorageActivity activity;
     public static TableLayout tabltLayout;
     private RecyclerView recyclerView;
@@ -72,6 +75,10 @@ public class ChangeStorageActivity extends BaseActivity {
                 switch (index){
                     case 0:
                         //上传移库数据
+                        if(Global.isNullorEmpty(location_no_old)){
+                            Toast.makeText(ChangeStorageActivity.this,"请扫描库位单号",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         toTraget();
                         break;
                     case 1:
@@ -91,7 +98,7 @@ public class ChangeStorageActivity extends BaseActivity {
     private void toTraget(){
         setContentView(R.layout.activity_change_storage);
         locationno = (EditText) findViewById(R.id.changestorage_stroageno);
-        locationno.setText("请扫描 目标库位");
+        locationno.setHint("请扫描 目标库位");
         button = (FButton) findViewById(R.id.changestorage_ok);
         button.setText("确认移动");
         button.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +118,8 @@ public class ChangeStorageActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Global.isNullorEmpty(locationno.getText().toString())){
+                location_no_old = locationno.getText().toString();
+                if(Global.isNullorEmpty(location_no_old)){
                     Toast.makeText(ChangeStorageActivity.this,"请扫描库位单号",Toast.LENGTH_SHORT).show();
                     return;
                 }

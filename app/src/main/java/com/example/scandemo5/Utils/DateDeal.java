@@ -1,5 +1,6 @@
 package com.example.scandemo5.Utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +10,17 @@ import java.util.Date;
  */
 
 public class DateDeal {
+
+    public static String Now(){
+        SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        return formatter.format(curDate);
+    }
+
+    public static String Format(String strDate)
+    {
+        return strDate + " 00:00:00";
+    }
 
     //Day:日期字符串例如 2015-3-10  Num:需要减少的天数例如 7
     public static String add(String day,int Num) {
