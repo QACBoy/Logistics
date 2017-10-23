@@ -27,6 +27,7 @@ import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.DJson;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
+import com.example.scandemo5.Utils.InputTools;
 import com.example.scandemo5.Utils.Msg;
 import com.example.scandemo5.Utils.RMap;
 import com.example.scandemo5.Utils.SQLite;
@@ -105,6 +106,7 @@ public class ChangeStorageActivity extends BaseActivity {
         Global.setTYPE_SCA(Global.ScanType.kw_stroageno);
         setContentView(R.layout.activity_change_storage);
         locationno = (EditText) findViewById(R.id.changestorage_stroageno);
+        locationno.setInputType(InputType.TYPE_CLASS_NUMBER);
         button = (FButton) findViewById(R.id.changestorage_ok);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,13 +115,12 @@ public class ChangeStorageActivity extends BaseActivity {
                     Toast.makeText(ChangeStorageActivity.this,"请扫描库位单号",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                button.setEnabled(false);
-                button.setText("获取数据中");
+                InputTools.HideKeyboard(locationno);
+                Msg.wait(ChangeStorageActivity.this,"提示","查询中商品数据...");
                 Http.getInstance().Get_location_stock(locationno.getText().toString(), new Http.OBJCallback() {
                     @Override
                     public void done(String isSuccess, List data) {
-                        button.setEnabled(true);
-                        button.setText("继续");
+                        Msg.stopwait();
                         if(Http.getInstance().Success.equals(isSuccess))
                             toShow(data);
                     }
@@ -130,6 +131,7 @@ public class ChangeStorageActivity extends BaseActivity {
 
     private void toShow(List data){
         Log.d("12222", "toShow: " + data.size());
+        Global.setTYPE_SCA(Global.ScanType.Unknown);//扫描完切换到未知模式，防止崩溃
         //处理网络数据
         List<GoodsInfo> list = data;
         for(int i = 0;i<list.size();i++){

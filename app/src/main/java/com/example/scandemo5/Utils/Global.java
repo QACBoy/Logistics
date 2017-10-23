@@ -109,6 +109,8 @@ public class Global {
         return TYPE_SCA;
     }
     public static class ScanType{
+        public static String Unknown = "132564";//未知扫描操作
+
         ///入库管理模式
         public static String rk_Procure = "rk10001";//扫描供货商
         public static String rk_ComeGoodsNo = "rk10002";//扫描到货单

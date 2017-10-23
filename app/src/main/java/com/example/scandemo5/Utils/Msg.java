@@ -3,12 +3,15 @@ package com.example.scandemo5.Utils;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -32,6 +35,10 @@ import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.util.List;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
+
 /**
  * Created by Sam on 2017/9/17.
  */
@@ -43,6 +50,62 @@ public class Msg {
     public interface CallBack{  //弹窗回调
         void confirm(DialogPlus dialog);
     }
+
+    public static void stopwait(){
+        if(Global.dialog != null)Global.dialog.dismiss();
+    }
+    public static void wait(final Activity activity, final String title, final String msg){
+        if(Global.dialog != null)Global.dialog.dismiss();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(Sleep_time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Global.dialog = DialogPlus.newDialog(activity)
+                        .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                        .setGravity(Gravity.CENTER)
+                        .setAdapter(new BaseAdapter() {
+                            @Override
+                            public int getCount() {
+                                return 1;
+                            }
+
+                            @Override
+                            public Object getItem(int position) {
+                                return null;
+                            }
+
+                            @Override
+                            public long getItemId(int position) {
+                                return position;
+                            }
+
+                            @Override
+                            public View getView(int position, View convertView, ViewGroup parent) {
+                                convertView = activity.getLayoutInflater().inflate(R.layout.msg_wait,null);
+                                ((TextView)convertView.findViewById(R.id.msg_wait_title)).setText(title);
+                                ((TextView)convertView.findViewById(R.id.msg_wait_content)).setText(msg);
+                                SmoothProgressBar mPocketBar = (SmoothProgressBar) convertView.findViewById(R.id.msg_bar);
+                                mPocketBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(activity).interpolator(new AccelerateInterpolator()).build());
+                                mPocketBar.setSmoothProgressDrawableColors(activity.getResources().getIntArray(R.array.wait_colors));
+                                return convertView;
+                            }
+                        })
+                        .setCancelable(false)
+                        .create();
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Global.dialog.show();
+                    }
+                });
+            }
+        }).start();
+    }
+
     public static void showMsg(final Activity activity, final String title, final String msg, final CallBack callBack){
         if(Global.dialog != null)Global.dialog.dismiss();
         new Thread(new Runnable() {

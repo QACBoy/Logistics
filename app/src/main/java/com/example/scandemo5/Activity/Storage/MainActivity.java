@@ -34,6 +34,7 @@ import com.example.scandemo5.Utils.DateDeal;
 import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
+import com.example.scandemo5.Utils.InputTools;
 import com.example.scandemo5.Utils.JMap;
 import com.example.scandemo5.Utils.RMap;
 import com.example.scandemo5.Utils.SQLite;
@@ -129,10 +130,11 @@ public class MainActivity extends BaseActivity {
                             Msg.showMsg(MainActivity.this, "确定", "确定上传吗？", new Msg.CallBack() {
                                 @Override
                                 public void confirm(DialogPlus dialog) {
-                                    dialog.dismiss();
+                                    Msg.wait(MainActivity.this,"提示","上传中,请稍等（此操作需要1-20秒左右）");
                                     Http.getInstance().Get_rk_detail(Global.upLoad.procure_no, Global.upLoad.come_goods_no, DJson.ObjectToJson(Global.upLoad.list), new Http.Callback() {
                                         @Override
                                         public void done(String data) {
+                                            Msg.stopwait();
                                             if ("提交成功".equals(data.substring(0, 4))) {
                                                 Global.upLoad = new UpLoad();
                                                 ToMain();
@@ -400,19 +402,20 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.get).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(InputTools.KeyBoard(procure_key)){
+                    InputTools.HideKeyboard(procure_key);
+                }
                 String key = procure_key.getText().toString();
                 if(!Global.isNullorEmpty(key)){
-                    findViewById(R.id.get).setEnabled(false);
-                    ((Button)findViewById(R.id.get)).setText("查询中");
+                    Msg.wait(MainActivity.this,"提示","查询中...");
                     Http.getInstance().Get_client_info(key, new Http.OBJCallback() {
                         @Override
                         public void done(String isSuccess, List data) {
                             Log.d("", "done: " + isSuccess );
+                            Msg.stopwait();
                             if(Http.getInstance().Success.equals(isSuccess)){
                                 procuretoshow(data);
                             }
-                            findViewById(R.id.get).setEnabled(true);
-                            ((Button)findViewById(R.id.get)).setText("查询");
                         }
                     });
                 }else {
