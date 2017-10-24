@@ -346,6 +346,11 @@ public class Msg {
                                         });
                                     }
 
+                                    //数量默认设置
+                                    if(position - 4 == 0){
+                                        tValue.setText("1");
+                                    }
+
                                     final SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(map.get("goods_no"));
                                     if (position - 4 > 2) {
                                         tValue.setFocusableInTouchMode(false);

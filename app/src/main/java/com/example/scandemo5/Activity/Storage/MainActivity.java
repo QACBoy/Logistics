@@ -167,6 +167,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void ToScanner(){
+        Msg.showMsg(MainActivity.this,"提示","请扫描商品条码",null,null);
         Global.setTYPE_SCA(Global.ScanType.rk_GoodsNo);
         setContentView(R.layout.handle);
         tabltLayout = (TableLayout) findViewById(R.id.table);

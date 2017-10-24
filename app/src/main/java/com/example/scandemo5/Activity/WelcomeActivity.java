@@ -17,6 +17,8 @@ import com.example.scandemo5.Utils.Encryption;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
 import com.example.scandemo5.Utils.HttpData;
+import com.example.scandemo5.Utils.InputTools;
+import com.example.scandemo5.Utils.Msg;
 import com.example.scandemo5.Utils.User;
 import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 
@@ -66,8 +68,10 @@ public class WelcomeActivity extends AppCompatActivity {
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login_btn.setEnabled(false);
-                login_btn.setText("登录中...");
+//                login_btn.setEnabled(false);
+//                login_btn.setText("登录中...");
+                InputTools.HideKeyboard(((EditText)findViewById(R.id.password)));
+                Msg.wait(WelcomeActivity.this,"提示","登录中..");
                 String username = ((EditText)findViewById(R.id.username)).getText().toString();
                 String password = ((EditText)findViewById(R.id.password)).getText().toString();
 
@@ -76,8 +80,9 @@ public class WelcomeActivity extends AppCompatActivity {
                 Http.getInstance().access(username, password, new Http.Callback() {
                     @Override
                     public void done(String data) {
-                        login_btn.setEnabled(true);
-                        login_btn.setText("登录");
+//                        login_btn.setEnabled(true);
+//                        login_btn.setText("登录");
+                        Msg.stopwait();
                         if ("-1".equals(data)) {
                             Toast.makeText(MyApp.getContext(), "用户名或密码错误", Toast.LENGTH_SHORT).show();
                         }else if("0".equals(data)){

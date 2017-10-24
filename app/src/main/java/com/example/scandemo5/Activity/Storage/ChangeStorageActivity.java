@@ -96,6 +96,7 @@ public class ChangeStorageActivity extends BaseActivity {
     }
 
     private void toTraget(){
+        Global.setTYPE_SCA(Global.ScanType.kw_stroageno_traget);
         setContentView(R.layout.activity_change_storage);
         locationno = (EditText) findViewById(R.id.changestorage_stroageno);
         locationno.setHint("请扫描 目标库位");

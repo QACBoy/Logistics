@@ -65,7 +65,7 @@ public class TReceiver extends BroadcastReceiver {
             }
 
             //移库区
-            if(Global.getTYPE_SCA().equals(Global.ScanType.kw_stroageno)){
+            if(Global.getTYPE_SCA().equals(Global.ScanType.kw_stroageno) || Global.ScanType.kw_stroageno_traget.equals(Global.getTYPE_SCA())){
                 ((EditText)ChangeStorageActivity.activity.findViewById(R.id.changestorage_stroageno)).setText(str);
             }
         }else{

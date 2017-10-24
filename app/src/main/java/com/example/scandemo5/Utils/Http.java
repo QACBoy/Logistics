@@ -146,7 +146,7 @@ public class Http {   //单例化模式
                 }
             }
         };    //StringRequest stringRequest = new.....结束
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000 , 0 , 1.0f));  //20秒超时，失败后不重试 超时设置
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(60 * 1000 , 0 , 1.0f));  //60秒超时，失败后不重试 超时设置
         mqueue.add(stringRequest);    //把请求放到队列中
     }
 
@@ -186,7 +186,7 @@ public class Http {   //单例化模式
                 }
             }
         };    //StringRequest stringRequest = new.....结束
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000 , 0 , 1.0f));  //20秒超时，失败后不重试 超时设置
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(60 * 1000 , 0 , 1.0f));  //60秒超时，失败后不重试 超时设置
         mqueue.add(stringRequest);    //把请求放到队列中
     }
 

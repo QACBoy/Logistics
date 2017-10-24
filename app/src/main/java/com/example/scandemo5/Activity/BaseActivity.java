@@ -83,24 +83,19 @@ public class BaseActivity extends AppCompatActivity {
 
                 switch (index){
                     case 0:
-//                        Toast.makeText(BaseActivity.this,"0ooooo",Toast.LENGTH_SHORT).show();
                         hintMsg(MainActivity.class);
-//                        finish();
                         break;
                     case 1:
-//                        Toast.makeText(BaseActivity.this,"1ooooo",Toast.LENGTH_SHORT).show();
                         hintMsg(ChangeStorageActivity.class);
-//                        startActivity(new Intent(getApplicationContext(),ChangeStorageActivity.class));
                         break;
                     case 2:
-//                        Toast.makeText(BaseActivity.this,"2ooooo",Toast.LENGTH_SHORT).show();
-                        hintMsg(OutGoingActivity.class);
+//                        hintMsg(OutGoingActivity.class);
                         break;
                     case 3:
-                        hintMsg(OutGoingSureActivity.class);
+//                        hintMsg(OutGoingSureActivity.class);
                         break;
                     case 4:
-                        hintMsg(DistributionActivity.class);
+//                        hintMsg(DistributionActivity.class);
                         break;
                     case 5:
                         Toast.makeText(BaseActivity.this,"5ooooo",Toast.LENGTH_SHORT).show();
