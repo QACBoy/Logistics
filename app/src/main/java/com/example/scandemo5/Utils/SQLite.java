@@ -139,7 +139,7 @@ public class SQLite {
                                                                                         + good.single_weight + "\",\""
                                                                                         + good.pack_weight + "\",\""
                                                                                         + good.single_vol + "\",\""
-                                                                                        + good.pack_vol
+                                                                                        + good.pack_vol + "\",\""
                                                                                         + good.batch
                                                                                         +"\");";
                 Log.d("1235", "InsertAll: " + insert_sql);

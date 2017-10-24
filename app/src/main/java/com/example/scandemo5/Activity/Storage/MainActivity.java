@@ -555,6 +555,25 @@ public class MainActivity extends BaseActivity {
                 Msg.showSacn(this, map);
             }else {
                 //同一条码不同编号弹窗处理
+                Msg.showFunciton(MainActivity.this, "请选择商品编号", goods, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        dialog.dismiss();
+                        SQLite.Goods good = (SQLite.Goods) item;
+                        JMap<String, String> map = new JMap<>();
+                        map.add("goods_no", good.goods_no);
+                        map.add("goods_name", good.goods_name);
+                        map.add("barcode", good.barcode);
+                        map.add("goods_spce", good.goods_spce);
+                        map.add("quantity", "");
+                        map.add("LOT", "");
+                        map.add("location_no", "010001");
+                        map.add("MFG", "");
+                        map.add("EXP", "");
+
+                        Msg.showSacn(MainActivity.this, map);
+                    }
+                });
             }
 
         } else {

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -230,9 +231,12 @@ public class Msg {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                View header = LayoutInflater.from(activity).inflate(R.layout.msg_header,null,false);
+                ((TextView)header.findViewById(R.id.msg_header_title)).setText(title);
                 Global.dialog = DialogPlus.newDialog(activity)
                         .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
                         .setGravity(Gravity.CENTER)
+                        .setHeader(header)
                         .setAdapter(new BaseAdapter() {
                             @Override
                             public int getCount() {
@@ -253,9 +257,17 @@ public class Msg {
                             public View getView(int position, View convertView, ViewGroup parent) {
                                 convertView  = LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.noimage_item_view, parent, false);
-                                ClintInfo data = (ClintInfo) dates.get(position);
-                                ((TextView) convertView.findViewById(R.id.title)).setText(data.client_no);
-                                ((TextView) convertView.findViewById(R.id.author)).setText(data.client_name);
+                                Log.d("12311", "getView: " + dates.get(position).getClass());;
+                                if(ClintInfo.class == dates.get(position).getClass()) {
+                                    ClintInfo data = (ClintInfo) dates.get(position);
+                                    ((TextView) convertView.findViewById(R.id.title)).setText(data.client_no);
+                                    ((TextView) convertView.findViewById(R.id.author)).setText(data.client_name);
+                                }
+                                else if(SQLite.Goods.class == dates.get(position).getClass()){
+                                    SQLite.Goods data = (SQLite.Goods) dates.get(position);
+                                    ((TextView) convertView.findViewById(R.id.title)).setText(data.goods_no);
+                                    ((TextView) convertView.findViewById(R.id.author)).setText(data.goods_name);
+                                }
                                 return convertView;
                             }
                         })
