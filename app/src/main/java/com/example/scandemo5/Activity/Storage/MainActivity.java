@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.scandemo5.Activity.BaseActivity;
 import com.example.scandemo5.Activity.ScanRActivity;
+import com.example.scandemo5.Adapter.MsgShowScanAdapter;
 import com.example.scandemo5.Adapter.ScanDataAdapter;
 import com.example.scandemo5.Data.ClintInfo;
 import com.example.scandemo5.Data.UpLoad;
@@ -242,100 +243,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void alertUpdateScannData(){
+        SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(Global.upLoad.list.get(Postion).goods_no);
         final DialogPlus dialog = DialogPlus.newDialog(this)
-                .setAdapter(new BaseAdapter() {
-                    @Override
-                    public int getCount() {
-                        return 5;
-                    }
-
-                    @Override
-                    public Object getItem(int position) {
-                        return Global.ShowUI_Scanmap.get(position);
-                    }
-
-                    @Override
-                    public long getItemId(int position) {
-                        return position;
-                    }
-
-                    @Override
-                    public View getView(final int position, View convertView, ViewGroup parent) {
-                        convertView = LayoutInflater.from(MainActivity.this).inflate(R.layout.handle_item, null);
-
-                        TextView tKey = (TextView) convertView.findViewById(R.id.handle_item_key);
-                        EditText tValue = (EditText) convertView.findViewById(R.id.handle_item_value);
-
-                        tValue.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-
-                        tKey.setText(RMap.getrMap().get(Global.ShowUI_Scanmap.get(position + 3)));  //从Global.ShowUI_Scanmap中第3项开始显示
-                        tValue.setText(Global.ShowUI_Scanmap.get(Global.ShowUI_Scanmap.get(position+3)));
-
-                        //,, switch 函数从末尾往前移动到了该位置
-                        switch (position){
-                            case 0:
-                                convertView.setId(R.id.ids_quantity);
-                                break;
-                            case 1:
-                                convertView.setId(R.id.ids_LOT);
-                                break;
-                            case 2:
-                                convertView.setId(R.id.ids_location_no);
-                                break;
-                            case 3:
-                                convertView.setId(R.id.ids_MFG);
-                                break;
-                            case 4:
-                                convertView.setId(R.id.ids_EXP);
-                                break;
-                        }
-
-                        //,,对库位编号的点击添加事件(右滑快速填写)
-                        if(position == 2){
-                            tValue.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    MainActivity.mainActivity.LocationNo_EditText = v;
-                                    Global.setTYPE_SCA(Global.ScanType.rk_LocationNo);
-                                    return false;
-                                }
-                            });
-                        }
-
-                        final SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(Global.upLoad.list.get(Postion).goods_no);
-                        if(position > 2) {  //到生产日期才开始启用日期选择组件
-                            tValue.setFocusableInTouchMode(false);
-                            tValue.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(final View v) {
-                                    TimeSelector timeSelector = new TimeSelector(MainActivity.this, new TimeSelector.ResultHandler() {
-                                        @Override
-                                        public void handle(String time) {
-                                            time = time.substring(0,10);
-                                            ((EditText)v).setText(time);
-                                            if(position == 3){
-                                                //出厂日期
-                                                ((EditText)(v.getRootView().findViewById(R.id.ids_EXP).findViewById(R.id.handle_item_value))).setText(DateDeal.add(time,Integer.parseInt(goods.ex_day)));
-                                            }else if(position == 4){
-                                                //到期日期
-                                                ((EditText)(v.getRootView().findViewById(R.id.ids_MFG).findViewById(R.id.handle_item_value))).setText(DateDeal.reduce(time,Integer.parseInt(goods.ex_day)));
-                                            }
-                                        }
-                                    }, DateDeal.Format(DateDeal.reduce(DateDeal.Now(),Integer.parseInt(goods.ex_day))), DateDeal.Format(DateDeal.add(DateDeal.Now(),Integer.parseInt(goods.ex_day))));
-                                    timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
-                                    timeSelector.setIsLoop(true);
-                                    timeSelector.show();
-                                }
-                            });
-                        }else {
-                            tValue.setSingleLine();
-                            tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                        }
-
-                        return convertView;
-                    }
-                })
+                .setAdapter(new MsgShowScanAdapter(MainActivity.this,goods,Global.upLoad.list.get(Postion)))
                 .setOnDismissListener(new OnDismissListener() {
                     @Override
                     public void onDismiss(DialogPlus dialog) {
@@ -513,6 +423,7 @@ public class MainActivity extends BaseActivity {
     protected void onPause() {
         //注销获取扫描结果的广播
       //  this.unregisterReceiver(mReceiver);
+        Msg.stopwait();
         super.onPause();
     }
 
@@ -537,23 +448,7 @@ public class MainActivity extends BaseActivity {
         if (goods != null) {
             if(goods.size() == 1) {
                 SQLite.Goods good = goods.get(0);
-//            Global.ShowUI_map = Global.GoodsToJMap(goods);
-//            Global.ShowUI_Scanmap = Global.ScanDataToJMap(new UpLoad.ScanData());
-//            Intent intent1 = new Intent(MainActivity.mainActivity, ScanRActivity.class);
-//            startActivity(intent1);
-
-                JMap<String, String> map = new JMap<>();
-                map.add("goods_no", good.goods_no);
-                map.add("goods_name", good.goods_name);
-                map.add("barcode", good.barcode);
-                map.add("goods_spce", good.goods_spce);
-                map.add("quantity", "");
-                map.add("LOT", "");
-                map.add("location_no", "010001");
-                map.add("MFG", "");
-                map.add("EXP", "");
-
-                Msg.showSacn(this, map);
+                Msg.showSacn(this, good);
             }else {
                 //同一条码不同编号弹窗处理
                 Msg.showFunciton(MainActivity.this, "请选择商品编号", goods, new OnItemClickListener() {
@@ -561,18 +456,7 @@ public class MainActivity extends BaseActivity {
                     public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
                         dialog.dismiss();
                         SQLite.Goods good = (SQLite.Goods) item;
-                        JMap<String, String> map = new JMap<>();
-                        map.add("goods_no", good.goods_no);
-                        map.add("goods_name", good.goods_name);
-                        map.add("barcode", good.barcode);
-                        map.add("goods_spce", good.goods_spce);
-                        map.add("quantity", "");
-                        map.add("LOT", "");
-                        map.add("location_no", "010001");
-                        map.add("MFG", "");
-                        map.add("EXP", "");
-
-                        Msg.showSacn(MainActivity.this, map);
+                        Msg.showSacn(MainActivity.this, good);
                     }
                 });
             }

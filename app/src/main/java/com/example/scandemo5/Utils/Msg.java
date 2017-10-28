@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.scandemo5.Activity.Storage.MainActivity;
+import com.example.scandemo5.Adapter.MsgShowScanAdapter;
 import com.example.scandemo5.Data.ClintInfo;
 import com.example.scandemo5.Data.UpLoad;
 import com.example.scandemo5.MyApp;
@@ -292,7 +293,8 @@ public class Msg {
     //连续扫描
     private static boolean ifSave;
 
-    public static void showSacn(final Activity activity, final JMap<String,String> map){
+    public static void showSacn(final Activity activity, final SQLite.Goods goods){
+        if(Global.dialog != null)Global.dialog.dismiss();
         ifSave = true;
         new Thread(new Runnable() {
             @Override
@@ -304,107 +306,7 @@ public class Msg {
                 }
                 Global.dialog = DialogPlus.newDialog(activity)
                         .setGravity(Gravity.CENTER)
-                        .setAdapter(new BaseAdapter() {
-                            @Override
-                            public int getCount() {
-                                return map.size();
-                            }
-
-                            @Override
-                            public Object getItem(int position) {
-                                return map.get(position);
-                            }
-
-                            @Override
-                            public long getItemId(int position) {
-                                return position;
-                            }
-
-                            @Override
-                            public View getView(final int position, View convertView, ViewGroup parent) {
-                                convertView = LayoutInflater.from(activity).inflate(R.layout.handle_item, null);
-
-                                TextView tKey = (TextView) convertView.findViewById(R.id.handle_item_key);
-                                EditText tValue = (EditText) convertView.findViewById(R.id.handle_item_value);
-                                tValue.setInputType(InputType.TYPE_CLASS_NUMBER);
-                                tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-
-                                if(position >= map.size() - 5) {
-                                    tKey.setText(RMap.getrMap().get(map.get(position)));
-                                    tValue.setText(map.get(map.get(position)));
-
-
-                                    //,,对库位编号的点击添加事件(扫描结果填写)
-                                    if(position - 4 == 2){
-                                        tValue.setOnTouchListener(new View.OnTouchListener() {
-                                            @Override
-                                            public boolean onTouch(View v, MotionEvent event) {
-                                                MainActivity.mainActivity.LocationNo_EditText = v;
-                                                Global.setTYPE_SCA(Global.ScanType.rk_LocationNo);
-                                                return false;
-                                            }
-                                        });
-                                    }
-
-                                    //数量默认设置
-                                    if(position - 4 == 0){
-                                        tValue.setText("1");
-                                    }
-
-                                    final SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(map.get("goods_no"));
-                                    if (position - 4 > 2) {
-                                        tValue.setFocusableInTouchMode(false);
-                                        tValue.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(final View v) {
-                                                TimeSelector timeSelector = new TimeSelector(activity, new TimeSelector.ResultHandler() {
-                                                    @Override
-                                                    public void handle(String time) {
-                                                        time = time.substring(0,10);
-                                                        ((EditText)v).setText(time);
-                                                        if(position - 4 == 3){
-                                                            //出厂日期
-                                                            ((EditText)(v.getRootView().findViewById(R.id.ids_EXP).findViewById(R.id.handle_item_value))).setText(DateDeal.add(time,Integer.parseInt(goods.ex_day)));
-                                                        }else if(position - 4 == 4){
-                                                            //到期日期
-                                                            ((EditText)(v.getRootView().findViewById(R.id.ids_MFG).findViewById(R.id.handle_item_value))).setText(DateDeal.reduce(time,Integer.parseInt(goods.ex_day)));
-                                                        }
-                                                    }
-                                                }, DateDeal.Format(DateDeal.reduce(DateDeal.Now(),Integer.parseInt(goods.ex_day))), DateDeal.Format(DateDeal.add(DateDeal.Now(),Integer.parseInt(goods.ex_day))));
-                                                timeSelector.setMode(TimeSelector.MODE.YMD);//只显示 年月日
-                                                timeSelector.setIsLoop(true);
-                                                timeSelector.show();
-                                            }
-                                        });
-                                    }else {
-                                        tValue.setSingleLine();
-                                        tValue.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                                    }
-                                    switch (position - 4) {
-                                        case 0:
-                                            convertView.setId(R.id.ids_quantity);
-                                            break;
-                                        case 1:
-                                            convertView.setId(R.id.ids_LOT);
-                                            break;
-                                        case 2:
-                                            convertView.setId(R.id.ids_location_no);
-                                            break;
-                                        case 3:
-                                            convertView.setId(R.id.ids_MFG);
-                                            break;
-                                        case 4:
-                                            convertView.setId(R.id.ids_EXP);
-                                            break;
-                                    }
-                                }else {
-                                    convertView.setId(position);
-                                    tKey.setText(RMap.getrMap().get(map.get(position)));
-                                    tValue.setText(map.get(map.get(position)));
-                                }
-                                return convertView;
-                            }
-                        })
+                        .setAdapter(new MsgShowScanAdapter(activity,goods))
                         .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
                         .setFooter(R.layout.dialog_foot).setContentBackgroundResource(R.color.balck).setOnClickListener(new OnClickListener() {
                             @Override

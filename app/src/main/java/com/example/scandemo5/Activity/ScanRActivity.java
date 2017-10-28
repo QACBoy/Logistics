@@ -117,7 +117,7 @@ public class ScanRActivity extends AppCompatActivity {
 
 
 
-    private void addChildTimeView(final String key, String value){
+    private void addChildTimeView(final String key, String value,boolean Enable){
         TableRow row = (TableRow) LayoutInflater.from(ScanRActivity.this).inflate(R.layout.handle_item, null);
 
         TextView tKey = (TextView) row.findViewById(R.id.handle_item_key);
@@ -126,6 +126,8 @@ public class ScanRActivity extends AppCompatActivity {
 
         tKey.setText(key);
         tValue.setText(value);
+
+        tValue.setEnabled(Enable);
 
         final SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(map.get("goods_no"));
         tValue.setOnClickListener(new View.OnClickListener() {
@@ -205,15 +207,28 @@ public class ScanRActivity extends AppCompatActivity {
 
             addChildView(key,value,false);
         }
+
+        //填写的数据
+        SQLite.Goods goods = SQLite.getInstance().getGoodsByGoodNo(map.get("goods_no"));
         addChildView(RMap.getrMap().get("quantity"),Scanmap.get("quantity"),true);
-        addChildView(RMap.getrMap().get("LOT"),Scanmap.get("LOT"),true);
+        if("0".equals(goods.batch)) {  //0不进行批次管理
+            addChildView(RMap.getrMap().get("LOT"), Scanmap.get("LOT"), false);
+        }else {
+            addChildView(RMap.getrMap().get("LOT"), Scanmap.get("LOT"), true);
+        }
         //库位编号
         addChildLocationNoView(RMap.getrMap().get("location_no"),Scanmap.get("location_no"));
-        //生产日期
-        addChildTimeView(RMap.getrMap().get("MFG"),Scanmap.get("MFG"));
-        //到期日期
-
-        addChildTimeView(RMap.getrMap().get("EXP"),Scanmap.get("EXP"));
+        if("0".equals(goods.batch)) {  //0不进行批次管理
+            //生产日期
+            addChildTimeView(RMap.getrMap().get("MFG"), Scanmap.get("MFG"),false);
+            //到期日期
+            addChildTimeView(RMap.getrMap().get("EXP"), Scanmap.get("EXP"),false);
+        }else {
+            //生产日期
+            addChildTimeView(RMap.getrMap().get("MFG"), Scanmap.get("MFG"),true);
+            //到期日期
+            addChildTimeView(RMap.getrMap().get("EXP"), Scanmap.get("EXP"),true);
+        }
     }
 
 }

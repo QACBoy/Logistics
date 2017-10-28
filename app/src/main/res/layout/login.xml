@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mtf_image="@drawable/user"
+        app:mtf_openKeyboardOnFocus="true"
+        app:mtf_animationDuration="200"
         app:mtf_labelColor="#fff">
 
         <EditText
@@ -30,6 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:mtf_image="@drawable/password"
+        app:mtf_animationDuration="200"
+        app:mtf_openKeyboardOnFocus="true"
         app:mtf_labelColor="#fff">
 
         <EditText

@@ -41,8 +41,6 @@ public class WelcomeActivity extends AppCompatActivity {
         if(Global.firstIn){
             startActivityForResult(new Intent(WelcomeActivity.this,SetActivity.class),SET_RequestCode);
         }else {
-            //待定
-
             if (isLogin()) {
                 toLoad();
             } else {
@@ -68,20 +66,13 @@ public class WelcomeActivity extends AppCompatActivity {
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                login_btn.setEnabled(false);
-//                login_btn.setText("登录中...");
                 InputTools.HideKeyboard(((EditText)findViewById(R.id.password)));
                 Msg.wait(WelcomeActivity.this,"提示","登录中..");
                 String username = ((EditText)findViewById(R.id.username)).getText().toString();
                 String password = ((EditText)findViewById(R.id.password)).getText().toString();
-
-//                Global.getSharedPreferences().edit().putString("username",username).commit();
-
                 Http.getInstance().access(username, password, new Http.Callback() {
                     @Override
                     public void done(String data) {
-//                        login_btn.setEnabled(true);
-//                        login_btn.setText("登录");
                         Msg.stopwait();
                         if ("-1".equals(data)) {
                             Toast.makeText(MyApp.getContext(), "用户名或密码错误", Toast.LENGTH_SHORT).show();
@@ -119,13 +110,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-//                            try {
-//                                Thread.sleep(3000);
                                 startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
                                 finish();
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
                         }
                     }).start();
                 }

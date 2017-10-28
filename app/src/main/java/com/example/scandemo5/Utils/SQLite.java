@@ -178,6 +178,7 @@ public class SQLite {
                 good.pack_weight = cursor.getString(9);
                 good.single_vol = cursor.getString(10);
                 good.pack_vol = cursor.getString(11);
+                good.batch = cursor.getString(12);
 
                 goodsList.add(good);
             }
@@ -209,6 +210,7 @@ public class SQLite {
             good.pack_weight = cursor.getString(9);
             good.single_vol = cursor.getString(10);
             good.pack_vol = cursor.getString(11);
+            good.batch = cursor.getString(12);
             return good;
         }else {
             return null;
