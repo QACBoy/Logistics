@@ -54,6 +54,20 @@ public class Global {
         return map;
     }
 
+    public static String dealExtraZero(String str){
+        StringBuffer sb = new StringBuffer(str);
+        int count = sb.length();
+        while (count > 0 && ('0' == (sb.charAt(count-1)) || '.' == (sb.charAt(count-1)))){
+            if('.' == (sb.charAt(count-1))){
+                sb = sb.deleteCharAt(count-1);
+                return sb.toString();
+            }
+            sb = sb.deleteCharAt(count-1);
+            count = sb.length();
+        }
+        return sb.toString();
+    }
+
     public static boolean isNullorEmpty(String str){  //自定数据判断函数
         if(str == null){
             return true;

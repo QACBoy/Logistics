@@ -351,12 +351,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void procuretoshow(List data){
-//        RecyclerView recyclerview_list = new RecyclerView(MainActivity.this);
-//        recyclerview_list.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-//        recyclerview_list.setAdapter(new ClintInfoDataAdapter(data));
-//        LinearLayout content = ((LinearLayout)Global.dialog.getHolderView().findViewById(R.id.show_list_content));
-////        content.removeAllViews();
-//        content.addView(recyclerview_list,50,50);
         Msg.showFunciton(MainActivity.this, "选择供货商", data, new OnItemClickListener() {
             @Override
             public void onItemClick(DialogPlus dialog, Object item, View view, int position) {

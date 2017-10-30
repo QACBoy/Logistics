@@ -1,7 +1,9 @@
 package com.example.scandemo5.Activity.Storage;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -152,7 +154,7 @@ public class ChangeStorageActivity extends BaseActivity {
                     list.get(i).exp,
                     list.get(i).lot,
                     list.get(i).location_no,
-                    list.get(i).free_stock
+                    Global.dealExtraZero(list.get(i).free_stock)
             ));
         }
 
@@ -167,8 +169,23 @@ public class ChangeStorageActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
         swipeToAction = new SwipeToAction(recyclerView, new SwipeToAction.SwipeListener<UpLoad.ScanData>() {
             @Override
-            public boolean swipeLeft(UpLoad.ScanData itemData) {
+            public boolean swipeLeft(final UpLoad.ScanData itemData) {
                 //do something
+                Msg.showMsg(ChangeStorageActivity.this, "警告", "是否确定不移动删除该条目？", new Msg.CallBack() {
+                    @Override
+                    public void confirm(DialogPlus dialog) {
+                        dialog.dismiss();
+                        final int pos = removeScanData(itemData);
+                        if(-1 != pos) {
+                            displaySnackbar(pos + "-移除" + itemData.barcode + "的商品", "撤销", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    addScanData(pos, itemData);
+                                }
+                            });
+                        }
+                    }
+                });
                 return true; //true will move the front view to its starting position
             }
 
@@ -207,6 +224,18 @@ public class ChangeStorageActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void displaySnackbar(String text, String actionName, View.OnClickListener action) {
+        Snackbar snack = Snackbar.make(findViewById(android.R.id.content), text, Snackbar.LENGTH_LONG)
+                .setAction(actionName, action);
+
+        View v = snack.getView();
+        v.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ((TextView) v.findViewById(android.support.design.R.id.snackbar_text)).setTextColor(Color.WHITE);
+        ((TextView) v.findViewById(android.support.design.R.id.snackbar_action)).setTextColor(Color.WHITE);
+
+        snack.show();
     }
 
     private void alertUpdateScannData(){
