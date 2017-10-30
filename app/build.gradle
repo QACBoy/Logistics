@@ -8,8 +8,8 @@ android {
         applicationId "com.example.scandemo5"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 56
-        versionName "1.1018"
+        versionCode 57
+        versionName "1.1030"
     }
     buildTypes {
         release {
