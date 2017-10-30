@@ -8,22 +8,45 @@
     android:background="@color/background"
     android:weightSum="1">
 
-    <com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView
+    <ImageView
         android:id="@+id/circle_loading_view"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_centerInParent="true"
+        android:layout_weight="0.06"
         android:background="@color/background"
-        app:secondaryColor="@color/colorPrimary"
-        app:mainColor="@color/colorPrimaryDark"
-        app:textColor="@color/balck"
-        android:layout_weight="0.06" />
+        app:srcCompat="@mipmap/logo_compete" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:textColor="@color/balck"
+        android:id="@+id/welcome_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|center_horizontal"
         android:text="欢迎进入"
         android:textSize="30sp" />
+
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/welcome_bar"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:indeterminate="true"
+        app:spb_mirror_mode="false"
+        app:spb_progressiveStart_activated="true"
+        app:spb_progressiveStart_speed="1.5"
+        app:spb_progressiveStop_speed="3.4"
+        app:spb_reversed="false"
+        app:spb_sections_count="4"
+        app:spb_speed="2.0"
+        app:spb_stroke_separator_length="4dp"
+        app:spb_stroke_width="4dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.06"
+        android:gravity="center"
+        android:text="加载中" />
 </LinearLayout>

@@ -29,7 +29,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/Volley.jar')
     compile 'com.google.code.gson:gson:2.8.1'
-    compile 'com.github.jlmd:AnimatedCircleLoadingView:1.1.5@aar'
     compile 'com.r0adkll:slidableactivity:2.0.5'
     compile 'co.dift.ui.swipetoaction:library:1.1'
     compile 'com.android.support:design:22.2.0'

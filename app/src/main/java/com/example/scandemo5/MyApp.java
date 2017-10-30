@@ -20,8 +20,8 @@ public class MyApp extends Application {
         context = getApplicationContext();
         application = this;
         //初始化崩溃处理
-        CrashHandler catchHandler = CrashHandler.getInstance();
-        catchHandler.init(getApplicationContext());
+//        CrashHandler catchHandler = CrashHandler.getInstance();
+//        catchHandler.init(getApplicationContext());
     }
 
     public static Context getContext() {

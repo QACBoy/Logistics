@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.scandemo5.Activity.Storage.MainActivity;
@@ -20,23 +22,24 @@ import com.example.scandemo5.Utils.HttpData;
 import com.example.scandemo5.Utils.InputTools;
 import com.example.scandemo5.Utils.Msg;
 import com.example.scandemo5.Utils.User;
-import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
 import info.hoang8f.widget.FButton;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private AnimatedCircleLoadingView loadingview;
     private int SET_RequestCode = 10101;
     private FButton login_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         Global.firstIn=isFirstin();
         if(Global.firstIn){
             startActivityForResult(new Intent(WelcomeActivity.this,SetActivity.class),SET_RequestCode);
@@ -61,15 +64,22 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void toLogin(){
         setContentView(R.layout.login);
+        ((TextView)findViewById(R.id.login_title)).setText(getResources().getString(R.string.app_name));
         login_btn = (FButton) findViewById(R.id.btn_login);
         ((EditText)findViewById(R.id.username)).setText(User.getUser().getUsername());
+        findViewById(R.id.password_field).performClick();
+        findViewById(R.id.username_field).performClick();
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 InputTools.HideKeyboard(((EditText)findViewById(R.id.password)));
-                Msg.wait(WelcomeActivity.this,"提示","登录中..");
                 String username = ((EditText)findViewById(R.id.username)).getText().toString();
                 String password = ((EditText)findViewById(R.id.password)).getText().toString();
+                if(Global.isNullorEmpty(username) || Global.isNullorEmpty(password)){
+                    Toast.makeText(MyApp.getContext(), "请输入用户名或密码", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Msg.wait(WelcomeActivity.this,"提示","登录中..");
                 Http.getInstance().access(username, password, new Http.Callback() {
                     @Override
                     public void done(String data) {
@@ -90,8 +100,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void toLoad(){
         setContentView(R.layout.activity_welcome);
-        loadingview = (AnimatedCircleLoadingView) findViewById(R.id.circle_loading_view);
-        loadingview.startDeterminate();
+        ((TextView) findViewById(R.id.welcome_tv)).setText(getResources().getString(R.string.app_name));
+        SmoothProgressBar mPocketBar = (SmoothProgressBar)findViewById(R.id.welcome_bar);
+        mPocketBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(WelcomeActivity.this).interpolator(new AccelerateInterpolator()).build());
+        mPocketBar.setSmoothProgressDrawableColors(getResources().getIntArray(R.array.wait_colors));
         GetHttpData();
     }
 
@@ -102,18 +114,8 @@ public class WelcomeActivity extends AppCompatActivity {
                 @Override
                 public void done(boolean isSuccess) {
                     Global.isSuccessUpdataHttpdata = isSuccess;
-                    if(isSuccess){
-                        loadingview.stopOk();
-                    }else {
-                        loadingview.stopFailure();
-                    }
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                                startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
-                                finish();
-                        }
-                    }).start();
+                    startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+                    finish();
                 }
             });
         } catch (Exception e) {
