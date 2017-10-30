@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -244,6 +246,17 @@ public class BaseActivity extends AppCompatActivity {
             super.onBackPressed();   //屏蔽返回按键
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_MENU) {  //菜单键监听
+            // 在这里做你想做的事情
+//            super.openOptionsMenu();  // 调用这个，就可以弹出菜单
+            rightBmb.boom();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     private  void  hintMsg(final Class<?> activity){
         Msg.showMsg(BaseActivity.this, "警告","切换模式将清空所有已扫描数据 您确定继续吗？", new Msg.CallBack() {

@@ -15,7 +15,7 @@
     <string name="ham_button_set">设置</string>
     <!--入库管理-->
     <string name="main_ham_button_text_0">上传扫描数据</string>
-    <string name="main_ham_button_text_1">修改到货单/供货商号</string>
+    <string name="main_ham_button_text_1">修改供货商/订单号</string>
     <string name="main_ham_button_text_2">重置扫描数据</string>
     <!--库位调拨-->
     <string name="changestorage_ham_button_text_0">确认移库</string>

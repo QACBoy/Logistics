@@ -110,6 +110,7 @@ public class HamButtonBuilderManager {
         return new TextOutsideCircleButton.Builder()
                 .normalImageRes(getImageResource())
                 .normalTextRes(textId[id])
+                .textSize(17)
                 .pieceColor(Color.WHITE);
     }
 /*
@@ -183,6 +184,7 @@ public class HamButtonBuilderManager {
         return new HamButton.Builder()
                 .normalImageRes(getImageResource())
                 .normalTextRes(righttextId[id])
+                .textSize(20)
 //                .subNormalTextRes(R.string.text_ham_button_sub_text_normal)
                 .pieceColor(Color.WHITE);
     }
