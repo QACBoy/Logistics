@@ -108,7 +108,6 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void GetHttpData(){
-
         try {
             HttpData.getInstance().GetHttpData(new HttpData.CallBack() {
                 @Override
@@ -121,7 +120,6 @@ public class WelcomeActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 

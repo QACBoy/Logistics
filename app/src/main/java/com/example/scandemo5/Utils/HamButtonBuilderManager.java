@@ -21,22 +21,11 @@ import java.util.List;
 public class HamButtonBuilderManager {
 
     private static int[] imageResources = new int[]{
-            R.drawable.bat,
-            R.drawable.bear,
-            R.drawable.bee,
-            R.drawable.butterfly,
-            R.drawable.cat,
-            R.drawable.deer,
-            R.drawable.dolphin,
-            R.drawable.eagle,
-            R.drawable.horse,
-            R.drawable.elephant,
-            R.drawable.owl,
-            R.drawable.peacock,
-            R.drawable.pig,
-            R.drawable.rat,
-            R.drawable.snake,
-            R.drawable.squirrel
+            R.drawable.icon_instorage,
+            R.drawable.icon_changestorage,
+            R.drawable.icon_picking,
+            R.drawable.icon_outstorage,
+            R.drawable.icon_distribution,
     };
 
     private static int imageResourceIndex = 0;
@@ -101,11 +90,7 @@ public class HamButtonBuilderManager {
                         R.string.text_outside_circle_button_text_1,
                         R.string.text_outside_circle_button_text_2,
                         R.string.text_outside_circle_button_text_3,
-                        R.string.text_outside_circle_button_text_4,
-                        R.string.text_outside_circle_button_text_5,
-                        R.string.text_outside_circle_button_text_6,
-                        R.string.text_outside_circle_button_text_7,
-                        R.string.text_outside_circle_button_text_8
+                        R.string.text_outside_circle_button_text_4
         };
         return new TextOutsideCircleButton.Builder()
                 .normalImageRes(getImageResource())
@@ -182,7 +167,7 @@ public class HamButtonBuilderManager {
 
     public static HamButton.Builder getHamButtonBuilderWithDifferentPieceColor(int id) {
         return new HamButton.Builder()
-                .normalImageRes(getImageResource())
+                .normalImageRes(id)
                 .normalTextRes(righttextId[id])
                 .textSize(20)
 //                .subNormalTextRes(R.string.text_ham_button_sub_text_normal)

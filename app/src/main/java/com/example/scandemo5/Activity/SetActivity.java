@@ -74,7 +74,7 @@ public class SetActivity extends AppCompatActivity {
             }
         });
 
-        //同步数据
+        //同步数据（首次进入 app 时，设置完 ip 后，直接点击同步数据，会出现网络错误问题，待解决）
         findViewById(R.id.sycn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
