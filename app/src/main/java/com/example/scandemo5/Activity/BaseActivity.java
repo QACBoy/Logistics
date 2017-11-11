@@ -1,6 +1,7 @@
 package com.example.scandemo5.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -75,8 +76,10 @@ public class BaseActivity extends AppCompatActivity {
         leftBmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_5_1);
         leftBmb.setDuration(300);
         leftBmb.setDelay(25);
+
+        //添加左菜单，并对其按钮的属性进行设置
         for (int i = 0; i < leftBmb.getPiecePlaceEnum().pieceNumber(); i++)
-            leftBmb.addBuilder(HamButtonBuilderManager.getTextOutsideCircleButtonBuilderWithDifferentPieceColor(i));
+            leftBmb.addBuilder(HamButtonBuilderManager.getTextOutsideCircleButtonBuilderWithDifferentPieceColor(i).normalColor(Color.rgb(60,80,180)).shadowColor(Color.WHITE));
 
         leftBmb.setOnBoomListener(new OnBoomListener() {
 
@@ -100,16 +103,16 @@ public class BaseActivity extends AppCompatActivity {
 //                        hintMsg(DistributionActivity.class);
                         break;
                     case 5:
-                        Toast.makeText(BaseActivity.this,"5ooooo",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BaseActivity.this,"5ooooo",Toast.LENGTH_SHORT).show();
                         break;
                     case 6:
-                        Toast.makeText(BaseActivity.this,"6ooooo",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BaseActivity.this,"6ooooo",Toast.LENGTH_SHORT).show();
                         break;
                     case 7:
-                        Toast.makeText(BaseActivity.this,"7ooooo",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BaseActivity.this,"7ooooo",Toast.LENGTH_SHORT).show();
                         break;
                     case 8:
-                        Toast.makeText(BaseActivity.this,"8ooooo",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BaseActivity.this,"8ooooo",Toast.LENGTH_SHORT).show();
                         break;
                     default:
                 }
@@ -174,9 +177,10 @@ public class BaseActivity extends AppCompatActivity {
 //        rightBmb.setButtonPlaceEnum(ButtonPlaceEnum.HAM_4);
         rightBmb.setDuration(400);
         rightBmb.setDelay(35);
-        //注意要先设置文字
+
+        ////添加左菜单，并对其按钮的属性进行设置，注意要先设置文字
         for (int i = 0; i < rightBmb.getPiecePlaceEnum().pieceNumber(); i++)
-            rightBmb.addBuilder(HamButtonBuilderManager.getHamButtonBuilderWithDifferentPieceColor(i));
+            rightBmb.addBuilder(HamButtonBuilderManager.getHamButtonBuilderWithDifferentPieceColor(i).normalColor(Color.rgb(60,80,180)).shadowColor(Color.WHITE));
         initHanButtonClick();
     }
 
