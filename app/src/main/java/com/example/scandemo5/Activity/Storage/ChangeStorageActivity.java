@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -43,7 +44,6 @@ import org.feezu.liuli.timeselector.TimeSelector;
 import java.util.List;
 
 import co.dift.ui.SwipeToAction;
-import info.hoang8f.widget.FButton;
 
 public class ChangeStorageActivity extends BaseActivity {
 
@@ -56,7 +56,7 @@ public class ChangeStorageActivity extends BaseActivity {
     private ScanDataAdapter adapter;
     private SwipeToAction swipeToAction;
     private EditText locationno;
-    private FButton button;
+    private Button button;
     private LocationInfo locationinfo;
     private int Postion;
 
@@ -102,7 +102,7 @@ public class ChangeStorageActivity extends BaseActivity {
         setContentView(R.layout.activity_change_storage);
         locationno = (EditText) findViewById(R.id.changestorage_stroageno);
         locationno.setHint("请扫描 目标库位");
-        button = (FButton) findViewById(R.id.changestorage_ok);
+        button = (Button) findViewById(R.id.changestorage_ok);
         button.setText("确认移动");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +117,7 @@ public class ChangeStorageActivity extends BaseActivity {
         setContentView(R.layout.activity_change_storage);
         locationno = (EditText) findViewById(R.id.changestorage_stroageno);
         locationno.setInputType(InputType.TYPE_CLASS_NUMBER);
-        button = (FButton) findViewById(R.id.changestorage_ok);
+        button = (Button) findViewById(R.id.changestorage_ok);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

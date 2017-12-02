@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,12 +30,11 @@ import java.util.Map;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
-import info.hoang8f.widget.FButton;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     private int SET_RequestCode = 10101;
-    private FButton login_btn;
+    private Button login_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private void toLogin(){
         setContentView(R.layout.login);
         ((TextView)findViewById(R.id.login_title)).setText(getResources().getString(R.string.app_name));
-        login_btn = (FButton) findViewById(R.id.btn_login);
+        login_btn = (Button) findViewById(R.id.btn_login);
         ((EditText)findViewById(R.id.username)).setText(User.getUser().getUsername());
         findViewById(R.id.password_field).performClick();
         findViewById(R.id.username_field).performClick();

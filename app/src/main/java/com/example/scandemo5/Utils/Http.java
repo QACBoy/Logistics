@@ -115,10 +115,14 @@ public class Http {   //单例化模式
                             Log.d(TAG, "onErrorResponse: " + data);
                         }
                         Log.d(TAG, "onErrorResponse: " + volleyError.getMessage());
-                        if(500 == volleyError.networkResponse.statusCode){
-                            Toast.makeText(MyApp.getContext(),"上传错误，" + data ,Toast.LENGTH_LONG).show();
-                        }else {
-                            Toast.makeText(MyApp.getContext(),"网络连接失败，请检查网络",Toast.LENGTH_LONG).show();
+                        try {
+                            if (500 == volleyError.networkResponse.statusCode) {
+                                Toast.makeText(MyApp.getContext(), "上传错误，" + data, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(MyApp.getContext(), "网络连接失败，请检查网络", Toast.LENGTH_LONG).show();
+                            }
+                        }catch (Exception e){
+                                Toast.makeText(MyApp.getContext(), "网络连接失败，请检查网络", Toast.LENGTH_LONG).show();
                         }
                         callback.done("NetError");
 

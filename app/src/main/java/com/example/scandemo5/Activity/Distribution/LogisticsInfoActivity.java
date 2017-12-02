@@ -3,6 +3,7 @@ package com.example.scandemo5.Activity.Distribution;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,7 +13,6 @@ import com.example.scandemo5.Utils.HamButtonBuilderManager;
 import com.example.scandemo5.Utils.Global;
 import com.example.scandemo5.Utils.Http;
 
-import info.hoang8f.widget.FButton;
 
 /**
  * Created by Sam on 2017/10/12.
@@ -21,7 +21,7 @@ import info.hoang8f.widget.FButton;
 public class LogisticsInfoActivity  extends BaseActivity {
 
     private EditText distribution_no;
-    private FButton button;
+    private Button button;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class LogisticsInfoActivity  extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.logisticsinfo);
         distribution_no = (EditText) findViewById(R.id.distribution_logistics_no);
-        button = (FButton) findViewById(R.id.distribution_logistics_bt);
+        button = (Button) findViewById(R.id.distribution_logistics_bt);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

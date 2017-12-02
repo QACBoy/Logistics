@@ -61,15 +61,10 @@
             android:inputType="textPassword" />
     </com.github.florent37.materialtextfield.MaterialTextField>
 
-    <info.hoang8f.widget.FButton
+    <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="登录"
-        fbutton:buttonColor="@color/fbutton_color_clouds"
-        fbutton:cornerRadius="5dp"
-        fbutton:shadowColor="@color/fbutton_color_silver"
-        fbutton:shadowEnabled="true"
-        fbutton:shadowHeight="5dp" />
+        android:text="登录" />
 </LinearLayout>

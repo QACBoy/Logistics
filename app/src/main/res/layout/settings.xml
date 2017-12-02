@@ -104,29 +104,21 @@
         </LinearLayout>
     </LinearLayout>
 
-    <info.hoang8f.widget.FButton
+    <Button
         android:id="@+id/sycn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="同步数据"
-        fbutton:buttonColor="@color/background"
-        fbutton:cornerRadius="5dp"
-        fbutton:shadowColor="@color/background"
-        fbutton:shadowEnabled="true"
-        fbutton:shadowHeight="5dp" />
+        android:background="@color/fbutton_color_clouds"
+        android:text="同步数据" />
 
 
-        <info.hoang8f.widget.FButton
-            android:layout_marginTop="10dp"
-            android:id="@+id/logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="注销账号"
-            fbutton:buttonColor="@color/red"
-            fbutton:cornerRadius="5dp"
-            fbutton:shadowColor="@color/red_silver"
-            fbutton:shadowEnabled="true"
-            fbutton:shadowHeight="5dp" />
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/fbutton_color_pomegranate"
+        android:text="注销账号" />
 
 </LinearLayout>

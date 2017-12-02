@@ -17,18 +17,13 @@
         android:singleLine="true"
         android:textSize="36sp" />
 
-    <info.hoang8f.widget.FButton
+    <Button
         android:id="@+id/changestorage_ok"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20sp"
         android:padding="20sp"
         android:text="继续"
-        android:textSize="36sp"
-        fbutton:buttonColor="@color/background"
-        fbutton:cornerRadius="10dp"
-        fbutton:shadowColor="@color/disenable"
-        fbutton:shadowEnabled="true"
-        fbutton:shadowHeight="10dp" />
+        android:textSize="36sp" />
 
 </LinearLayout>
