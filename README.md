@@ -1,4 +1,4 @@
-# ScanDemo5
+# Logistics
 
 [ScanDemo5](https://github.com/QACBoy/ScanDemo5) Scanner server  for the Android device. Standard compliant thanks to the amazing work by Laser Scanner.
 
