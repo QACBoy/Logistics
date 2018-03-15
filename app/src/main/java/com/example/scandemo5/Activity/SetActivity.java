@@ -55,7 +55,7 @@ public class SetActivity extends AppCompatActivity {
 
         //URL设置
         url = (EditText) findViewById(R.id.Url);
-        url.setText(Global.getSharedPreferences().getString("url","27.154.230.166:8081")); //默认设置目前服务器ip：27.154.230.166:8081
+        url.setText(Global.getSharedPreferences().getString("url","192.168.3.6:8081")); //默认设置目前服务器ip：192.168.3.6:8081
         ((TextView)findViewById(R.id.user_set)).setText(Global.getSharedPreferences().getString("username","获取失败"));
 
         //软键盘设置
